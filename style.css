@@ -1,0 +1,283 @@
+@import url("https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Assistant', sans-serif;
+}
+
+nav {
+  -webkit-box-shadow: 1px 1px 8px 2px rgba(0, 0, 0, 0.75);
+          box-shadow: 1px 1px 8px 2px rgba(0, 0, 0, 0.75);
+  height: 10vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.container {
+  min-height: 90vh;
+  padding: 75px 20px 180px;
+  max-width: 75rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.container h3 {
+  color: #111111;
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.container label, .container p {
+  color: #444444;
+  font-size: 1.2em;
+  font-weight: 400;
+}
+
+.container .simple-ratio-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  gap: 2rem;
+}
+
+.container .simple-ratio-container .inputs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1rem;
+}
+
+.container .simple-ratio-container .inputs .input-container {
+  position: relative;
+  /* Hide Arrows/Spinners */
+  /* Chrome, Safari, Edge, Opera */
+  /* Firefox */
+}
+
+.container .simple-ratio-container .inputs .input-container input {
+  min-width: 16rem;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid #7e7e7e;
+  border-radius: 0.5rem;
+  outline: none;
+  font-size: 1rem;
+}
+
+.container .simple-ratio-container .inputs .input-container input:focus, .container .simple-ratio-container .inputs .input-container input:hover {
+  border-color: #1E73BE;
+}
+
+.container .simple-ratio-container .inputs .input-container input::-webkit-outer-spin-button,
+.container .simple-ratio-container .inputs .input-container input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.container .simple-ratio-container .inputs .input-container input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.container .simple-ratio-container .inputs .dollar::before {
+  content: '$';
+  position: absolute;
+  left: 14px;
+  top: 35px;
+}
+
+.container .simple-ratio-container .inputs .percent::after {
+  content: '%';
+  position: absolute;
+  right: 105px;
+  top: 35px;
+}
+
+.container .simple-ratio-container .inputs .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.container .simple-ratio-container .inputs .property-value {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  gap: 1rem;
+}
+
+.container .simple-ratio-container .inputs .property-value-inner {
+  max-width: 24rem;
+  padding: 0.75rem 1rem;
+  border-style: solid;
+  border-width: 4px 0;
+  border-color: #bcbcbc;
+  border-top-right-radius: 0.75rem;
+  -webkit-box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.25);
+          box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.25);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  gap: 0.5rem;
+}
+
+.container .simple-ratio-container .inputs .property-value-left {
+  background-color: transparent;
+}
+
+.container .simple-ratio-container .inputs .property-value-right {
+  background-color: transparent;
+}
+
+.container .simple-ratio-container .inputs .operating-expenses {
+  max-width: 49rem;
+  padding: 0.75rem 1rem;
+  border-style: solid;
+  border-width: 4px 0;
+  border-color: #bcbcbc;
+  border-top-right-radius: 0.75rem;
+  -webkit-box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.25);
+          box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.25);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  gap: 0.5rem;
+}
+
+.container .simple-ratio-container .inputs .operating-expenses-inner {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.container .simple-ratio-container .result {
+  max-width: 24rem;
+  min-width: 21rem;
+  height: 22rem;
+  border-style: solid;
+  border-width: 4px 0;
+  border-color: #73b1e9;
+  border-top-right-radius: 0.75rem;
+  -webkit-box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.25);
+          box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.25);
+}
+
+.container .simple-ratio-container .result-inner {
+  height: 80%;
+  padding: 1rem;
+  border-top-right-radius: 0.75rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  background-color: #F3F4F5;
+}
+
+.container .simple-ratio-container .result-inner .card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1rem;
+}
+
+.container .simple-ratio-container .result-inner .card .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.container .simple-ratio-container .result-inner .card .row h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.container .simple-ratio-container .result-inner .card .deduce {
+  color: tomato;
+}
+
+.container .simple-ratio-container .result-inner .card .net-income {
+  color: limegreen;
+}
+
+.container .simple-ratio-container .result .cap-rate {
+  height: 20%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0.5rem 1rem;
+  border-top-right-radius: 1rem;
+  background-color: #e1eefa;
+}
+/*# sourceMappingURL=style.css.map */

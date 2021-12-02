@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+  <title>Cap Rate Calculator</title>
+</head>
+<body>
+  <nav>NAVIGATION HERE</nav>
+  <div class="container">
+    <div class="simple-ratio-container">
+      <div class="inputs">
+        <div class="property-value">
+          <div class="property-value-left property-value-inner">
+            <h3>Property Value & Gross Potential Income</h3>
+            
+            <div class="input-container dollar">
+              <div class="input-label">
+                <label for="total-rent-sq-feet">Total Rental Square Feet</label>
+              </div>
+              <input type="number" name="total-rent-sq-feet" id="total-rent-square-feet" class="dollar" placeholder="0.00">
+            </div>
+            
+            <div class="input-container dollar">
+              <div class="input-label">
+                <label for="av-rent-per-sq-foot">Average Rent per Square Foot</label>
+              </div>  
+              <input type="number" name="av-rent-per-sq-foot" id="av-rent-per-sq-foot" placeholder="0.00">
+            </div>
+            
+            <div class="row">
+              <h4>Gross Potential Income</h4>
+              <h4 id="gross-potential-income">$0.0</h4>
+            </div>
+          </div>
+
+          <div class="property-value-right property-value-inner">
+            <h3>Effective Rental & Gross Operating Income</h3>
+
+            <div class="input-container percent">
+              <div class="input-label">
+                <label for="vacany-credit-loss">Vacany & Credit Loss</label>
+              </div>  
+              <input type="number" name="vacany-credit-loss" id="vacany-credit-loss" placeholder="0.00">
+            </div>
+
+            <div class="input-container dollar">
+              <div class="input-label">
+                <label for="other-income">Other Income</label>
+              </div>  
+              <input type="number" name="other-income" id="other-income" placeholder="0.00">
+            </div>
+
+            <div class="row">
+              <h4>Effective Rental Income</h4>
+              <h4 id="effective-rental-income">$0.0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Gross Operating Income</h4>
+              <h4 id="gross-operating-income">$0.0</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="operating-expenses">
+          <h3>Operating Expenses</h3>
+
+          <div class="operating-expenses-inner">
+            <div class="input-container dollar">
+              <div class="input-label">
+                <label for="property-taxes">Property Taxes</label>
+              </div>  
+              <input type="number" name="property-taxes" id="property-taxes" placeholder="0.00">
+            </div>
+
+            <div class="input-container dollar">
+              <div class="input-label">
+                <label for="insurance">Insurance</label>
+              </div>  
+              <input type="number" name="insurance" id="insurance" placeholder="0.00">
+            </div>
+
+            <div class="input-container dollar">
+              <div class="input-label">
+                <label for="maintenance">Maintenance</label>
+              </div>  
+              <input type="number" name="maintenance" id="maintenance" placeholder="0.00">
+            </div>
+
+            <div class="input-container dollar">
+              <div class="input-label">
+                <label for="management-fee">Management Fee</label>
+              </div>  
+              <input type="number" name="management-fee" id="management-fee" placeholder="0.00">
+            </div>
+
+            <div class="input-container dollar">
+              <div class="input-label">
+                <label for="reserves-for-replacement">Reserve for Replacement</label>
+              </div>  
+              <input type="number" name="reserves-for-replacement" id="reserves-for-replacement" placeholder="0.00">
+            </div>
+
+            <div class="input-container dollar">
+              <div class="input-label">
+                <label for="other-expenses">Other Expenses</label>
+              </div>  
+              <input type="number" name="other-expenses" id="other-expenses" placeholder="0.00">
+            </div>
+          </div>
+
+          <div class="row">
+            <h4>Operating Expenses</h4>
+            <h4 id="operating-expenses">$0.0</h4>
+          </div>
+        </div>
+      </div>
+
+      <div class="result">
+        <div class="result-inner">
+          <h3>Calculated Results</h3>
+
+          <div class="card">
+            <div class="row">
+              <h4>Gross Potential Income</h4>
+              <h4>$1000000</h4>
+            </div>
+            <div class="row">
+              <h4>Effective Rental Income</h4>
+              <h4>$900000</h4>
+            </div>
+            <div class="row">
+              <h4>Gross Operating Income</h4>
+              <h4>$910000</h4>
+            </div>
+            <div class="row deduce">
+              <h4>Total Expenses</h4>
+              <h4>$160000</h4>
+            </div>
+            <div class="row net-income">
+              <h4>Net Operating Income</h4>
+              <h4>$750000</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="cap-rate">
+          <h3>Cap Rate</h3>
+          <h3>7.50%</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="./main.js"></script>
+</body>
+</html>
