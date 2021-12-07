@@ -22,7 +22,7 @@
               <div class="input-label">
                 <label for="property-value" class="required">Property Value</label>
               </div>
-              <input type="number" name="property-value" id="property-value" class="float-field" placeholder="0.00" min="0.00" step="0.01" required>
+              <input type="number" name="property-value" id="property-value" class="float-field" placeholder="0" min="0" step="1" required>
             </div>
             
             <div class="input-wrapper">
@@ -30,7 +30,7 @@
                 <div class="input-label">
                   <label for="total-rent-sq-feet">Total Rental Square Feet</label>
                 </div>
-                <input type="number" lang="en-150" name="total-rent-sq-feet" id="total-rent-square-feet" class="float-field" placeholder="0.00" min="0.00" step="0.01">
+                <input type="number" name="total-rent-sq-feet" id="total-rent-square-feet" class="float-field" placeholder="0" min="0" step="1">
               </div>
               
               <div class="input-container dollar">
@@ -53,7 +53,7 @@
             <div class="input-wrapper">
               <div class="input-container percent">
                 <div class="input-label">
-                  <label for="vacany-credit-loss">Vacany & Credit Loss</label>
+                  <label for="vacany-credit-loss">Vacancy & Credit Loss</label>
                 </div>  
                 <input type="number" name="vacany-credit-loss" id="vacany-credit-loss" class="float-field" placeholder="0.00" min="0.00" step="0.01">
               </div>
@@ -62,7 +62,7 @@
                 <div class="input-label">
                   <label for="other-income">Other Income</label>
                 </div>  
-                <input type="number" name="other-income" id="other-income" class="float-field" placeholder="0.00" min="0.00" step="0.01">
+                <input type="number" name="other-income" id="other-income" class="float-field" placeholder="0" min="0" step="1">
               </div>
             </div>
 
@@ -81,42 +81,42 @@
               <div class="input-label">
                 <label for="property-taxes">Property Taxes</label>
               </div>  
-              <input type="number" name="property-taxes" id="property-taxes" class="expenses float-field" placeholder="0.00" min="0.00" step="0.01">
+              <input type="number" name="property-taxes" id="property-taxes" class="expenses float-field" placeholder="0" min="0" step="1">
             </div>
 
             <div class="input-container dollar">
               <div class="input-label">
                 <label for="insurance">Insurance</label>
               </div>  
-              <input type="number" name="insurance" id="insurance" class="expenses float-field" placeholder="0.00" min="0.00" step="0.01">
+              <input type="number" name="insurance" id="insurance" class="expenses float-field" placeholder="0" min="0" step="1">
             </div>
 
             <div class="input-container dollar">
               <div class="input-label">
                 <label for="maintenance">Maintenance</label>
               </div>  
-              <input type="number" name="maintenance" id="maintenance" class="expenses float-field" placeholder="0.00" min="0.00" step="0.01">
+              <input type="number" name="maintenance" id="maintenance" class="expenses float-field" placeholder="0" min="0" step="1">
             </div>
 
-            <div class="input-container dollar">
+            <div class="input-container percent">
               <div class="input-label">
                 <label for="management-fee">Management Fee</label>
               </div>  
-              <input type="number" name="management-fee" id="management-fee" class="expenses float-field" placeholder="0.00" min="0.00" step="0.01">
+              <input type="number" name="management-fee" id="management-fee" class="expenses float-field" placeholder="0" min="0" step="1">
             </div>
 
             <div class="input-container dollar">
               <div class="input-label">
                 <label for="reserves-for-replacement">Reserve for Replacement</label>
               </div>  
-              <input type="number" name="reserves-for-replacement" id="reserves-for-replacement" class="expenses float-field" placeholder="0.00" min="0.00" step="0.01">
+              <input type="number" name="reserves-for-replacement" id="reserves-for-replacement" class="expenses float-field" placeholder="0" min="0" step="1">
             </div>
 
             <div class="input-container dollar">
               <div class="input-label">
                 <label for="other-expenses">Other Expenses</label>
               </div>  
-              <input type="number" name="other-expenses" id="other-expenses" class="expenses float-field" placeholder="0.00" min="0.00" step="0.01">
+              <input type="number" name="other-expenses" id="other-expenses" class="expenses float-field" placeholder="0" min="0" step="1">
             </div>
           </div>
 
@@ -142,7 +142,7 @@
             </div>
             <div class="row net-income">
               <h4>Other Income</h4>
-              <h4 id="resultant-other-income">$0.00</h4>
+              <h4 id="resultant-other-income">$0</h4>
             </div>
             <div class="row">
               <h4>Effective Gross Income</h4>
@@ -152,9 +152,14 @@
               <h4>Total Expenses</h4>
               <h4 id="resultant-total-expenses">$0.00</h4>
             </div>
-            <div class="row net-income">
+            <div class="row">
               <h4>Net Operating Income</h4>
               <h4 id="net-operating-income">$0.00</h4>
+            </div>
+            <br>
+            <div class="row">
+              <h4>Property Value</h4>
+              <h4 id="resultant-property-value">$0</h4>
             </div>
           </div>
         </div>
@@ -192,12 +197,23 @@
             <input type="number" name="loan-value-ratio" id="loan-value-ratio" class="float-field" placeholder="0.0" min="0.00" step="0.01">
           </div>
 
-          <div class="input-container">
-            <div class="input-label">
-              <label for="loan-term">Loan Term</label>
-            </div>  
-            <input type="number" name="loan-term" id="loan-term" class="float-field" placeholder="0" min="0" step="1">
-          </div>
+          <div class="loan-term-container">
+            <div class="input-container">
+              <div class="input-label">
+                <label for="loan-term">Loan Term</label>
+              </div>  
+              <input type="number" name="loan-term" id="loan-term" class="float-field" placeholder="0" min="0" step="1">
+            </div>
+
+            <div class="toggle-container">
+              <label for="Annual">Annual</label>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+              </label>
+              <label for="Monthly">Monthly</label>
+            </div>
+          </div>  
 
           <div class="input-container percent">
             <div class="input-label">
@@ -216,37 +232,32 @@
           <h3 class="card-result-head">Calculated Result</h3>
           
           <div class="card-result-inner"">
-            <div class="row" style="color: #ffba08;">
+            <div class="row">
               <h4>Loan to Value Ratio</h4>
-              <h4 id="resultant-loan-value-ratio">0.00</h4>
+              <h4 id="resultant-loan-value-ratio">0.0%</h4>
+            </div>
+            
+            <div class="row">
+              <h4>Equity Dividend Rate</h4>
+              <h4 id="resultant-equity-dividend-rate">0.0%</h4>
             </div>
 
-            <div class="row" style="color: #ffba08;">
+            <div class="row">
               <h4>Mortgage Loan Constant</h4>
               <h4 id="resultant-mortgage-loan-constant">0.00</h4>
             </div>
 
-            <div class="row" style="color: #faa307;;">
-              <h4 style="font-weight: 700;">Mortgage Component</h4>
-              <h4 id="mortgage-component" style="font-weight: 700;">0.00</h4>
-            </div>
-
-            <div class="row" style="color: #e85d04;">
-              <h4>1 - Loan to Value Ratio</h4>
-              <h4 id="resultant-loan-value-ratio-inverse">0.00</h4>
-            </div>
-
-            <div class="row" style="color: #e85d04;">
-              <h4>Equity Dividend Rate</h4>
-              <h4 id="resultant-equity-dividend-rate">0.00</h4>
+            <div class="row">
+              <h4 style="font-weight: 700;">Debt Component</h4>
+              <h4 id="debt-component" style="font-weight: 700;">0.00</h4>
             </div>
   
-            <div class="row" style="color: #dc2f02;">
+            <div class="row">
               <h4 style="font-weight: 700;">Equity Component</h4>
               <h4 id="equity-component" style="font-weight: 700;">0.00</h4>
             </div>
   
-            <div class="row" style="color: #6a040f;">
+            <div class="row">
               <h4 style="font-weight: 900;">Indicated Capitalization Rate</h4>
               <h4 id="indicated-capitalization-rate" style="font-weight: 900;">0.00</h4>
             </div>
@@ -268,7 +279,7 @@
           <div class="card-inner-input">
             <div class="input-container dollar">
               <div class="input-label">
-                <label for="noi">NOI</label>
+                <label for="noi">Nominal Annual Interest Rate</label>
               </div>  
               <input type="number" name="noi" id="noi" class="float-field" placeholder="0.00" min="0.00" step="0.01">
             </div>

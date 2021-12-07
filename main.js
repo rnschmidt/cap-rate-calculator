@@ -19,6 +19,7 @@ const resultantOtherIncome = document.getElementById('resultant-other-income');
 const resultantEGI = document.getElementById('resultant-egi');
 const resultantTotalExpenses = document.getElementById('resultant-total-expenses');
 const netOperatingIncome = document.getElementById('net-operating-income');
+const resultantPropertyValue = document.getElementById('resultant-property-value');
 const capRate = document.getElementById('cap-rate');
 // add thousand separators to numbers
 const numberWithCommas = (x) => {
@@ -31,7 +32,7 @@ const numberWithCommas = (x) => {
 // change input border color with red if input is negavtive
 const checkIsPositive = (e) => {
   const value = parseFloat(e.target.value);
-  if (e.target.value === "" || value > 0) {
+  if (e.target.value === "" || value >= 0) {
     e.target.setCustomValidity("");
     e.target.style.borderColor = "grey";
   } else {
@@ -78,7 +79,7 @@ const calculateEffectiveGrossIncome = () => {
     resultantVacany.innerText = vacanyCreditLoss.value + "%";
   }
   if (otherIncomeValue && grossPotentialIncomeValue) {
-    effectiveGrossIncomeValue = (effectiveGrossIncomeValue + otherIncomeValue).toFixed(2);
+    effectiveGrossIncomeValue = (parseFloat(effectiveGrossIncomeValue) + otherIncomeValue).toFixed(2);
     effectiveGrossIncome.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
     resultantEGI.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
     resultantOtherIncome.innerText = "$" + numberWithCommas(otherIncome.value);
@@ -136,8 +137,10 @@ const calculateCapRate = (propertyValue) => {
   const netOperatingIncomeValue = parseFloat(netOperatingIncome.innerText.replace(/\$|,/g, ''));
   if (netOperatingIncomeValue && propertyValue) {
     const capRateValue = (netOperatingIncomeValue / propertyValue) * 100;
+    resultantPropertyValue.innerText = "$" + numberWithCommas(propertyValue);
     capRate.innerText = capRateValue.toFixed(2) + '%';
   } else {
+    resultantPropertyValue.innerText = '$0';
     capRate.innerText = '0.00%';
   }
 }
@@ -165,8 +168,7 @@ const mortgageLoanConstant = document.getElementById('mortgage-loan-constant');
 // Calculated Results for Band of Investment
 const resultantLoanValueRatio = document.getElementById('resultant-loan-value-ratio');
 const resultantMortgageLoanConstant = document.getElementById('resultant-mortgage-loan-constant');
-const mortgageComponent = document.getElementById('mortgage-component');
-const resultantLoanValueRatioInverse = document.getElementById('resultant-loan-value-ratio-inverse');
+const debtComponent = document.getElementById('debt-component');
 const resultantEquityDividendRate = document.getElementById('resultant-equity-dividend-rate');
 const equityComponent = document.getElementById('equity-component');
 const indicatedCapitalizationRate = document.getElementById('indicated-capitalization-rate');
@@ -191,7 +193,7 @@ const calculateMortgageLoanConstant = () => {
     mortgageLoanConstant.innerText = '0.00';
     resultantMortgageLoanConstant.innerText = '0.00';
   }
-  calculateMortgageComponent();
+  calculateDebtComponent();
 }
 /*
   # Calculate Mortgage Component
@@ -199,16 +201,16 @@ const calculateMortgageLoanConstant = () => {
   # If `mortgageLoanConstant` and `loanValueRatio` are filled in, calculate Mortgage Component
   # Any change in either of the two fields will trigger the calculation of Indicated Capitalization Rate
 */
-const calculateMortgageComponent = () => {
+const calculateDebtComponent = () => {
   const loanValueRatioValue = parseFloat(loanValueRatio.value) / 100;
   const mortgageLoanConstantValue = parseFloat(mortgageLoanConstant.innerText);
   if (loanValueRatioValue && mortgageLoanConstantValue) {
-    const mortgageComponentValue = (loanValueRatioValue * mortgageLoanConstantValue).toFixed(8);
-    resultantLoanValueRatio.innerText = loanValueRatioValue;
-    mortgageComponent.innerText = mortgageComponentValue;
+    const debtComponentValue = (loanValueRatioValue * mortgageLoanConstantValue).toFixed(8);
+    resultantLoanValueRatio.innerText = (loanValueRatioValue * 100).toFixed(2) + '%';
+    debtComponent.innerText = `${loanValueRatio.value}% x ${mortgageLoanConstantValue} = ${debtComponentValue}`;
   } else {
-    resultantLoanValueRatio.innerText = '0.00';
-    mortgageComponent.innerText = '0.00';
+    resultantLoanValueRatio.innerText = '0.0%';
+    debtComponent.innerText = '0.00';
   }
   calculateIndicatedCapitalizationRate();
 }
@@ -223,9 +225,8 @@ const calculateEquityComponent = () => {
   const loanValueRatioInverseValue = parseFloat((100 - loanValueRatio.value) / 100);
   if (equityDividendRateValue && loanValueRatioInverseValue) {
     const equityComponentValue = (equityDividendRateValue * loanValueRatioInverseValue).toFixed(8);
-    resultantLoanValueRatioInverse.innerText = loanValueRatioInverseValue;
-    resultantEquityDividendRate.innerText = equityDividendRateValue;
-    equityComponent.innerText = equityComponentValue;
+    resultantEquityDividendRate.innerText = (equityDividendRateValue * 100).toFixed(2) + '%';
+    equityComponent.innerText = `(100 - ${loanValueRatio.value})% x ${equityDividendRate.value}%  = ${equityComponentValue}`;
   } else {
     resultantEquityDividendRate.innerText = '0.00';
     equityComponent.innerText = '0.00';
@@ -235,14 +236,14 @@ const calculateEquityComponent = () => {
 /*
   # Calculate Indicated Capitalization Rate
   # Indicated Capitalization Rate = (Mortgage Component + Equity Component)
-  # If `mortgageComponent` and `equityComponent` are filled in, calculate Indicated Capitalization Rate
+  # If `debtComponent` and `equityComponent` are filled in, calculate Indicated Capitalization Rate
   # Final Rounded Capitalization Rate will be calculated based on the rounded value of Indicated Capitalization Rate
 */
 const calculateIndicatedCapitalizationRate = () => {
-  const mortgageComponentValue = parseFloat(mortgageComponent.innerText);
+  const debtComponentValue = parseFloat(debtComponent.innerText);
   const equityComponentValue = parseFloat(equityComponent.innerText);
-  if (mortgageComponentValue && equityComponentValue) {
-    const indicatedCapitalizationRateValue = (mortgageComponentValue + equityComponentValue).toFixed(8);
+  if (debtComponentValue && equityComponentValue) {
+    const indicatedCapitalizationRateValue = (debtComponentValue + equityComponentValue).toFixed(8);
     indicatedCapitalizationRate.innerText = indicatedCapitalizationRateValue;
     finalRoundedCapRate.innerText = (indicatedCapitalizationRateValue * 100).toFixed(2) + '%';
   } else {
@@ -253,7 +254,7 @@ const calculateIndicatedCapitalizationRate = () => {
 // Event Listeners for calculating Mortgage Loan Constant
 [interestRate, compoundingPeriodsPerYear, loanTerm].forEach(element => element.addEventListener('input', calculateMortgageLoanConstant, false));
 // Event Listeners for calculating Mortgage Component
-loanValueRatio.addEventListener('input', () => calculateMortgageComponent());
+loanValueRatio.addEventListener('input', () => calculateDebtComponent());
 // Event Listeners for calculating Equity Component
 [loanValueRatio, equityDividendRate].forEach(element => element.addEventListener('input', calculateEquityComponent, false));
 
