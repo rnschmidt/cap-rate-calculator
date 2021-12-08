@@ -290,7 +290,6 @@ nav {
 
         @media screen and (max-width: 1024px) {
           max-width: 95%;
-          align-items: center;
         }
 
         @media screen and (max-width: 768px) {
@@ -307,21 +306,28 @@ nav {
     }
 
     .result {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       max-width: 24rem;
       min-width: 21rem;
-      height: 28rem;
+      min-height: 41.7rem;
       border-style: solid;
       border-width: 4px 0;
       border-color: lighten($primaryColor, 25%);
       border-top-right-radius: 0.75rem;
+      background-color: lighten($secondaryColor, 49%);
       box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.25);
 
       @media screen and (max-width: 1200px) {
         min-width: 24rem;
+        max-height: 41.7rem;
       }
 
       @media screen and (max-width: 1024px) {
         min-width: 95%;
+        min-height: 0;
+        max-height: 100%;
       }
 
       @media screen and (max-width: 768px) {
@@ -329,18 +335,20 @@ nav {
       }
       
       &-inner {
-        height: 80%;
+        height: 88%;
         padding: 1rem;
         border-top-right-radius: 0.75rem;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-        background-color: lighten($secondaryColor, 49%);
 
         .card {
+          margin-top: 1rem;
           display: flex;
           flex-direction: column;
           gap: 0.75rem;
+
+
   
           .row {
             @include flex-row();
@@ -363,6 +371,9 @@ nav {
       }
     
       @include cap-rate();
+      .cap-rate {
+        height: 12%;
+      }
     }
   }
 

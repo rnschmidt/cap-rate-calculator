@@ -102,14 +102,14 @@
               <div class="input-label">
                 <label for="management-fee">Management Fee</label>
               </div>  
-              <input type="number" name="management-fee" id="management-fee" class="expenses float-field" placeholder="0" min="0" step="1">
+              <input type="number" name="management-fee" id="management-fee" class="float-field" placeholder="0.00" min="0.00" step="0.01">
             </div>
 
             <div class="input-container dollar">
               <div class="input-label">
-                <label for="reserves-for-replacement">Reserve for Replacement</label>
+                <label for="reserve-for-replacement">Reserve for Replacement</label>
               </div>  
-              <input type="number" name="reserves-for-replacement" id="reserves-for-replacement" class="expenses float-field" placeholder="0" min="0" step="1">
+              <input type="number" name="reserve-for-replacement" id="reserve-for-replacement" class="expenses float-field" placeholder="0" min="0" step="1">
             </div>
 
             <div class="input-container dollar">
@@ -133,8 +133,8 @@
 
           <div class="card">
             <div class="row">
-              <h4>Gross Potential Income</h4>
-              <h4 id="resultant-gpi">$0.00</h4>
+              <h4 style="font-weight: 700;">Gross Potential Income</h4>
+              <h4 id="resultant-gpi" style="font-weight: 700;">$0.00</h4>
             </div>
             <div class="row deduce">
               <h4>Vacancy & Credit Loss</h4>
@@ -145,16 +145,40 @@
               <h4 id="resultant-other-income">$0</h4>
             </div>
             <div class="row">
-              <h4>Effective Gross Income</h4>
-              <h4 id="resultant-egi">$0.00</h4>
-            </div>
-            <div class="row deduce">
-              <h4>Total Expenses</h4>
-              <h4 id="resultant-total-expenses">$0.00</h4>
+              <h4 style="font-weight: 700;">Effective Gross Income</h4>
+              <h4 id="resultant-egi" style="font-weight: 700;">$0.00</h4>
             </div>
             <div class="row">
-              <h4>Net Operating Income</h4>
-              <h4 id="net-operating-income">$0.00</h4>
+              <h4>Property Taxes</h4>
+              <h4 id="resultant-property-taxes">$0</h4>
+            </div>
+            <div class="row">
+              <h4>Insurance</h4>
+              <h4 id="resultant-insurance">$0</h4>
+            </div>
+            <div class="row">
+              <h4>Maintenance</h4>
+              <h4 id="resultant-maintenance">$0</h4>
+            </div>
+            <div class="row">
+              <h4>Management Fee</h4>
+              <h4 id="resultant-management-fee">0.0%</h4>
+            </div>
+            <div class="row">
+              <h4>Reserve for Replacement</h4>
+              <h4 id="resultant-reserve-for-replacement">$0</h4>
+            </div>
+            <div class="row">
+              <h4>Other Expenses</h4>
+              <h4 id="resultant-other-expenses">$0</h4>
+            </div>
+            <div class="row deduce">
+              <h4 style="font-weight: 700;">Total Expenses</h4>
+              <h4 id="resultant-total-expenses" style="font-weight: 700;">$0.00</h4>
+            </div>
+            <div class="row">
+              <h4 style="font-weight: 700;">Net Operating Income</h4>
+              <h4 id="net-operating-income" style="font-weight: 700;">$0.00</h4>
             </div>
             <br>
             <div class="row">
@@ -206,9 +230,9 @@
             </div>
 
             <div class="toggle-container">
-              <label for="Annual">Annual</label>
+              <label for="Annual">Yearly</label>
               <label class="switch">
-                <input type="checkbox" checked>
+                <input type="checkbox" id="loan-term-period" checked>
                 <span class="slider round"></span>
               </label>
               <label for="Monthly">Monthly</label>
@@ -279,9 +303,9 @@
           <div class="card-inner-input">
             <div class="input-container dollar">
               <div class="input-label">
-                <label for="noi">Nominal Annual Interest Rate</label>
+                <label for="noi">Net Operating Income</label>
               </div>  
-              <input type="number" name="noi" id="noi" class="float-field" placeholder="0.00" min="0.00" step="0.01">
+              <input type="number" name="noi" id="noi" class="float-field" placeholder="0" min="0" step="1">
             </div>
 
             <div class="input-container percent">

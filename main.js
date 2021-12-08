@@ -7,6 +7,7 @@ const averageRentPerSquareFoot = document.getElementById('av-rent-per-sq-foot');
 const vacanyCreditLoss = document.getElementById('vacany-credit-loss');
 const otherIncome = document.getElementById('other-income');
 // Operating Expenses
+const managementFee = document.getElementById('management-fee'); 
 const expenses = document.querySelectorAll('.expenses');
 // Internal Calulations
 const grossPotentialIncome = document.getElementById('gross-potential-income');
@@ -72,27 +73,82 @@ const calculateEffectiveGrossIncome = () => {
   const otherIncomeValue = parseFloat(otherIncome.value);
   const grossPotentialIncomeValue = parseFloat(grossPotentialIncome.innerText.replace(/\$|,/g, ''));
   let effectiveGrossIncomeValue = grossPotentialIncomeValue.toFixed(2);
+  
+  if (vacancyCreditLossValue) {
+    resultantVacany.innerText = vacanyCreditLoss.value + "%";
+  } else {
+    resultantVacany.innerText = '0%';
+  }
+
+  if (otherIncomeValue) {
+    resultantOtherIncome.innerText = "$" + numberWithCommas(otherIncome.value);
+  } else {
+    resultantOtherIncome.innerText = '$0';
+  }
+
+  if (effectiveGrossIncomeValue) {
+    effectiveGrossIncome.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
+    resultantEGI.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
+  }
+  
   if (vacancyCreditLossValue && grossPotentialIncomeValue) {
     effectiveGrossIncomeValue -= (grossPotentialIncomeValue * vacancyCreditLossValue / 100).toFixed(2);
     effectiveGrossIncome.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
     resultantEGI.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
-    resultantVacany.innerText = vacanyCreditLoss.value + "%";
   }
+
   if (otherIncomeValue && grossPotentialIncomeValue) {
     effectiveGrossIncomeValue = (parseFloat(effectiveGrossIncomeValue) + otherIncomeValue).toFixed(2);
     effectiveGrossIncome.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
     resultantEGI.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
-    resultantOtherIncome.innerText = "$" + numberWithCommas(otherIncome.value);
   }
-  if (!vacancyCreditLossValue && !otherIncomeValue && grossPotentialIncomeValue) {
-    effectiveGrossIncome.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
-    resultantEGI.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
+
+  calculateTotalExpenses();
+}
+/*
+  # Limit input to accept only upto 2 decimal places
+*/
+const validate = (e) => {
+  var t = e.value;
+  e.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 3)) : t;
+}
+/*
+  # Update Total Expenses Property on Calculated Results
+*/
+const updateResultantTotalExpenses = (element) => {
+  let resultantId = 'resultant-' + element.target.id;
+  let resultant = document.getElementById(resultantId);
+  let value = parseFloat(element.target.value);
+  let isManagementFee = resultantId === 'resultant-management-fee';
+  
+  if (value) {
+    if (isManagementFee) {
+      resultant.innerText = value + '%';
+    } else {
+      resultant.innerText = "$" + numberWithCommas(value);
+    }
+  } else {
+    if (isManagementFee) {
+      resultant.innerText = '0.0%';
+    } else {
+      resultant.innerText = '$0';
+    }
   }
-  if (!grossPotentialIncomeValue) {
-    effectiveGrossIncome.innerText = '$0.00';
-    resultantEGI.innerText = '$0.00';
+}
+/*
+  # Calculate Managment Fee from percentage value
+  # If `managementFee` is filled in and, `grossPotentialIncome` is valid, calculate Management Fee in dollars
+*/
+const calculateManagementFee = () => {
+  const managementFeeValue = parseFloat(managementFee.value);
+  const effectiveGrossIncomeValue = parseFloat(effectiveGrossIncome.innerText.replace(/\$|,/g, ''));
+  let netManagementFee = 0;
+
+  if (managementFeeValue && effectiveGrossIncomeValue) {
+    netManagementFee = (effectiveGrossIncomeValue * managementFeeValue / 100).toFixed(2);
   }
-  calculateNetOperatingIncome();
+
+  return parseFloat(netManagementFee);
 }
 /*
   # Calculate Total Expenses
@@ -101,8 +157,8 @@ const calculateEffectiveGrossIncome = () => {
   # Any change in any of the Expenses will trigger the calculation of Net Operating Income
 */
 const calculateTotalExpenses = () => {
-  let totalExpensesValue = 0;
-  expenses.forEach(expense => totalExpensesValue += expense.value ? parseFloat(expense.value) : 0);
+  let totalExpensesValue = calculateManagementFee();
+  expenses.forEach(expense => { if(expense.value) {totalExpensesValue += parseFloat(expense.value)} });
   totalExpenses.innerText = "$" + numberWithCommas(totalExpensesValue.toFixed(2));
   resultantTotalExpenses.innerText = "$" + numberWithCommas(totalExpensesValue.toFixed(2));
   calculateNetOperatingIncome();
@@ -135,27 +191,34 @@ const calculateNetOperatingIncome = () => {
 */
 const calculateCapRate = (propertyValue) => {
   const netOperatingIncomeValue = parseFloat(netOperatingIncome.innerText.replace(/\$|,/g, ''));
-  if (netOperatingIncomeValue && propertyValue) {
-    const capRateValue = (netOperatingIncomeValue / propertyValue) * 100;
+  
+  if (propertyValue) {
     resultantPropertyValue.innerText = "$" + numberWithCommas(propertyValue);
-    capRate.innerText = capRateValue.toFixed(2) + '%';
   } else {
     resultantPropertyValue.innerText = '$0';
+  }
+  
+  if (netOperatingIncomeValue && propertyValue) {
+    const capRateValue = (netOperatingIncomeValue / propertyValue) * 100;
+    capRate.innerText = capRateValue.toFixed(2) + '%';
+  } else {
     capRate.innerText = '0.00%';
   }
 }
 // For all the input fileds add event listener to check if the values are positive numbers
 document.querySelectorAll(".float-field").forEach(element => element.addEventListener("input", checkIsPositive, false));
 // Add event listener to Property Value field to trigger calculation of Cap Rate
-propertyValue.addEventListener('input', (e) => calculateCapRate(e.target.value));
+propertyValue.addEventListener('input', (e) => { validate(e.target); calculateCapRate(e.target.value); });
 // Add event listener to Total Rent Square Foot and Average Rent Square Foot fields to trigger calculation of Gross Potential Income
-totalRentSquareFeet.addEventListener('input', () => calculateGrossPotentialIncome());
-averageRentPerSquareFoot.addEventListener('input', () => calculateGrossPotentialIncome());
+totalRentSquareFeet.addEventListener('input', (e) => { validate(e.target); calculateGrossPotentialIncome(); });
+averageRentPerSquareFoot.addEventListener('input', (e) => { validate(e.target); calculateGrossPotentialIncome(); });
 // Add event listener to Vacancy Credit Loss and Other Income fields to trigger calculation of Effective Gross Income
-vacanyCreditLoss.addEventListener('input', () => calculateEffectiveGrossIncome());
-otherIncome.addEventListener('input', () => calculateEffectiveGrossIncome());
+vacanyCreditLoss.addEventListener('input', (e) => { validate(e.target); calculateEffectiveGrossIncome(); });
+otherIncome.addEventListener('input', (e) => { validate(e.target); calculateEffectiveGrossIncome(); });
+// Add event listener to Management Fee to trigger calculation of Total Expenses
+managementFee.addEventListener('input', (e) => { validate(e.target); calculateTotalExpenses(); updateResultantTotalExpenses(e); });
 // For all the input fileds required for expenses add event listener to trigger calculation of Total Expenses
-expenses.forEach(expense => expense.addEventListener('input', () => calculateTotalExpenses()));
+expenses.forEach(expense => expense.addEventListener('input', (e) => { calculateTotalExpenses(); updateResultantTotalExpenses(e); }));
 
 /*------------------------------------- BAND OF INVESTMENT ------------------------------------------------ */
 // Inputs for Band of Investment
@@ -163,6 +226,7 @@ const interestRate = document.getElementById('interest-rate');
 const compoundingPeriodsPerYear = document.getElementById('cpi-per-year');
 const loanValueRatio = document.getElementById('loan-value-ratio');
 const loanTerm = document.getElementById('loan-term');
+const loanTermPeriod = document.getElementById('loan-term-period');
 const equityDividendRate = document.getElementById('equity-dividend-rate');
 const mortgageLoanConstant = document.getElementById('mortgage-loan-constant');
 // Calculated Results for Band of Investment
@@ -176,15 +240,22 @@ const finalRoundedCapRate = document.getElementById('final-rounded-cap-rate');
 
 /*
   # Calculate Mortgage Loan Constant
-  # Let I = Interest Rate, C = Compounding Periods Per Year, LVR = Loan Value Ratio
-  # Mortgage Loan Constant = ((I / C) / (1 - (1 / (1 + (I / C) ^ (C * LVR)))) * C)
-  # If `interestRate` and `compoundingPeriodsPerYear` and `loanValueRatio` are filled in, calculate Mortgage Loan Constant
+  # Let I = Interest Rate, C = Compounding Periods Per Year, LT = Loan Term
+  # Mortgage Loan Constant = ((I / C) / (1 - (1 / (1 + (I / C) ^ (C * LT)))) * C)
+  # If `interestRate` and `compoundingPeriodsPerYear` and `loanTerm` are filled in, calculate Mortgage Loan Constant
   # Any change in any of the three fields will trigger the calculation of Mortgage Component
 */
 const calculateMortgageLoanConstant = () => {
   const interestRateValue = parseFloat(interestRate.value) / 100;
   const compoundingPeriodsPerYearValue = parseFloat(compoundingPeriodsPerYear.value);
-  const loanTermValue = parseFloat(loanTerm.value);
+  let loanTermValue = 0;
+  
+  if (loanTermPeriod.checked) {
+    loanTermValue = parseFloat(loanTerm.value)
+  } else {
+    loanTermValue = parseFloat(loanTerm.value) * 12;
+  }
+  
   if (interestRateValue && compoundingPeriodsPerYearValue && loanTermValue) {
     const mortgageLoanConstantValue = (((interestRateValue / compoundingPeriodsPerYearValue) / (1 - (1 / Math.pow((1 + (interestRateValue / compoundingPeriodsPerYearValue)),(compoundingPeriodsPerYearValue * loanTermValue))))) * compoundingPeriodsPerYearValue).toFixed(8);
     mortgageLoanConstant.innerText = mortgageLoanConstantValue;
@@ -252,11 +323,11 @@ const calculateIndicatedCapitalizationRate = () => {
   }
 }
 // Event Listeners for calculating Mortgage Loan Constant
-[interestRate, compoundingPeriodsPerYear, loanTerm].forEach(element => element.addEventListener('input', calculateMortgageLoanConstant, false));
+[interestRate, compoundingPeriodsPerYear, loanTerm, loanTermPeriod].forEach(element => element.addEventListener('input', (e) => { validate(e.target); calculateMortgageLoanConstant(); }));
 // Event Listeners for calculating Mortgage Component
-loanValueRatio.addEventListener('input', () => calculateDebtComponent());
+loanValueRatio.addEventListener('input', (e) => { validate(e.target); calculateDebtComponent(); });
 // Event Listeners for calculating Equity Component
-[loanValueRatio, equityDividendRate].forEach(element => element.addEventListener('input', calculateEquityComponent, false));
+[loanValueRatio, equityDividendRate].forEach(element => element.addEventListener('input', (e) => { validate(e.target); calculateEquityComponent(); }));
 
 /*------------------------------------- GORDON MODEL ------------------------------------------------ */
 const noi = document.getElementById('noi');
@@ -284,6 +355,6 @@ const calculateGordonModelCapRate = () => {
   }
 }
 
-noi.addEventListener('input', calculateGordonModelCapRate);
-discountRate.addEventListener('input', calculateGordonModelCapRate);
-noiGrowthRate.addEventListener('input', calculateGordonModelCapRate);
+noi.addEventListener('input', (e) => { validate(e.target); calculateGordonModelCapRate(); });
+discountRate.addEventListener('input', (e) => { validate(e.target); calculateGordonModelCapRate(); });
+noiGrowthRate.addEventListener('input', (e) => { validate(e.target); calculateGordonModelCapRate(); });

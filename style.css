@@ -297,9 +297,6 @@ nav {
 @media screen and (max-width: 1024px) {
   .container .simple-ratio-container .inputs .operating-expenses {
     max-width: 95%;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
   }
 }
 
@@ -322,13 +319,24 @@ nav {
 }
 
 .container .simple-ratio-container .result {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   max-width: 24rem;
   min-width: 21rem;
-  height: 28rem;
+  min-height: 41.7rem;
   border-style: solid;
   border-width: 4px 0;
   border-color: #73b1e9;
   border-top-right-radius: 0.75rem;
+  background-color: #f9f9f9;
   -webkit-box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.25);
           box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.25);
 }
@@ -336,12 +344,15 @@ nav {
 @media screen and (max-width: 1200px) {
   .container .simple-ratio-container .result {
     min-width: 24rem;
+    max-height: 41.7rem;
   }
 }
 
 @media screen and (max-width: 1024px) {
   .container .simple-ratio-container .result {
     min-width: 95%;
+    min-height: 0;
+    max-height: 100%;
   }
 }
 
@@ -352,7 +363,7 @@ nav {
 }
 
 .container .simple-ratio-container .result-inner {
-  height: 80%;
+  height: 88%;
   padding: 1rem;
   border-top-right-radius: 0.75rem;
   display: -webkit-box;
@@ -364,10 +375,10 @@ nav {
           flex-direction: column;
   -ms-flex-pack: distribute;
       justify-content: space-around;
-  background-color: #f9f9f9;
 }
 
 .container .simple-ratio-container .result-inner .card {
+  margin-top: 1rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -418,6 +429,10 @@ nav {
   padding: 0.5rem 1rem;
   border-top-right-radius: 1.5rem;
   background-color: #e1eefa;
+}
+
+.container .simple-ratio-container .result .cap-rate {
+  height: 12%;
 }
 
 .container .band-of-investment-container .cards {
