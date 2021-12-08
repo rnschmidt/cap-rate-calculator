@@ -266,6 +266,7 @@ const calculateMortgageLoanConstant = () => {
   }
   calculateDebtComponent();
 }
+let equityComponentValue = 0, debtComponentValue = 0;
 /*
   # Calculate Mortgage Component
   # Mortgage Component = Mortgage Loan Constant * Loan Value Ratio
@@ -276,7 +277,7 @@ const calculateDebtComponent = () => {
   const loanValueRatioValue = parseFloat(loanValueRatio.value) / 100;
   const mortgageLoanConstantValue = parseFloat(mortgageLoanConstant.innerText);
   if (loanValueRatioValue && mortgageLoanConstantValue) {
-    const debtComponentValue = (loanValueRatioValue * mortgageLoanConstantValue).toFixed(8);
+    debtComponentValue = (loanValueRatioValue * mortgageLoanConstantValue).toFixed(8);
     resultantLoanValueRatio.innerText = (loanValueRatioValue * 100).toFixed(2) + '%';
     debtComponent.innerText = `${loanValueRatio.value}% x ${mortgageLoanConstantValue} = ${debtComponentValue}`;
   } else {
@@ -295,7 +296,7 @@ const calculateEquityComponent = () => {
   const equityDividendRateValue = parseFloat(equityDividendRate.value) / 100;
   const loanValueRatioInverseValue = parseFloat((100 - loanValueRatio.value) / 100);
   if (equityDividendRateValue && loanValueRatioInverseValue) {
-    const equityComponentValue = (equityDividendRateValue * loanValueRatioInverseValue).toFixed(8);
+    equityComponentValue = (equityDividendRateValue * loanValueRatioInverseValue).toFixed(8);
     resultantEquityDividendRate.innerText = (equityDividendRateValue * 100).toFixed(2) + '%';
     equityComponent.innerText = `(100 - ${loanValueRatio.value})% x ${equityDividendRate.value}%  = ${equityComponentValue}`;
   } else {
@@ -311,10 +312,8 @@ const calculateEquityComponent = () => {
   # Final Rounded Capitalization Rate will be calculated based on the rounded value of Indicated Capitalization Rate
 */
 const calculateIndicatedCapitalizationRate = () => {
-  const debtComponentValue = parseFloat(debtComponent.innerText);
-  const equityComponentValue = parseFloat(equityComponent.innerText);
   if (debtComponentValue && equityComponentValue) {
-    const indicatedCapitalizationRateValue = (debtComponentValue + equityComponentValue).toFixed(8);
+    const indicatedCapitalizationRateValue = (parseFloat(debtComponentValue) + parseFloat(equityComponentValue)).toFixed(8);
     indicatedCapitalizationRate.innerText = indicatedCapitalizationRateValue;
     finalRoundedCapRate.innerText = (indicatedCapitalizationRateValue * 100).toFixed(2) + '%';
   } else {
