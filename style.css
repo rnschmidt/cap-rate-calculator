@@ -344,7 +344,7 @@ nav {
 @media screen and (max-width: 1200px) {
   .container .simple-ratio-container .result {
     min-width: 24rem;
-    max-height: 41.7rem;
+    max-height: 50.7rem;
   }
 }
 
@@ -424,7 +424,7 @@ nav {
 }
 
 .container .simple-ratio-container .result .cap-rate {
-  height: 12%;
+  height: 10%;
 }
 
 .container .band-of-investment-container .cards {

@@ -321,7 +321,7 @@ nav {
 
       @media screen and (max-width: 1200px) {
         min-width: 24rem;
-        max-height: 41.7rem;
+        max-height: 50.7rem;
       }
 
       @media screen and (max-width: 1024px) {
@@ -364,7 +364,7 @@ nav {
     
       @include cap-rate();
       .cap-rate {
-        height: 12%;
+        height: 10%;
       }
     }
   }

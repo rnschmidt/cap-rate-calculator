@@ -75,13 +75,13 @@ const calculateEffectiveGrossIncome = () => {
   let effectiveGrossIncomeValue = Math.round(grossPotentialIncomeValue);
   
   if (vacancyCreditLossValue) {
-    resultantVacany.innerText = vacanyCreditLoss.value + "%";
+    resultantVacany.innerText = parseFloat(vacanyCreditLoss.value) + "%";
   } else {
     resultantVacany.innerText = '0%';
   }
 
   if (otherIncomeValue) {
-    resultantOtherIncome.innerText = "$" + numberWithCommas(otherIncome.value);
+    resultantOtherIncome.innerText = "$" + numberWithCommas(parseFloat(otherIncome.value));
   } else {
     resultantOtherIncome.innerText = '$0';
   }
@@ -200,7 +200,7 @@ const calculateCapRate = (propertyValue) => {
   const netOperatingIncomeValue = parseFloat(netOperatingIncome.innerText.replace(/\$|,/g, ''));
   
   if (propertyValue) {
-    resultantPropertyValue.innerText = "$" + numberWithCommas(propertyValue);
+    resultantPropertyValue.innerText = "$" + numberWithCommas(parseFloat(propertyValue));
   } else {
     resultantPropertyValue.innerText = '$0';
   }
@@ -286,7 +286,7 @@ const calculateDebtComponent = () => {
   if (loanValueRatioValue && mortgageLoanConstantValue) {
     debtComponentValue = (loanValueRatioValue * mortgageLoanConstantValue).toFixed(8);
     resultantLoanValueRatio.innerText = (loanValueRatioValue * 100).toFixed(2) + '%';
-    debtComponent.innerText = `${loanValueRatio.value}% x ${mortgageLoanConstantValue} = ${debtComponentValue}`;
+    debtComponent.innerText = `${parseFloat(loanValueRatio.value)}% x ${mortgageLoanConstantValue} = ${debtComponentValue}`;
   } else {
     resultantLoanValueRatio.innerText = '0.0%';
     debtComponent.innerText = '0.00';
@@ -305,7 +305,7 @@ const calculateEquityComponent = () => {
   if (equityDividendRateValue && loanValueRatioInverseValue) {
     equityComponentValue = (equityDividendRateValue * loanValueRatioInverseValue).toFixed(8);
     resultantEquityDividendRate.innerText = (equityDividendRateValue * 100).toFixed(2) + '%';
-    equityComponent.innerText = `${100 - loanValueRatio.value}% x ${equityDividendRate.value}%  = ${equityComponentValue}`;
+    equityComponent.innerText = `${100 - loanValueRatio.value}% x ${parseFloat(equityDividendRate.value)}%  = ${equityComponentValue}`;
   } else {
     resultantEquityDividendRate.innerText = '0.00';
     equityComponent.innerText = '0.00';
