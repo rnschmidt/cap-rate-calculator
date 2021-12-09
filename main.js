@@ -348,12 +348,15 @@ const calculateGordonModelCapRate = () => {
   const noiGrowthRateValue = parseFloat(noiGrowthRate.value);
   let capRate = 0;
   
-  if (discountRateValue && noiGrowthRateValue) {
-    capRate = (discountRateValue - noiGrowthRateValue).toFixed(2);
-    gordonModelCapRate.innerText = capRate + '%';
-  } else {
-    gordonModelCapRate.innerText = '0.0%';
+  if (discountRateValue) {
+    capRate = discountRateValue;
   }
+
+  if (noiGrowthRateValue) {
+    capRate -= noiGrowthRateValue;
+  }
+  
+  gordonModelCapRate.innerText = capRate.toFixed(2) + '%';
 
   if (noiValue && capRate) {
     let value = (noiValue * (100 / capRate)).toFixed(2);
