@@ -154,6 +154,11 @@ nav {
   -moz-appearance: textfield;
 }
 
+.container .simple-ratio-container .inputs .input-container .error-label {
+  color: tomato;
+  font-size: 0.75rem;
+}
+
 .container .simple-ratio-container .inputs .dollar::before {
   content: '$';
   position: absolute;
@@ -403,7 +408,7 @@ nav {
 }
 
 .container .simple-ratio-container .result-inner .card .row h4 {
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
@@ -562,6 +567,11 @@ nav {
   -moz-appearance: textfield;
 }
 
+.container .band-of-investment-container .cards .card-input .input-container .error-label {
+  color: tomato;
+  font-size: 0.75rem;
+}
+
 .container .band-of-investment-container .cards .card-input .dollar::before {
   content: '$';
   position: absolute;
@@ -717,7 +727,7 @@ nav {
 }
 
 .container .band-of-investment-container .cards .card-result-inner .row h4 {
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
@@ -860,6 +870,11 @@ nav {
 
 .container .gordon-model-container .card-inner-input .input-container input[type=number] {
   -moz-appearance: textfield;
+}
+
+.container .gordon-model-container .card-inner-input .input-container .error-label {
+  color: tomato;
+  font-size: 0.75rem;
 }
 
 .container .gordon-model-container .card-inner-input .dollar::before {

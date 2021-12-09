@@ -74,6 +74,11 @@ $subHeadSize: 1.2em;
     input[type=number] {
       -moz-appearance: textfield;
     }
+
+    .error-label {
+      color: tomato;
+      font-size: 0.75rem;
+    }
   }
 
   .dollar::before {
@@ -355,7 +360,7 @@ nav {
             justify-content: space-between;
   
             h4 {
-              font-size: 1.125rem;
+              font-size: 1rem;
               font-weight: 600;
             }
           }
@@ -459,7 +464,7 @@ nav {
               justify-content: space-between;
     
               h4 {
-                font-size: 1.125rem;
+                font-size: 1rem;
                 font-weight: 600;
               }
             }

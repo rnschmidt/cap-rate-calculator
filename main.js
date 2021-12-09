@@ -30,15 +30,61 @@ const numberWithCommas = (x) => {
       x = x.replace(pattern, "$1,$2");
   return x;
 }
-// change input border color with red if input is negavtive
-const checkIsPositive = (e) => {
-  const value = parseFloat(e.target.value);
-  if (e.target.value === "" || value >= 0) {
-    e.target.setCustomValidity("");
-    e.target.style.borderColor = "grey";
-  } else {
-    e.target.setCustomValidity("Please select a value that is greater than 0.");
+// Limit input to accept only Integer value
+const validateInteger = (e) => {
+  const i = e.value;
+  e.value = parseInt(i, 10);
+}
+// Limit input to accept only upto 2 decimal places
+const validateFloating = (e) => {
+  const t = e.target.value;
+  e.target.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 3)) : t;
+}
+// Add HTML element to show error message
+const insertErrorMessage = (e, message) => {
+  if (e.target.style.borderColor !== 'red') {
     e.target.style.borderColor = "red";
+    const errorMessage = document.createElement('div');
+    errorMessage.classList.add('error-label');
+    errorMessage.innerText = message;
+    e.target.parentNode.appendChild(errorMessage);
+  }
+}
+// Remove HTML element which shows error message
+const removeErrorMessage = (e) => {
+  if (e.target.style.borderColor === 'red') {
+    e.target.style.borderColor = "";
+    const errorMessage = e.target.parentNode.querySelector('.error-label');
+    if (errorMessage) {
+      e.target.parentNode.removeChild(errorMessage);
+    }
+  }
+}
+// Limit percentage input to accept in range 0-100
+const validatePercentage = (e) => {
+  const val = e.target.value;
+  if (val < 0 || val > 100) {
+    insertErrorMessage(e, 'Please select a value between 0 and 100.');
+  } else {
+    removeErrorMessage(e);
+  }
+}
+// Make sure amount value does not exceed 100,000,000,000,000
+const validateAmount = (e) => {
+  const val = e.target.value;
+  if (val > 100000000000000) {
+    insertErrorMessage(e, 'Please select a value less than 100,000,000,000,000.');
+  } else {
+    removeErrorMessage(e);
+  }
+}
+// Validate Total Rent Square Feet to accept value less than or equal to 1,000,000,000
+const validateTotalRentSquareFeet = (e) => {
+  const val = e.target.value;
+  if (val > 1000000000) {
+    insertErrorMessage(e, 'Please select a value less than or equal to 1,000,000,000.');
+  } else {
+    removeErrorMessage(e);
   }
 }
 /*
@@ -104,20 +150,6 @@ const calculateEffectiveGrossIncome = () => {
   }
 
   calculateTotalExpenses();
-}
-/*
-  # Limit input to accept only Integer value
-*/
-const validateInteger = (e) => {
-  const i = e.value;
-  e.value = parseInt(i, 10);
-}
-/*
-  # Limit input to accept only upto 2 decimal places
-*/
-const validate = (e) => {
-  const t = e.value;
-  e.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 3)) : t;
 }
 /*
   # Update Total Expenses Property on Calculated Results
@@ -212,18 +244,23 @@ const calculateCapRate = (propertyValue) => {
     capRate.innerText = '0.00%';
   }
 }
-// For all the input fileds add event listener to check if the values are positive numbers
-document.querySelectorAll(".float-field").forEach(element => element.addEventListener("input", checkIsPositive, false));
+document.querySelectorAll('.validate-amount').forEach(element => element.addEventListener('input', validateAmount, false));
+// Add event listner to all input fields to accept upto 2 decimal places
+document.querySelectorAll('.float-field').forEach(element => element.addEventListener('input', validateFloating, false));
+// Add event listner to validate percent value to keep between between 0 and 100
+document.querySelectorAll('.validate-percent').forEach(element => element.addEventListener('input', validatePercentage, false));
 // Add event listener to Property Value field to trigger calculation of Cap Rate
-propertyValue.addEventListener('input', (e) => { validate(e.target); calculateCapRate(e.target.value); });
+propertyValue.addEventListener('input', (e) => { calculateCapRate(e.target.value); });
+// Add event listener to validate total rent squalre feet
+totalRentSquareFeet.addEventListener('input', (e) => { validateTotalRentSquareFeet(e); });
 // Add event listener to Total Rent Square Foot and Average Rent Square Foot fields to trigger calculation of Gross Potential Income
 totalRentSquareFeet.addEventListener('input', (e) => { validateInteger(e.target); calculateGrossPotentialIncome(); });
-averageRentPerSquareFoot.addEventListener('input', (e) => { validate(e.target); calculateGrossPotentialIncome(); });
+averageRentPerSquareFoot.addEventListener('input', (e) => { calculateGrossPotentialIncome(); });
 // Add event listener to Vacancy Credit Loss and Other Income fields to trigger calculation of Effective Gross Income
-vacanyCreditLoss.addEventListener('input', (e) => { validate(e.target); calculateEffectiveGrossIncome(); });
-otherIncome.addEventListener('input', (e) => { validate(e.target); calculateEffectiveGrossIncome(); });
+vacanyCreditLoss.addEventListener('input', (e) => { calculateEffectiveGrossIncome(); });
+otherIncome.addEventListener('input', (e) => { calculateEffectiveGrossIncome(); });
 // Add event listener to Management Fee to trigger calculation of Total Expenses
-managementFee.addEventListener('input', (e) => { validate(e.target); calculateTotalExpenses(); updateResultantTotalExpenses(e); });
+managementFee.addEventListener('input', (e) => { calculateTotalExpenses(); updateResultantTotalExpenses(e); });
 // For all the input fileds required for expenses add event listener to trigger calculation of Total Expenses
 expenses.forEach(expense => expense.addEventListener('input', (e) => { calculateTotalExpenses(); updateResultantTotalExpenses(e); }));
 
@@ -290,6 +327,7 @@ const calculateDebtComponent = () => {
   } else {
     resultantLoanValueRatio.innerText = '0.0%';
     debtComponent.innerText = '0.00';
+    debtComponentValue = 0;
   }
   calculateIndicatedCapitalizationRate();
 }
@@ -309,6 +347,7 @@ const calculateEquityComponent = () => {
   } else {
     resultantEquityDividendRate.innerText = '0.00';
     equityComponent.innerText = '0.00';
+    equityComponentValue = 0;
   }
   calculateIndicatedCapitalizationRate();
 }
@@ -319,21 +358,38 @@ const calculateEquityComponent = () => {
   # Final Rounded Capitalization Rate will be calculated based on the rounded value of Indicated Capitalization Rate
 */
 const calculateIndicatedCapitalizationRate = () => {
-  if (debtComponentValue && equityComponentValue) {
-    const indicatedCapitalizationRateValue = (parseFloat(debtComponentValue) + parseFloat(equityComponentValue)).toFixed(8);
-    indicatedCapitalizationRate.innerText = indicatedCapitalizationRateValue;
-    finalRoundedCapRate.innerText = (indicatedCapitalizationRateValue * 100).toFixed(2) + '%';
+  let indicatedCapitalizationRateValue = parseFloat(debtComponentValue) + parseFloat(equityComponentValue);
+  indicatedCapitalizationRate.innerText = indicatedCapitalizationRateValue.toFixed(8);
+  finalRoundedCapRate.innerText = (indicatedCapitalizationRateValue * 100).toFixed(2) + '%';
+}
+// validate compounding periods per year to accept value less than or equal to 365
+const validateCompoundingPeriodsPerYear = (e) => {
+  const val = e.target.value;
+  if (val > 365) {
+    insertErrorMessage(e, 'Compounding Periods Per Year cannot be greater than 365');
   } else {
-    indicatedCapitalizationRate.innerText = '0.00';
-    finalRoundedCapRate.innerText = '0.00%';
+    removeErrorMessage(e);
   }
 }
+// validate loan term to accept value less than or equal to 12000 years
+const validateLoanTerm = (e) => {
+  const val = e.target.value;
+  if (val > 12000) {
+    insertErrorMessage(e, 'Loan Term cannot be greater than 12000 years');
+  } else {
+    removeErrorMessage(e);
+  }
+}
+// Event listener to validate compounding periods per year
+compoundingPeriodsPerYear.addEventListener('input', validateCompoundingPeriodsPerYear, false);
+// Event listener to validate loan term
+loanTerm.addEventListener('input', validateLoanTerm, false);
 // Event Listeners for calculating Mortgage Loan Constant
-[interestRate, compoundingPeriodsPerYear, loanTerm, loanTermPeriod].forEach(element => element.addEventListener('input', (e) => { validate(e.target); calculateMortgageLoanConstant(); }));
+[interestRate, compoundingPeriodsPerYear, loanTerm, loanTermPeriod].forEach(element => element.addEventListener('input', (e) => { calculateMortgageLoanConstant(); }));
 // Event Listeners for calculating Mortgage Component
-loanValueRatio.addEventListener('input', (e) => { validate(e.target); calculateDebtComponent(); });
+loanValueRatio.addEventListener('input', (e) => { calculateDebtComponent(); });
 // Event Listeners for calculating Equity Component
-[loanValueRatio, equityDividendRate].forEach(element => element.addEventListener('input', (e) => { validate(e.target); calculateEquityComponent(); }));
+[loanValueRatio, equityDividendRate].forEach(element => element.addEventListener('input', (e) => { calculateEquityComponent(); }));
 
 /*------------------------------------- GORDON MODEL ------------------------------------------------ */
 const noi = document.getElementById('noi');
@@ -364,6 +420,6 @@ const calculateGordonModelCapRate = () => {
   }
 }
 
-noi.addEventListener('input', (e) => { validate(e.target); calculateGordonModelCapRate(); });
-discountRate.addEventListener('input', (e) => { validate(e.target); calculateGordonModelCapRate(); });
-noiGrowthRate.addEventListener('input', (e) => { validate(e.target); calculateGordonModelCapRate(); });
+noi.addEventListener('input', (e) => { calculateGordonModelCapRate(); });
+discountRate.addEventListener('input', (e) => { calculateGordonModelCapRate(); });
+noiGrowthRate.addEventListener('input', (e) => { calculateGordonModelCapRate(); });
