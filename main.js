@@ -51,12 +51,12 @@ const calculateGrossPotentialIncome = () => {
   const totalRentValue = parseFloat(totalRentSquareFeet.value);
   const rentPerSqFt = parseFloat(averageRentPerSquareFoot.value);
   if (totalRentValue && rentPerSqFt) {
-    const grossPotentialIncomeValue = (totalRentValue * rentPerSqFt).toFixed(2);
+    const grossPotentialIncomeValue = Math.round(totalRentValue * rentPerSqFt);
     grossPotentialIncome.innerText = "$" + numberWithCommas(grossPotentialIncomeValue);
     resultantGPI.innerText = "$" + numberWithCommas(grossPotentialIncomeValue);
   } else {
-    grossPotentialIncome.innerText = '$0.00';
-    resultantGPI.innerText = '$0.00';
+    grossPotentialIncome.innerText = '$0';
+    resultantGPI.innerText = '$0';
   }
   calculateEffectiveGrossIncome();
 }
@@ -72,7 +72,7 @@ const calculateEffectiveGrossIncome = () => {
   const vacancyCreditLossValue = parseFloat(vacanyCreditLoss.value);
   const otherIncomeValue = parseFloat(otherIncome.value);
   const grossPotentialIncomeValue = parseFloat(grossPotentialIncome.innerText.replace(/\$|,/g, ''));
-  let effectiveGrossIncomeValue = grossPotentialIncomeValue.toFixed(2);
+  let effectiveGrossIncomeValue = Math.round(grossPotentialIncomeValue);
   
   if (vacancyCreditLossValue) {
     resultantVacany.innerText = vacanyCreditLoss.value + "%";
@@ -92,13 +92,13 @@ const calculateEffectiveGrossIncome = () => {
   }
   
   if (vacancyCreditLossValue && grossPotentialIncomeValue) {
-    effectiveGrossIncomeValue -= (grossPotentialIncomeValue * vacancyCreditLossValue / 100).toFixed(2);
+    effectiveGrossIncomeValue -= Math.round(grossPotentialIncomeValue * vacancyCreditLossValue / 100);
     effectiveGrossIncome.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
     resultantEGI.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
   }
 
   if (otherIncomeValue && grossPotentialIncomeValue) {
-    effectiveGrossIncomeValue = (parseFloat(effectiveGrossIncomeValue) + otherIncomeValue).toFixed(2);
+    effectiveGrossIncomeValue = Math.round(parseFloat(effectiveGrossIncomeValue) + otherIncomeValue);
     effectiveGrossIncome.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
     resultantEGI.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
   }
@@ -106,10 +106,17 @@ const calculateEffectiveGrossIncome = () => {
   calculateTotalExpenses();
 }
 /*
+  # Limit input to accept only Integer value
+*/
+const validateInteger = (e) => {
+  const i = e.value;
+  e.value = parseInt(i, 10);
+}
+/*
   # Limit input to accept only upto 2 decimal places
 */
 const validate = (e) => {
-  var t = e.value;
+  const t = e.value;
   e.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 3)) : t;
 }
 /*
@@ -159,8 +166,8 @@ const calculateManagementFee = () => {
 const calculateTotalExpenses = () => {
   let totalExpensesValue = calculateManagementFee();
   expenses.forEach(expense => { if(expense.value) {totalExpensesValue += parseFloat(expense.value)} });
-  totalExpenses.innerText = "$" + numberWithCommas(totalExpensesValue.toFixed(2));
-  resultantTotalExpenses.innerText = "$" + numberWithCommas(totalExpensesValue.toFixed(2));
+  totalExpenses.innerText = "$" + numberWithCommas(Math.round(totalExpensesValue));
+  resultantTotalExpenses.innerText = "$" + numberWithCommas(Math.round(totalExpensesValue));
   calculateNetOperatingIncome();
 }
 /*
@@ -210,7 +217,7 @@ document.querySelectorAll(".float-field").forEach(element => element.addEventLis
 // Add event listener to Property Value field to trigger calculation of Cap Rate
 propertyValue.addEventListener('input', (e) => { validate(e.target); calculateCapRate(e.target.value); });
 // Add event listener to Total Rent Square Foot and Average Rent Square Foot fields to trigger calculation of Gross Potential Income
-totalRentSquareFeet.addEventListener('input', (e) => { validate(e.target); calculateGrossPotentialIncome(); });
+totalRentSquareFeet.addEventListener('input', (e) => { validateInteger(e.target); calculateGrossPotentialIncome(); });
 averageRentPerSquareFoot.addEventListener('input', (e) => { validate(e.target); calculateGrossPotentialIncome(); });
 // Add event listener to Vacancy Credit Loss and Other Income fields to trigger calculation of Effective Gross Income
 vacanyCreditLoss.addEventListener('input', (e) => { validate(e.target); calculateEffectiveGrossIncome(); });
@@ -298,7 +305,7 @@ const calculateEquityComponent = () => {
   if (equityDividendRateValue && loanValueRatioInverseValue) {
     equityComponentValue = (equityDividendRateValue * loanValueRatioInverseValue).toFixed(8);
     resultantEquityDividendRate.innerText = (equityDividendRateValue * 100).toFixed(2) + '%';
-    equityComponent.innerText = `(100 - ${loanValueRatio.value})% x ${equityDividendRate.value}%  = ${equityComponentValue}`;
+    equityComponent.innerText = `${100 - loanValueRatio.value}% x ${equityDividendRate.value}%  = ${equityComponentValue}`;
   } else {
     resultantEquityDividendRate.innerText = '0.00';
     equityComponent.innerText = '0.00';

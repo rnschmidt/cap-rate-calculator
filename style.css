@@ -407,14 +407,6 @@ nav {
   font-weight: 600;
 }
 
-.container .simple-ratio-container .result-inner .card .deduce {
-  color: tomato;
-}
-
-.container .simple-ratio-container .result-inner .card .net-income {
-  color: limegreen;
-}
-
 .container .simple-ratio-container .result .cap-rate {
   height: 20%;
   display: -webkit-box;
