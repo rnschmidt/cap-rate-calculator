@@ -64,6 +64,7 @@ const removeErrorMessage = (e) => {
 const validatePercentage = (e) => {
   const val = e.target.value;
   if (val < 0 || val > 100) {
+    e.target.value = 100;
     insertErrorMessage(e, 'Please select a value between 0 and 100.');
   } else {
     removeErrorMessage(e);
@@ -73,6 +74,7 @@ const validatePercentage = (e) => {
 const validateAmount = (e) => {
   const val = e.target.value;
   if (val > 100000000000000) {
+    e.target.value = 100000000000000;
     insertErrorMessage(e, 'Please select a value less than 100,000,000,000,000.');
   } else {
     removeErrorMessage(e);
@@ -82,6 +84,7 @@ const validateAmount = (e) => {
 const validateTotalRentSquareFeet = (e) => {
   const val = e.target.value;
   if (val > 1000000000) {
+    e.target.value = 1000000000;
     insertErrorMessage(e, 'Please select a value less than or equal to 1,000,000,000.');
   } else {
     removeErrorMessage(e);
@@ -366,6 +369,7 @@ const calculateIndicatedCapitalizationRate = () => {
 const validateCompoundingPeriodsPerYear = (e) => {
   const val = e.target.value;
   if (val > 365) {
+    e.target.value = 365;
     insertErrorMessage(e, 'Compounding Periods Per Year cannot be greater than 365');
   } else {
     removeErrorMessage(e);
@@ -375,6 +379,7 @@ const validateCompoundingPeriodsPerYear = (e) => {
 const validateLoanTerm = (e) => {
   const val = e.target.value;
   if (val > 12000) {
+    e.target.value = 12000;
     insertErrorMessage(e, 'Loan Term cannot be greater than 12000 years');
   } else {
     removeErrorMessage(e);

@@ -190,6 +190,12 @@ nav {
   border-radius: 0.5rem;
 }
 
+@media screen and (max-width: 768px) {
+  .container .simple-ratio-container .inputs .row h4 {
+    font-size: 0.75rem;
+  }
+}
+
 .container .simple-ratio-container .inputs .property-value {
   width: 100%;
   display: -webkit-box;
@@ -428,6 +434,12 @@ nav {
   background-color: #e1eefa;
 }
 
+@media screen and (max-width: 768px) {
+  .container .simple-ratio-container .result .cap-rate h3 {
+    font-size: 1.25rem;
+  }
+}
+
 .container .simple-ratio-container .result .cap-rate {
   height: 10%;
 }
@@ -486,6 +498,7 @@ nav {
   .container .band-of-investment-container .cards .card-input, .container .band-of-investment-container .cards .card-result {
     min-width: 95%;
     width: 95%;
+    height: 37rem;
   }
 }
 
@@ -747,6 +760,12 @@ nav {
   background-color: #e1eefa;
 }
 
+@media screen and (max-width: 768px) {
+  .container .band-of-investment-container .cards .card-result .cap-rate h3 {
+    font-size: 1.25rem;
+  }
+}
+
 .container .gordon-model-container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -914,5 +933,11 @@ nav {
   padding: 0.5rem 1rem;
   border-top-right-radius: 1.5rem;
   background-color: #e1eefa;
+}
+
+@media screen and (max-width: 768px) {
+  .container .gordon-model-container .card-result .cap-rate h3 {
+    font-size: 1.25rem;
+  }
 }
 /*# sourceMappingURL=style.css.map */
