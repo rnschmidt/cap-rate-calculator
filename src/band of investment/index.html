@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Band of investment</title>
+</head>
+<body>
+  <nav>Navbar</nav>
+  <div class="container">
+    <!--Band of Investment-->
+    <div class="band-of-investment-container">
+      <div class="cards">
+        <div class="card-input">
+          <h3>Band of Investment</h3>
+          
+          <div class="input-container percent">
+            <div class="input-label">
+              <label for="interest-rate">Nominal Annual Interest Rate</label>
+            </div>  
+            <input type="number" name="interest-rate" id="interest-rate" class="float-field validate-percent" placeholder="0.0" min="0.00" step="0.01">
+          </div>
+
+          <div class="input-container">
+            <div class="input-label">
+              <label for="cpi-per-year">Compounding Periods Per Year</label>
+            </div>  
+            <input type="number" name="cpi-per-year" id="cpi-per-year" class="float-field" placeholder="0" min="0" step="1">
+          </div>
+
+          <div class="input-container percent">
+            <div class="input-label">
+              <label for="loan-value-ratio">Loan to Value Ratio</label>
+            </div>  
+            <input type="number" name="loan-value-ratio" id="loan-value-ratio" class="float-field validate-percent" placeholder="0.0" min="0.00" step="0.01">
+          </div>
+
+          <div class="loan-term-container">
+            <div class="input-container">
+              <div class="input-label">
+                <label for="loan-term">Loan Term</label>
+              </div>  
+              <input type="number" name="loan-term" id="loan-term" class="float-field" placeholder="0" min="0" step="1">
+            </div>
+
+            <div class="toggle-container">
+              <label for="Annual">Yearly</label>
+              <label class="switch">
+                <input type="checkbox" id="loan-term-period" checked>
+                <span class="slider round"></span>
+              </label>
+              <label for="Monthly">Monthly</label>
+            </div>
+          </div>  
+
+          <div class="input-container percent">
+            <div class="input-label">
+              <label for="equity-dividend-rate">Equity Dividend Rate</label>
+            </div>  
+            <input type="number" name="equity-divident-rate" id="equity-dividend-rate" class="float-field validate-percent" placeholder="0.0" min="0.00" step="0.01">
+          </div>
+
+          <div class="row">
+            <h4>Mortgage Loan Constant</h4>
+            <h4 id="mortgage-loan-constant">0.0</h4>
+          </div>
+        </div>
+        
+        <div class="card-result">
+          <h3 class="card-result-head">Calculated Result</h3>
+          
+          <div class="card-result-inner">
+            <div class="row">
+              <h4>Loan to Value Ratio</h4>
+              <h4 id="resultant-loan-value-ratio">0.0%</h4>
+            </div>
+            
+            <div class="row">
+              <h4>Equity Dividend Rate</h4>
+              <h4 id="resultant-equity-dividend-rate">0.0%</h4>
+            </div>
+
+            <div class="row">
+              <h4>Mortgage Loan Constant</h4>
+              <h4 id="resultant-mortgage-loan-constant">0.00</h4>
+            </div>
+
+            <div class="row">
+              <h4 style="font-weight: 700;">Debt Component</h4>
+              <h4 id="debt-component" style="font-weight: 700;">0.00</h4>
+            </div>
+  
+            <div class="row">
+              <h4 style="font-weight: 700;">Equity Component</h4>
+              <h4 id="equity-component" style="font-weight: 700;">0.00</h4>
+            </div>
+  
+            <div class="row">
+              <h4 style="font-weight: 900;">Indicated Capitalization Rate</h4>
+              <h4 id="indicated-capitalization-rate" style="font-weight: 900;">0.00</h4>
+            </div>
+          </div>
+          
+          <div class="cap-rate">
+            <h3>Final Rounded Cap Rate</h3>
+            <h3 id="final-rounded-cap-rate">0.0%</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
