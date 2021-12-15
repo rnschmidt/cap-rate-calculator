@@ -5,6 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.1.0">
+    const AutoNumeric = require('autonumeric');
+  </script>
   <title>Maximum Supportable Loan Amount</title>
 </head>
 <body>
@@ -18,9 +21,9 @@
 
           <div class="input-container dollar">
             <div class="input-label">
-              <label for="uderwritten-net-operating-income">Underwritten Net Operating Income</label>
+              <label for="underwritten-net-operating-income">Underwritten Net Operating Income</label>
             </div>  
-            <input type="number" name="uderwritten-net-operating-income" id="uderwritten-net-operating-income" class="float-field validate-percent" placeholder="0" min="0" step="1">
+            <input type="text" name="underwritten-net-operating-income" id="underwritten-net-operating-income" class="validate-amount" placeholder="0" step="1">
           </div>
 
           <div class="input-container percent">
@@ -44,25 +47,25 @@
             <input type="number" name="interest-rate" id="interest-rate" class="float-field validate-percent" placeholder="0.00" min="0.00" step="0.01">
           </div>
 
-          <div class="input-container percent">
+          <div class="input-container">
             <div class="input-label">
               <label for="dscr-requirement">DSCR Requirement</label>
             </div>  
-            <input type="number" name="dscr-requirement" id="dscr-requirement" class="float-field validate-percent" placeholder="0.00" min="0.00" step="0.01">
+            <input type="number" name="dscr-requirement" id="dscr-requirement" class="float-field" placeholder="0.00" min="0.00" step="0.01">
           </div>
 
-          <div class="input-container">
+          <div class="input-container percent">
             <div class="input-label">
               <label for="maximum-ltv">Maximum LTV</label>
             </div>  
             <input type="number" name="maximum-ltv" id="maximum-ltv" class="float-field validate-percent" placeholder="0.00" min="0.00" step="0.01">
           </div>
 
-          <div class="input-container percent">
+          <div class="input-container">
             <div class="input-label">
               <label for="term">Term (Months)</label>
             </div>  
-            <input type="number" name="term" id="term" class="float-field validate-percent" placeholder="0.00" min="0.00" step="0.01">
+            <input type="text" name="term" id="term" class="float-field" placeholder="0" step="1">
           </div>
         </div>
 
@@ -71,28 +74,63 @@
           
           <div class="card-result-inner">
             <div class="row">
-              <h4>Value @ Cap Rate</h4>
-              <h4 id="value-cap-rate">$0</h4>
+              <h4>Underwritten Net Operating Income</h4>
+              <h4 id="resultant-underwritten-net-operating-income">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Underwritten Cap Rate</h4>
+              <h4 id="resultant-underwritten-cap-rate">0.0%</h4>
+            </div>
+
+            <div class="row">
+              <h4 style="font-weight: 700;">Value @ Cap Rate</h4>
+              <h4 id="value-cap-rate" style="font-weight: 700;">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Maximum LTV</h4>
+              <h4 id="resultant-maximum-ltv">0.0%</h4>
             </div>
   
             <div class="row">
-              <h4 style="font-weight: 700;">Maximum Supportable Loan Amount Per LTV</h4>
-              <h4 id="max-supportable-loan-amt-per-ltv" style="font-weight: 700;">$0</h4>
+              <h4 style="font-weight: 700; color: #1E73BE;">Maximum Supportable Loan Amount Per LTV</h4>
+              <h4 id="max-supportable-loan-amt-per-ltv" style="font-weight: 700; color: #1E73BE;">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>DSCR Requirement</h4>
+              <h4 id="resultant-dscr-requirement">0</h4>
             </div>
   
             <div class="row">
-              <h4>Allowable Debt Service</h4>
-              <h4 id="debt-component">$0</h4>
+              <h4 style="font-weight: 700;">Allowable Debt Service</h4>
+              <h4 id="allowable-debt-service" style="font-weight: 700;">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Interest Rate</h4>
+              <h4 id="resultant-interest-rate">0.0%</h4>
+            </div>
+
+            <div class="row">
+              <h4>Term (Months)</h4>
+              <h4 id="resultant-term">0</h4>
             </div>
   
             <div class="row">
-              <h4 style="font-weight: 700;">Maximum Supportable Loan Amount Per DSCR</h4>
-              <h4 id="max-supportable-loan-amt-per-dscr" style="font-weight: 700;">$0</h4>
+              <h4 style="font-weight: 700; color: #1E73BE;">Maximum Supportable Loan Amount Per DSCR</h4>
+              <h4 id="max-supportable-loan-amt-per-dscr" style="font-weight: 700; color: #1E73BE;">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Underwritten Debt Yield</h4>
+              <h4 id="resultant-underwritten-debt-yield">0.0%</h4>
             </div>
   
             <div class="row">
-              <h4 style="font-weight: 700;">Maximum SUpportable Loan Amoutn Per Debt Yield</h4>
-              <h4 id="max-supportable-loan-amt-per-debt-yield">$0</h4>
+              <h4 style="font-weight: 700; color: #1E73BE;">Maximum Supportable Loan Amount Per Debt Yield</h4>
+              <h4 id="max-supportable-loan-amt-per-debt-yield" style="font-weight: 700; color: #1E73BE;">$0</h4>
             </div>
           </div>
 
@@ -104,5 +142,6 @@
       </div>
     </div>
   </div>
+  <script type="module" src="./main.js"></script>
 </body>
 </html>
