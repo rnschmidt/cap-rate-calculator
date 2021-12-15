@@ -1,14 +1,14 @@
-import { numberWithCommas } from "../utils/utils.js";
+import { amountConfig, numberWithCommas } from "../utils/utils.js";
 
 /*------------------------------------- GORDON MODEL ------------------------------------------------ */
-const noi = document.getElementById('noi');
+const noi = new AutoNumeric('#noi', amountConfig);
 const discountRate = document.getElementById('discount-rate');
 const noiGrowthRate = document.getElementById('noi-growth-rate');
 const gordonModelCapRate = document.getElementById('gm-cap-rate');
 const gordonModelValue = document.getElementById('gm-value');
 
 const calculateGordonModelCapRate = () => {
-  const noiValue = parseFloat(noi.value);
+  const noiValue = parseFloat(noi.rawValue);
   const discountRateValue = parseFloat(discountRate.value);
   const noiGrowthRateValue = parseFloat(noiGrowthRate.value);
   let capRate = 0;
@@ -29,6 +29,6 @@ const calculateGordonModelCapRate = () => {
   }
 }
 
-noi.addEventListener('input', (e) => { calculateGordonModelCapRate(); });
+noi.domElement.addEventListener('input', (e) => { calculateGordonModelCapRate(); });
 discountRate.addEventListener('input', (e) => { calculateGordonModelCapRate(); });
 noiGrowthRate.addEventListener('input', (e) => { calculateGordonModelCapRate(); });

@@ -48,6 +48,9 @@
 
     &-result {
       @include cap-rate();
+      .cap-rate {
+        flex-wrap: wrap;
+      }
       background-color: lighten($primaryColor, 50%);
       border-top-right-radius: 1rem;
     }

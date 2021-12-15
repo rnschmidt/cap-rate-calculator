@@ -5,6 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.1.0">
+    const AutoNumeric = require('autonumeric');
+  </script>
   <title>Gordon Model</title>
 </head>
 <body>
@@ -21,7 +24,7 @@
               <div class="input-label">
                 <label for="noi">Net Operating Income</label>
               </div>  
-              <input type="number" name="noi" id="noi" class="float-field validate-amount" placeholder="0" min="0" step="1">
+              <input type="text" name="noi" id="noi" class="validate-amount" placeholder="0" step="1">
             </div>
 
             <div class="input-container percent">

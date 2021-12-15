@@ -224,4 +224,9 @@ nav {
     font-size: 1.25rem;
   }
 }
+
+.gordon-model-container .card-result .cap-rate {
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
 /*# sourceMappingURL=style.css.map */
