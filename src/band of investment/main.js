@@ -6,7 +6,13 @@ import { insertErrorMessage, removeErrorMessage } from "../utils/utils.js";
 const interestRate = document.getElementById('interest-rate');
 const compoundingPeriodsPerYear = document.getElementById('cpi-per-year');
 const loanValueRatio = document.getElementById('loan-value-ratio');
-const loanTerm = document.getElementById('loan-term');
+const loanTerm = new AutoNumeric('#loan-term', {
+  decimalPlaces: 0,
+  decimalPlacesRawValue: 0,
+  minimumValue: "0",
+  maximumValue: "120000",
+  modifyValueOnWheel: false
+});
 const loanTermPeriod = document.getElementById('loan-term-period');
 const equityDividendRate = document.getElementById('equity-dividend-rate');
 const mortgageLoanConstant = document.getElementById('mortgage-loan-constant');
@@ -32,9 +38,9 @@ const calculateMortgageLoanConstant = () => {
   let loanTermValue = 0;
   
   if (loanTermPeriod.checked) {
-    loanTermValue = parseFloat(loanTerm.value)
+    loanTermValue = parseFloat(loanTerm.rawValue);
   } else {
-    loanTermValue = parseFloat(loanTerm.value) * 12;
+    loanTermValue = parseFloat(loanTerm.rawValue) * 12;
   }
   
   if (interestRateValue && compoundingPeriodsPerYearValue && loanTermValue) {
@@ -111,9 +117,9 @@ const validateCompoundingPeriodsPerYear = (e) => {
 }
 // validate loan term to accept value less than or equal to 12000 years
 const validateLoanTerm = (e) => {
-  const val = e.target.value;
+  const val = parseFloat(e.target.value.replaceAll(',', ''));
   if (val > 12000) {
-    e.target.value = 12000;
+    e.target.value = '12,000';
     insertErrorMessage(e, 'Loan Term cannot be greater than 12000 years');
   } else {
     removeErrorMessage(e);
@@ -122,9 +128,9 @@ const validateLoanTerm = (e) => {
 // Event listener to validate compounding periods per year
 compoundingPeriodsPerYear.addEventListener('input', validateCompoundingPeriodsPerYear, false);
 // Event listener to validate loan term
-loanTerm.addEventListener('input', validateLoanTerm, false);
+loanTerm.domElement.addEventListener('input', validateLoanTerm, false);
 // Event Listeners for calculating Mortgage Loan Constant
-[interestRate, compoundingPeriodsPerYear, loanTerm, loanTermPeriod].forEach(element => element.addEventListener('input', (e) => { calculateMortgageLoanConstant(); }));
+[interestRate, compoundingPeriodsPerYear, loanTerm.domElement, loanTermPeriod].forEach(element => element.addEventListener('input', (e) => { calculateMortgageLoanConstant(); }));
 // Event Listeners for calculating Mortgage Component
 loanValueRatio.addEventListener('input', (e) => { calculateDebtComponent(); });
 // Event Listeners for calculating Equity Component

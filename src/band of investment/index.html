@@ -5,6 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.1.0">
+    const AutoNumeric = require('autonumeric');
+  </script>
   <title>Band of investment</title>
 </head>
 <body>
@@ -42,7 +45,7 @@
               <div class="input-label">
                 <label for="loan-term">Loan Term</label>
               </div>  
-              <input type="number" name="loan-term" id="loan-term" class="float-field" placeholder="0" min="0" step="1">
+              <input type="text" name="loan-term" id="loan-term" class="float-field" placeholder="0" min="0" step="1">
             </div>
 
             <div class="toggle-container">
