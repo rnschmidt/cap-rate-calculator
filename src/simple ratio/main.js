@@ -4,8 +4,8 @@ import { numberWithCommas, insertErrorMessage, removeErrorMessage, amountConfig 
 // Gross Potential Income
 const propertyValue = new AutoNumeric('#property-value', amountConfig);
 const totalRentSquareFeet = new AutoNumeric('#total-rent-square-feet', {
-  decimalPlaces: 0,
-  decimalPlacesRawValue: 0,
+  decimalPlaces: 2,
+  decimalPlacesRawValue: 2,
   minimumValue: "0",
   maximumValue: "10000000000",
   modifyValueOnWheel: false
@@ -169,15 +169,15 @@ const calculateTotalExpenses = () => {
   # Any change in either of the two fields will trigger the calculation of Cap Rate
 */
 const calculateNetOperatingIncome = () => {
-  const effectiveGrossIncomeValue = parseFloat(effectiveGrossIncome.innerText.replace(/\$|,/g, '')).toFixed(2);
-  const totalExpensesValue = parseFloat(totalExpenses.innerText.replace(/\$|,/g, ''));
+  const effectiveGrossIncomeValue = parseInt(effectiveGrossIncome.innerText.replace(/\$|,/g, ''));
+  const totalExpensesValue = parseInt(totalExpenses.innerText.replace(/\$|,/g, ''));
   if (effectiveGrossIncomeValue && totalExpensesValue) {
-    const netOperatingIncomeValue = (effectiveGrossIncomeValue - totalExpensesValue).toFixed(2);
+    const netOperatingIncomeValue = parseInt(effectiveGrossIncomeValue - totalExpensesValue);
     netOperatingIncome.innerText = "$" + numberWithCommas(netOperatingIncomeValue);
   } else if (effectiveGrossIncomeValue) {
     netOperatingIncome.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
   } else {
-    netOperatingIncome.innerText = '$0.00';
+    netOperatingIncome.innerText = '$0';
   }
   calculateCapRate(propertyValue.domElement.value);
 }
