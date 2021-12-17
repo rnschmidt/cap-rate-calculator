@@ -7,7 +7,8 @@ const underwrittenDebtYield = document.getElementById('underwritten-debt-yield')
 const interestRate = document.getElementById('interest-rate');
 const dscrRequirement = document.getElementById('dscr-requirement');
 const maximumLTV = document.getElementById('maximum-ltv');
-const term = new AutoNumeric('#term', {
+const loanTermPeriod = document.getElementById('loan-term-period');
+const loanAmortization = new AutoNumeric('#loan-amortization', {
   decimalPlaces: 0,
   decimalPlacesRawValue: 0,
   minimumValue: "0",
@@ -27,7 +28,7 @@ const resultantUnderwrittenCapRate = document.getElementById('resultant-underwri
 const resultantMaximumLRV = document.getElementById('resultant-maximum-ltv');
 const resultantDscrRequirement = document.getElementById('resultant-dscr-requirement');
 const resultantInterestRate = document.getElementById('resultant-interest-rate');
-const resultantTerm = document.getElementById('resultant-term');
+const resultantLoanAmortization = document.getElementById('resultant-loan-amortization');
 const resultantUnderwrittenDebtYield = document.getElementById('resultant-underwritten-debt-yield');
 /*
  # Calculate the Value @ Cap Rate
@@ -124,14 +125,20 @@ const PV = (rate, nper, pmt, fv, type) => {
 }
 /*
   # Calculate the Maximum Supportable Loan Amount Per DSCR
-  # Maximum Supportable Loan Amount Per DSCR = PV(interest rate / 12, term, allowable debt service / 12, 0, 0)
-  # Any change in the value of interest rate, term, or allowable debt service will trigger a recalculation of the maximum supportable loan amount per DSCR
+  # Maximum Supportable Loan Amount Per DSCR = PV(interest rate / 12, loan amortization, allowable debt service / 12, 0, 0)
+  # Any change in the value of interest rate, loan amortization, or allowable debt service will trigger a recalculation of the maximum supportable loan amount per DSCR
   # This is the value which is considered when calculating the maximum supportable loan amount
 */
 const calculateMaximumSupportableLoanAmountPerDSCR = () => { 
+  let loanAmortizationValue = 0;
   const interestRateValue = parseFloat(interestRate.value);
-  const termValue = parseInt(term.rawValue);
   const allowableDebtServiceValue = parseInt(allowableDebtService.innerText.replace(/\$|,/g, ''));
+
+  if (loanTermPeriod.checked) {
+    loanAmortizationValue = parseFloat(loanAmortization.rawValue);
+  } else {
+    loanAmortizationValue = parseFloat(loanAmortization.rawValue) * 12;
+  }
 
   if (interestRateValue) { 
     resultantInterestRate.innerText = interestRateValue + '%';
@@ -139,10 +146,10 @@ const calculateMaximumSupportableLoanAmountPerDSCR = () => {
     resultantInterestRate.innerText = '0.0%';
   }
 
-  if (termValue) { 
-    resultantTerm.innerText = termValue;
+  if (loanAmortizationValue) { 
+    resultantLoanAmortization.innerText = loanAmortizationValue;
   } else {
-    resultantTerm.innerText = '0';
+    resultantLoanAmortization.innerText = '0';
   }
 
   if (interestRateValue && termValue && allowableDebtServiceValue) { 
@@ -212,5 +219,6 @@ underwrittenCapRate.addEventListener('input', calculateValueAtCapRate);
 maximumLTV.addEventListener('input', calculateMaximumSupportableLoanAmountPerLTV);
 dscrRequirement.addEventListener('input', calculateAllowableDebtService);
 interestRate.addEventListener('input', calculateMaximumSupportableLoanAmountPerDSCR);
-term.domElement.addEventListener('input', calculateMaximumSupportableLoanAmountPerDSCR);
+loanAmortization.domElement.addEventListener('input', calculateMaximumSupportableLoanAmountPerDSCR);
+loanTermPeriod.addEventListener('change', calculateMaximumSupportableLoanAmountPerDSCR);
 underwrittenDebtYield.addEventListener('input', calculateMaxSupportableLoanAmountPerDebtYield);

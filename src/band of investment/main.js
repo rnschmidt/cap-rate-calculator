@@ -120,7 +120,7 @@ const validateLoanTerm = (e) => {
   const val = parseFloat(e.target.value.replaceAll(',', ''));
   if (val > 12000) {
     e.target.value = '12,000';
-    insertErrorMessage(e, 'Loan Term cannot be greater than 12000 years');
+    insertErrorMessage(e, 'Loan Amortization cannot be greater than 12000 years');
   } else {
     removeErrorMessage(e);
   }
