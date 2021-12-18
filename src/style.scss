@@ -117,7 +117,7 @@ $subHeadSize: 1.2em;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: lighten($primaryColor, 25%);
     -webkit-transition: .4s;
     transition: .4s;
   

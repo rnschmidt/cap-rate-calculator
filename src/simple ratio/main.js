@@ -4,13 +4,13 @@ import { numberWithCommas, insertErrorMessage, removeErrorMessage, amountConfig 
 // Gross Potential Income
 const propertyValue = new AutoNumeric('#property-value', amountConfig);
 const totalRentSquareFeet = new AutoNumeric('#total-rent-square-feet', {
-  decimalPlaces: 2,
-  decimalPlacesRawValue: 2,
+  decimalPlaces: 0,
+  decimalPlacesRawValue: 0,
   minimumValue: "0",
   maximumValue: "10000000000",
   modifyValueOnWheel: false
 });
-const averageRentPerSquareFoot = new AutoNumeric('#av-rent-per-sq-foot', amountConfig);
+const averageRentPerSquareFoot = new AutoNumeric('#av-rent-per-sq-foot', { ...amountConfig, decimalPlaces: 2, decimalPlacesRawValue: 2});
 // Effective Gross Income
 const vacanyCreditLoss = document.getElementById('vacany-credit-loss');
 const otherIncome = new AutoNumeric('#other-income', amountConfig);
@@ -73,12 +73,6 @@ const calculateEffectiveGrossIncome = () => {
   const otherIncomeValue = otherIncome.rawValue;
   const grossPotentialIncomeValue = parseFloat(grossPotentialIncome.innerText.replace(/\$|,/g, ''));
   let effectiveGrossIncomeValue = Math.round(grossPotentialIncomeValue);
-  
-  if (vacancyCreditLossValue) {
-    resultantVacany.innerText = parseFloat(vacanyCreditLoss.value) + "%";
-  } else {
-    resultantVacany.innerText = '0%';
-  }
 
   if (otherIncomeValue) {
     resultantOtherIncome.innerText = "$" + otherIncome.domElement.value;
@@ -92,7 +86,9 @@ const calculateEffectiveGrossIncome = () => {
   }
   
   if (vacancyCreditLossValue && grossPotentialIncomeValue) {
-    effectiveGrossIncomeValue -= Math.round(grossPotentialIncomeValue * vacancyCreditLossValue / 100);
+    let resultantVacanyValue = Math.round(grossPotentialIncomeValue * vacancyCreditLossValue / 100);
+    effectiveGrossIncomeValue -= resultantVacanyValue;
+    resultantVacany.innerText = "$" + numberWithCommas(resultantVacanyValue);
     effectiveGrossIncome.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
     resultantEGI.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
   }
@@ -115,17 +111,10 @@ const updateResultantTotalExpenses = (element) => {
   let isManagementFee = resultantId === 'resultant-management-fee';
   
   if (value) {
-    if (isManagementFee) {
-      resultant.innerText = value + '%';
-    } else {
-      resultant.innerText = "$" + value;
-    }
+    if (isManagementFee) return;
+    resultant.innerText = "$" + value;
   } else {
-    if (isManagementFee) {
-      resultant.innerText = '0.0%';
-    } else {
-      resultant.innerText = '$0';
-    }
+    resultant.innerText = '$0';
   }
 }
 /*
@@ -135,10 +124,12 @@ const updateResultantTotalExpenses = (element) => {
 const calculateManagementFee = () => {
   const managementFeeValue = parseFloat(managementFee.value);
   const effectiveGrossIncomeValue = parseFloat(effectiveGrossIncome.innerText.replace(/\$|,/g, ''));
+  const resultantManagementFee = document.getElementById('resultant-management-fee');
   let netManagementFee = 0;
 
   if (managementFeeValue && effectiveGrossIncomeValue) {
     netManagementFee = (effectiveGrossIncomeValue * managementFeeValue / 100).toFixed(2);
+    resultantManagementFee.innerText = "$" + numberWithCommas(Math.round(netManagementFee));
   }
 
   return parseFloat(netManagementFee);
