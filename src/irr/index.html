@@ -19,12 +19,12 @@
         <div class="card-input">
           <h3>Dynamic IRR Calculator</h3>
   
-          <div class="input-container percent">
+          <!-- <div class="input-container percent">
             <div class="input-label">
               <label for="interest-rate">Interest Rate</label>
             </div>  
             <input type="number" name="interest-rate" id="interest-rate" class="float-field validate-percent" placeholder="0.0" step="0.01">
-          </div>
+          </div> -->
   
           <div class="input-container">
             <div class="input-label">
@@ -42,10 +42,10 @@
           <h3 class="card-result-head">Calculated Result</h3>
   
           <div class="card-result-inner">
-            <div class="row">
+            <!-- <div class="row">
               <h4>Interest Rate</h4>
               <h4 id="resultant-interest-rate">0.0%</h4>
-            </div>
+            </div> -->
   
             <div class="row">
               <h4>Number of Periods</h4>
@@ -60,7 +60,7 @@
               <div class="resultant-cash-flow-container"></div>
             </div>
   
-            <div class="row">
+            <!-- <div class="row">
               <h4 style="font-weight: 700; color: #1E73BE;">Present Value (PV)</h4>
               <h4 id="resultant-pv" style="font-weight: 700; color: #1E73BE;">$0</h4>
             </div>
@@ -68,7 +68,7 @@
             <div class="row">
               <h4 style="font-weight: 700; color: #1E73BE;">Net Present Value (NPV)</h4>
               <h4 id="resultant-npv" style="font-weight: 700; color: #1E73BE;">$0</h4>
-            </div>
+            </div> -->
           </div>
   
           <div class="cap-rate">
@@ -76,6 +76,15 @@
             <h3 id="irr">0.0%</h3>
           </div>
         </div>  
+      </div>
+
+      <div class="share-result-container">
+        <button id="share-result">Share Result</button>
+        <input type="text" id="share-link" />
+        <span id="copy-text">
+          <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clipboard" class="svg-inline--fa fa-clipboard fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M384 112v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h80c0-35.29 28.71-64 64-64s64 28.71 64 64h80c26.51 0 48 21.49 48 48zM192 40c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24m96 114v-20a6 6 0 0 0-6-6H102a6 6 0 0 0-6 6v20a6 6 0 0 0 6 6h180a6 6 0 0 0 6-6z"></path></svg>
+          <div class="tooltip">Copy to clipboard</div>
+        </span>
       </div>
     </div>
   </div>

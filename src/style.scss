@@ -85,7 +85,7 @@ $subHeadSize: 1.2em;
     content: '$';
     position: absolute;
     left: 14px;
-    top: 34px;
+    top: 32px;
     font-size: 1.25rem;
   }
 
@@ -169,6 +169,107 @@ $subHeadSize: 1.2em;
     @media screen and (max-width: 768px) {
       h3 {
         font-size: 1.25rem;
+      }
+    }
+  }
+}
+
+@mixin share-result() {
+  .share-result-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
+      
+    button {
+      width: 11rem;
+      height: 4rem;
+      padding: 1.5rem 1rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-family: 'Assistant', sans-serif;
+      border: none;
+      border-radius: 0.5rem;
+      background-color: rgb(254, 144, 0);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      &:hover {
+        background-color: darken(rgb(254, 144, 0), 5%);
+      }
+
+      @media screen and (max-width: 768px) {
+        width: 75%;
+        font-size: 1.125rem;
+      }
+    }
+
+    input {
+      width: 0%;
+      height: 3.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      color: $primaryColor;
+      box-shadow: 1px 2px 4px 1px rgba(254, 144, 0, 0.25);
+      font-size: 1.5rem;
+      transition: all 1s ease-in;
+
+      &:focus {
+        outline: 1px solid rgba(254, 144, 0, 0.25);
+      }
+    }
+
+    span {
+      opacity: 0;
+      height: 3.5rem;
+      aspect-ratio: 1;
+      color: orange;
+      padding: 0.75rem 1rem;
+      box-shadow: 1px 1px 8px 1px rgba(254, 144, 0, 0.25);
+      border-radius: 0.5rem;
+      cursor: pointer;
+      position: relative;
+
+      .tooltip {
+        visibility: hidden;
+        width: 140px;
+        background-color: rgba(254, 144, 0, 0.75);
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 120%;
+        left: 50%;
+        margin-left: -75px;
+        opacity: 0;
+        transition: opacity 0.3s;
+      
+        &::after {
+          content: "";
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          margin-left: -5px;
+          border-width: 5px;
+          border-style: solid;
+          border-color: rgba(254, 144, 0, 0.75) transparent transparent transparent;
+        }
+      }
+
+      &:hover { 
+        .tooltip {
+          visibility: visible;
+          opacity: 1;
+        }
+        background-color: rgba(254, 144, 0, 0.5);
+        color: rgba(255, 255, 255, 0.75);
       }
     }
   }

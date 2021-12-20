@@ -54,6 +54,11 @@ nav {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1rem;
 }
 
 @media screen and (max-width: 1024px) {
@@ -184,7 +189,7 @@ nav {
   content: '$';
   position: absolute;
   left: 14px;
-  top: 34px;
+  top: 32px;
   font-size: 1.25rem;
 }
 
@@ -229,5 +234,127 @@ nav {
 .gordon-model-container .card-result .cap-rate {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+}
+
+.gordon-model-container .share-result-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 0.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .gordon-model-container .share-result-container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+.gordon-model-container .share-result-container button {
+  width: 11rem;
+  height: 4rem;
+  padding: 1.5rem 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: 'Assistant', sans-serif;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #fe9000;
+  color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  cursor: pointer;
+}
+
+.gordon-model-container .share-result-container button:hover {
+  background-color: #e58200;
+}
+
+@media screen and (max-width: 768px) {
+  .gordon-model-container .share-result-container button {
+    width: 75%;
+    font-size: 1.125rem;
+  }
+}
+
+.gordon-model-container .share-result-container input {
+  width: 0%;
+  height: 3.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  color: #1E73BE;
+  -webkit-box-shadow: 1px 2px 4px 1px rgba(254, 144, 0, 0.25);
+          box-shadow: 1px 2px 4px 1px rgba(254, 144, 0, 0.25);
+  font-size: 1.5rem;
+  -webkit-transition: all 1s ease-in;
+  transition: all 1s ease-in;
+}
+
+.gordon-model-container .share-result-container input:focus {
+  outline: 1px solid rgba(254, 144, 0, 0.25);
+}
+
+.gordon-model-container .share-result-container span {
+  opacity: 0;
+  height: 3.5rem;
+  aspect-ratio: 1;
+  color: orange;
+  padding: 0.75rem 1rem;
+  -webkit-box-shadow: 1px 1px 8px 1px rgba(254, 144, 0, 0.25);
+          box-shadow: 1px 1px 8px 1px rgba(254, 144, 0, 0.25);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.gordon-model-container .share-result-container span .tooltip {
+  visibility: hidden;
+  width: 140px;
+  background-color: rgba(254, 144, 0, 0.75);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 120%;
+  left: 50%;
+  margin-left: -75px;
+  opacity: 0;
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+}
+
+.gordon-model-container .share-result-container span .tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(254, 144, 0, 0.75) transparent transparent transparent;
+}
+
+.gordon-model-container .share-result-container span:hover {
+  background-color: rgba(254, 144, 0, 0.5);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.gordon-model-container .share-result-container span:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
 }
 /*# sourceMappingURL=style.css.map */

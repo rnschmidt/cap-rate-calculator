@@ -1,3 +1,7 @@
+const tooltip = document.querySelector('.tooltip');
+const copyText = document.getElementById('copy-text');
+const shareLink = document.getElementById('share-link');
+
 // configuration for autonumeric library (currency)
 export const amountConfig = {
   decimalPlaces: 0,
@@ -64,12 +68,66 @@ export const validateAmount = (e) => {
     removeErrorMessage(e);
   }
 }
+// Generate sharable link for the current page
+export const generateSharableLink = (url, elementArray) => { 
+  let params = new URLSearchParams(url.search);
+  
+  elementArray.forEach(element => {
+    const id = element?.domElement ? element.domElement.id : element.id;
+    const value = element?.domElement ? '$' + element.domElement.value : element.value;
 
+    if(value) {
+      if (params.has(id)) {
+        params.set(id, value);
+      } else {
+        params.append(id, value);
+      }
+    }
+  });
+
+  return 'http://' + url.host + url.pathname + '?' + params.toString();
+}
+// Get parmaeter values from URL and insert into respective fields and calculate result by calling required function
+export const parseFromUrl = (link, callBackArray) => {
+  let url = new URL(link);
+  const params = new URLSearchParams(url.search);
+
+  params.forEach((value, key) => {
+    let element = document.getElementById(key);
+    
+    if (value.includes('$')) {
+      AutoNumeric.set(element, value.replace(/\$|,/g, ''));
+    } else {
+      element.value = value;
+    }
+  });
+
+  callBackArray.forEach(callback => callback());
+}
+// copy text to clipboard
+export const copyToClipboard = (copyText) => {
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /* For mobile devices */
+   /* Copy the text inside the text field */
+  navigator.clipboard.writeText(copyText.value);
+}
+// Add event listener to input fields to validate amount
 document.querySelectorAll('.validate-amount').forEach(element => element.addEventListener('input', validateAmount, false));
 // Add event listner to all input fields to accept upto 2 decimal places
 document.querySelectorAll('.float-field').forEach(element => element.addEventListener('input', validateFloating, false));
 // Add event listner to validate percent value to keep between between 0 and 100
 document.querySelectorAll('.validate-percent').forEach(element => element.addEventListener('input', validatePercentage, false));
+// Add event listner to copy Text to Clipboard
+copyText.addEventListener('click', async () => {
+  copyToClipboard(shareLink);
+  tooltip.innerText = 'Copied!'
+  setTimeout(() => {
+    tooltip.innerText = 'Copy to clipboard';
+    shareLink.style.width = '0%';
+    shareLink.style.padding = '0';
+    copyText.style.opacity = '0';
+  }, 1500);
+});
 
 const InternalPV = (values, guess) => {
   guess = typeof guess === "undefined" ? 0.1 : guess;

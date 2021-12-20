@@ -2,7 +2,7 @@
 
 import { IRR, NPV, insertErrorMessage, removeErrorMessage, numberWithCommas } from "../utils/utils.js";
 
-const interestRate = document.getElementById('interest-rate');
+// const interestRate = document.getElementById('interest-rate');
 const numberOfPeriods = document.getElementById('number-of-periods');
 
 const cashFlowContainer = document.querySelector('.cash-flow-container');
@@ -10,8 +10,8 @@ const resultantCashFlowContainer = document.querySelector('.resultant-cash-flow-
 
 const resultantInterestRate = document.getElementById('resultant-interest-rate');
 const resultantNumberOfPeriods = document.getElementById('resultant-number-of-periods');
-const resultantPV = document.getElementById('resultant-pv');
-const resultantNPV = document.getElementById('resultant-npv');
+// const resultantPV = document.getElementById('resultant-pv');
+// const resultantNPV = document.getElementById('resultant-npv');
 const resultantIRR = document.getElementById('irr');
 
 let cashFlows = new Array(21).fill(0);
@@ -65,16 +65,16 @@ const getCashFlowInput = (number, value) => {
   const inputLabel = document.createElement('div');
   inputLabel.classList.add('input-label');
   const label = document.createElement('label');
+  const year = document.createElement('span');
+  year.innerText = 'Year ';
+  label.appendChild(year);
   const numberText = document.createElement('span');
   numberText.innerText = number;
   label.appendChild(numberText);
-  const superscript = document.createElement('sup');
-  superscript.classList.add('superscript');
-  superscript.innerText = getSuperScript(number);
-  label.appendChild(superscript);
-  const year = document.createElement('span');
-  year.innerText = ' Year';
-  label.appendChild(year);
+  // const superscript = document.createElement('sup');
+  // superscript.classList.add('superscript');
+  // superscript.innerText = getSuperScript(number);
+  // label.appendChild(superscript);
   inputLabel.appendChild(label);
   const input = document.createElement('input');
   input.id = `${number}${getSuperScript(number)}-year`;
@@ -92,7 +92,7 @@ const getCashFlowInput = (number, value) => {
     updateCashFlow(number, parseInt(autoInput.rawValue));
     updateResultantCashFlow(number, autoInput.domElement.value);
     calculateIRR();
-    calculateNPV();
+    // calculateNPV();
   });
   inputContainer.appendChild(inputLabel);
   inputContainer.appendChild(input);
@@ -131,7 +131,7 @@ const updateCashFlowContainer = () => {
   }
 
   calculateIRR();
-  calculateNPV();
+  // calculateNPV();
 }
 
 const calculateIRR = () => {
@@ -175,7 +175,7 @@ const calculateNPV = () => {
   }
 }
 
-interestRate.addEventListener('input', calculateNPV);
+// interestRate.addEventListener('input', calculateNPV);
 numberOfPeriods.addEventListener('input', (e) => {
   validateNumberOfPeriods(e);
   updateCashFlowContainer();

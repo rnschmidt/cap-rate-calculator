@@ -1,5 +1,5 @@
 // Maximum Supportable Loan Amount
-import { amountConfig, numberWithCommas } from "../utils/utils.js";
+import { amountConfig, insertErrorMessage, numberWithCommas, removeErrorMessage } from "../utils/utils.js";
 // Inputs
 const underwrittenNetOperatingIncome = new AutoNumeric('#underwritten-net-operating-income', amountConfig);
 const underwrittenCapRate = document.getElementById('underwritten-cap-rate');
@@ -209,6 +209,22 @@ const calculateMaxSupportableLoanAmount = () => {
   }
   maxSupportableLoanAmount.innerText = '$' + numberWithCommas(maxSupportableLoanAmountValue);
 }
+/*
+  # Validating the DSCR Requirement
+  # DSCR Requirement can take values from 0 to 3 (inclusive)
+  # Only two decimal places are allowed
+*/
+const validateDSCRRequirement = (e) => { 
+  let value = e.target.value;
+
+  if (value >= 0 && value <= 3) {
+    e.target.value = value;
+    removeErrorMessage(e);
+  } else { 
+    insertErrorMessage(e, 'DSCR Requirement must be between 0 and 3 (inclusive)');
+    e.target.value = '';
+  }
+}
 // Event Listeners
 underwrittenNetOperatingIncome.domElement.addEventListener('input', () => {
   calculateValueAtCapRate();
@@ -217,7 +233,10 @@ underwrittenNetOperatingIncome.domElement.addEventListener('input', () => {
 });
 underwrittenCapRate.addEventListener('input', calculateValueAtCapRate);
 maximumLTV.addEventListener('input', calculateMaximumSupportableLoanAmountPerLTV);
-dscrRequirement.addEventListener('input', calculateAllowableDebtService);
+dscrRequirement.addEventListener('input', (e) => {
+  validateDSCRRequirement(e);
+  calculateAllowableDebtService();
+});
 interestRate.addEventListener('input', calculateMaximumSupportableLoanAmountPerDSCR);
 loanAmortization.domElement.addEventListener('input', calculateMaximumSupportableLoanAmountPerDSCR);
 loanTermPeriod.addEventListener('change', calculateMaximumSupportableLoanAmountPerDSCR);
