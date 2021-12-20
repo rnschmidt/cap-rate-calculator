@@ -184,7 +184,8 @@ nav {
   content: '$';
   position: absolute;
   left: 14px;
-  top: 35px;
+  top: 34px;
+  font-size: 1.25rem;
 }
 
 .gordon-model-container .card-inner-input .percent::after {

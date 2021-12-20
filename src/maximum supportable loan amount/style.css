@@ -195,7 +195,8 @@ nav {
   content: '$';
   position: absolute;
   left: 14px;
-  top: 35px;
+  top: 34px;
+  font-size: 1.25rem;
 }
 
 .maximum-supportable-loan-amount-container .cards .card-input .percent::after {

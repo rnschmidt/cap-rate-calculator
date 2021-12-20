@@ -50,7 +50,7 @@ nav {
   font-weight: 400;
 }
 
-.band-of-investment-container .cards {
+.dynamic-irr-container .cards {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -68,7 +68,7 @@ nav {
 }
 
 @media screen and (max-width: 1024px) {
-  .band-of-investment-container .cards {
+  .dynamic-irr-container .cards {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
@@ -76,7 +76,7 @@ nav {
   }
 }
 
-.band-of-investment-container .cards .card-input, .band-of-investment-container .cards .card-result {
+.dynamic-irr-container .cards .card-input, .dynamic-irr-container .cards .card-result {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -91,7 +91,8 @@ nav {
   max-width: 48rem;
   min-width: 21rem;
   width: 100%;
-  height: 35.6rem;
+  min-height: 25rem;
+  height: 100%;
   border-style: solid;
   border-width: 4px 0;
   border-top-right-radius: 0.75rem;
@@ -101,25 +102,24 @@ nav {
 }
 
 @media screen and (max-width: 1024px) {
-  .band-of-investment-container .cards .card-input, .band-of-investment-container .cards .card-result {
+  .dynamic-irr-container .cards .card-input, .dynamic-irr-container .cards .card-result {
     min-width: 95%;
     width: 95%;
-    height: 39rem;
   }
 }
 
 @media screen and (max-width: 768px) {
-  .band-of-investment-container .cards .card-input, .band-of-investment-container .cards .card-result {
+  .dynamic-irr-container .cards .card-input, .dynamic-irr-container .cards .card-result {
     border-top-left-radius: 0.75rem;
   }
 }
 
-.band-of-investment-container .cards .card-input {
+.dynamic-irr-container .cards .card-input {
   padding: 1rem;
   border-color: #bcbcbc;
 }
 
-.band-of-investment-container .cards .card-input .input-container {
+.dynamic-irr-container .cards .card-input .input-container {
   position: relative;
   /* Hide Arrows/Spinners */
   /* Chrome, Safari, Edge, Opera */
@@ -127,16 +127,16 @@ nav {
 }
 
 @media screen and (max-width: 768px) {
-  .band-of-investment-container .cards .card-input .input-container {
+  .dynamic-irr-container .cards .card-input .input-container {
     width: 100%;
   }
 }
 
-.band-of-investment-container .cards .card-input .input-container .required {
+.dynamic-irr-container .cards .card-input .input-container .required {
   position: relative;
 }
 
-.band-of-investment-container .cards .card-input .input-container .required::after {
+.dynamic-irr-container .cards .card-input .input-container .required::after {
   content: '*';
   position: absolute;
   top: -2px;
@@ -144,7 +144,7 @@ nav {
   color: tomato;
 }
 
-.band-of-investment-container .cards .card-input .input-container input {
+.dynamic-irr-container .cards .card-input .input-container input {
   min-width: 20rem;
   padding: 0.5rem 1.5rem;
   border: 1px solid #afafaf;
@@ -154,44 +154,44 @@ nav {
 }
 
 @media screen and (max-width: 1200px) {
-  .band-of-investment-container .cards .card-input .input-container input {
+  .dynamic-irr-container .cards .card-input .input-container input {
     min-width: 18rem;
   }
 }
 
 @media screen and (max-width: 1024px) {
-  .band-of-investment-container .cards .card-input .input-container input {
+  .dynamic-irr-container .cards .card-input .input-container input {
     min-width: 24rem;
   }
 }
 
 @media screen and (max-width: 768px) {
-  .band-of-investment-container .cards .card-input .input-container input {
+  .dynamic-irr-container .cards .card-input .input-container input {
     min-width: 100%;
   }
 }
 
-.band-of-investment-container .cards .card-input .input-container input:focus, .band-of-investment-container .cards .card-input .input-container input:hover {
+.dynamic-irr-container .cards .card-input .input-container input:focus, .dynamic-irr-container .cards .card-input .input-container input:hover {
   border-color: #1E73BE;
   -webkit-box-shadow: 0px 1px 4px 1px #cbe2f7;
           box-shadow: 0px 1px 4px 1px #cbe2f7;
 }
 
-.band-of-investment-container .cards .card-input .input-container input::-webkit-outer-spin-button,
-.band-of-investment-container .cards .card-input .input-container input::-webkit-inner-spin-button {
+.dynamic-irr-container .cards .card-input .input-container input::-webkit-outer-spin-button,
+.dynamic-irr-container .cards .card-input .input-container input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
-.band-of-investment-container .cards .card-input .input-container input[type=number] {
+.dynamic-irr-container .cards .card-input .input-container input[type=number] {
   -moz-appearance: textfield;
 }
 
-.band-of-investment-container .cards .card-input .input-container .error-label {
+.dynamic-irr-container .cards .card-input .input-container .error-label {
   color: tomato;
   font-size: 0.75rem;
 }
 
-.band-of-investment-container .cards .card-input .dollar::before {
+.dynamic-irr-container .cards .card-input .dollar::before {
   content: '$';
   position: absolute;
   left: 14px;
@@ -199,129 +199,44 @@ nav {
   font-size: 1.25rem;
 }
 
-.band-of-investment-container .cards .card-input .percent::after {
+.dynamic-irr-container .cards .card-input .percent::after {
   content: '%';
   position: absolute;
   right: 20px;
   top: 35px;
 }
 
-.band-of-investment-container .cards .card-input .loan-term-container {
+.dynamic-irr-container .cards .card-input input {
+  width: 100%;
+}
+
+.dynamic-irr-container .cards .card-input .cash-flow-container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  gap: 0.5rem;
 }
 
-.band-of-investment-container .cards .card-input .loan-term-container .toggle-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  gap: 0.5rem;
+.dynamic-irr-container .cards .card-input .cash-flow-container input {
+  min-width: 16rem;
 }
 
-.band-of-investment-container .cards .card-input .loan-term-container .toggle-container .switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
-.band-of-investment-container .cards .card-input .loan-term-container .toggle-container .switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.band-of-investment-container .cards .card-input .loan-term-container .toggle-container .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #73b1e9;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.band-of-investment-container .cards .card-input .loan-term-container .toggle-container .slider::before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.band-of-investment-container .cards .card-input .loan-term-container .toggle-container input:checked + .slider {
-  background-color: #73b1e9;
-}
-
-.band-of-investment-container .cards .card-input .loan-term-container .toggle-container input:focus + .slider {
-  -webkit-box-shadow: 0 0 1px #73b1e9;
-          box-shadow: 0 0 1px #73b1e9;
-}
-
-.band-of-investment-container .cards .card-input .loan-term-container .toggle-container input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-.band-of-investment-container .cards .card-input .loan-term-container .toggle-container .round {
-  border-radius: 34px;
-}
-
-.band-of-investment-container .cards .card-input .loan-term-container .toggle-container .round::before {
-  border-radius: 50%;
-}
-
-.band-of-investment-container .cards .card-input input {
-  width: 100%;
-}
-
-.band-of-investment-container .cards .card-input .row {
-  width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  background: #e7e7e7;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-}
-
-.band-of-investment-container .cards .card-result {
+.dynamic-irr-container .cards .card-result {
   border-color: #73b1e9;
 }
 
-.band-of-investment-container .cards .card-result-head {
+.dynamic-irr-container .cards .card-result-head {
   padding: 1rem 1rem 0;
 }
 
-.band-of-investment-container .cards .card-result-inner {
+.dynamic-irr-container .cards .card-result-inner {
   padding: 1rem;
-  height: 65%;
+  min-height: 17rem;
+  height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -331,9 +246,10 @@ nav {
           flex-direction: column;
   -ms-flex-pack: distribute;
       justify-content: space-around;
+  gap: 0.4rem;
 }
 
-.band-of-investment-container .cards .card-result-inner .row {
+.dynamic-irr-container .cards .card-result-inner .row {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -346,12 +262,31 @@ nav {
           justify-content: space-between;
 }
 
-.band-of-investment-container .cards .card-result-inner .row h4 {
-  font-size: 1rem;
+.dynamic-irr-container .cards .card-result-inner .row h4 {
+  font-size: 1.125rem;
   font-weight: 600;
 }
 
-.band-of-investment-container .cards .card-result .cap-rate {
+.dynamic-irr-container .cards .card-result-inner .resultant-cash-flow-head, .dynamic-irr-container .cards .card-result-inner .resultant-cash-flow-container {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.dynamic-irr-container .cards .card-result-inner .resultant-cash-flow-head h4, .dynamic-irr-container .cards .card-result-inner .resultant-cash-flow-container h4 {
+  width: 50%;
+  border: 1px solid #cbe2f7;
+  padding: 0.25rem 0.5rem;
+}
+
+.dynamic-irr-container .cards .card-result-inner .resultant-cash-flow-head {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #d8e9f9;
+}
+
+.dynamic-irr-container .cards .card-result .cap-rate {
   height: 20%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -368,7 +303,7 @@ nav {
 }
 
 @media screen and (max-width: 768px) {
-  .band-of-investment-container .cards .card-result .cap-rate h3 {
+  .dynamic-irr-container .cards .card-result .cap-rate h3 {
     font-size: 1.25rem;
   }
 }

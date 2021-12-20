@@ -163,7 +163,8 @@ nav {
   content: '$';
   position: absolute;
   left: 14px;
-  top: 35px;
+  top: 34px;
+  font-size: 1.25rem;
 }
 
 .simple-ratio-container .inputs .percent::after {
