@@ -203,6 +203,11 @@ $subHeadSize: 1.2em;
         background-color: darken(rgb(254, 144, 0), 5%);
       }
 
+      @media screen and (max-width: 1200px) {
+        width: 50%;
+        font-size: 1.25rem;
+      }
+
       @media screen and (max-width: 768px) {
         width: 75%;
         font-size: 1.125rem;
