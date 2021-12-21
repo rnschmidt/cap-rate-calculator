@@ -43,4 +43,5 @@ shareResultButton.addEventListener('click', () => {
   shareLink.style.padding = '0.5rem';
   copyText.style.opacity = '1';
 });
+
 parseFromUrl(window.location.href, [calculateGordonModelCapRate]);

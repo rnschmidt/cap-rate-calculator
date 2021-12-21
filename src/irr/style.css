@@ -69,9 +69,6 @@ nav {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -98,12 +95,14 @@ nav {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
   gap: 0.75rem;
   max-width: 48rem;
   min-width: 21rem;
   width: 100%;
   min-height: 16rem;
-  height: 100%;
   border-style: solid;
   border-width: 4px 0;
   border-top-right-radius: 0.75rem;
@@ -232,10 +231,61 @@ nav {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  gap: 0.5rem;
 }
 
-.dynamic-irr-container .cards .card-input .dollar::before {
-  top: 34px;
+.dynamic-irr-container .cards .card-input .cash-flow-container .input-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  gap: 1rem;
+}
+
+.dynamic-irr-container .cards .card-input .cash-flow-container .input-container .input-wrapper {
+  width: 80%;
+}
+
+.dynamic-irr-container .cards .card-input .cash-flow-container .input-container .input-wrapper input {
+  width: 100%;
+  position: relative;
+}
+
+.dynamic-irr-container .cards .card-input .cash-flow-container .input-container .input-wrapper span {
+  font-size: 1.25rem;
+  position: absolute;
+  top: 5px;
+  left: 20%;
+  z-index: 1;
+}
+
+@media screen and (max-width: 1024px) {
+  .dynamic-irr-container .cards .card-input .cash-flow-container .input-container .input-wrapper span {
+    left: 18%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .dynamic-irr-container .cards .card-input .cash-flow-container .input-container .input-wrapper span {
+    left: 19%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .dynamic-irr-container .cards .card-input .cash-flow-container .input-container .input-wrapper span {
+    left: 23%;
+  }
+}
+
+@media screen and (max-width: 376px) {
+  .dynamic-irr-container .cards .card-input .cash-flow-container .input-container .input-wrapper span {
+    left: 26%;
+    top: 10px;
+  }
 }
 
 .dynamic-irr-container .cards .card-result {
@@ -273,6 +323,7 @@ nav {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  min-height: 44px;
 }
 
 .dynamic-irr-container .cards .card-result-inner .row h4 {
@@ -289,7 +340,7 @@ nav {
 .dynamic-irr-container .cards .card-result-inner .resultant-cash-flow-head h4, .dynamic-irr-container .cards .card-result-inner .resultant-cash-flow-container h4 {
   width: 50%;
   border: 1px solid #cbe2f7;
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem;
 }
 
 .dynamic-irr-container .cards .card-result-inner .resultant-cash-flow-head {
@@ -321,6 +372,10 @@ nav {
   }
 }
 
+.dynamic-irr-container .cards .card-result .cap-rate {
+  height: auto;
+}
+
 .dynamic-irr-container .share-result-container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -329,6 +384,15 @@ nav {
       -ms-flex-align: center;
           align-items: center;
   gap: 0.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .dynamic-irr-container .share-result-container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
 }
 
 .dynamic-irr-container .share-result-container button {
@@ -360,7 +424,7 @@ nav {
 
 @media screen and (max-width: 768px) {
   .dynamic-irr-container .share-result-container button {
-    width: 8rem;
+    width: 75%;
     font-size: 1.125rem;
   }
 }

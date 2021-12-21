@@ -282,13 +282,6 @@ nav {
   background-color: #e58200;
 }
 
-@media screen and (max-width: 1200px) {
-  .gordon-model-container .share-result-container button {
-    width: 50%;
-    font-size: 1.25rem;
-  }
-}
-
 @media screen and (max-width: 768px) {
   .gordon-model-container .share-result-container button {
     width: 75%;

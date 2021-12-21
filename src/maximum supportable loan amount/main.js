@@ -1,5 +1,5 @@
 // Maximum Supportable Loan Amount
-import { amountConfig, insertErrorMessage, numberWithCommas, removeErrorMessage } from "../utils/utils.js";
+import { amountConfig, generateSharableLink, insertErrorMessage, numberWithCommas, parseFromUrl, removeErrorMessage } from "../utils/utils.js";
 // Inputs
 const underwrittenNetOperatingIncome = new AutoNumeric('#underwritten-net-operating-income', amountConfig);
 const underwrittenCapRate = document.getElementById('underwritten-cap-rate');
@@ -30,6 +30,11 @@ const resultantDscrRequirement = document.getElementById('resultant-dscr-require
 const resultantInterestRate = document.getElementById('resultant-interest-rate');
 const resultantLoanAmortization = document.getElementById('resultant-loan-amortization');
 const resultantUnderwrittenDebtYield = document.getElementById('resultant-underwritten-debt-yield');
+// Shareable link
+const shareResultButton = document.getElementById('share-result');
+const shareLink = document.getElementById('share-link');
+const copyText = document.getElementById('copy-text');
+const url = new URL(window.location.href);
 /*
  # Calculate the Value @ Cap Rate
  # Value @ Cap Rate = underwritten net operating income / underwritten cap rate
@@ -152,8 +157,8 @@ const calculateMaximumSupportableLoanAmountPerDSCR = () => {
     resultantLoanAmortization.innerText = '0';
   }
 
-  if (interestRateValue && termValue && allowableDebtServiceValue) { 
-    let maxSupportableLoanAmountPerDSCRValue = Math.round(PV(interestRateValue / 1200, termValue, allowableDebtServiceValue / 12));
+  if (interestRateValue && loanAmortizationValue && allowableDebtServiceValue) { 
+    let maxSupportableLoanAmountPerDSCRValue = Math.round(PV(interestRateValue / 1200, loanAmortizationValue, allowableDebtServiceValue / 12));
     maxSupportableLoanAmountPerDSCR.innerText = '$' + numberWithCommas(maxSupportableLoanAmountPerDSCRValue);
   } else {
     maxSupportableLoanAmountPerDSCR.innerText = '$0';
@@ -240,4 +245,34 @@ dscrRequirement.addEventListener('input', (e) => {
 interestRate.addEventListener('input', calculateMaximumSupportableLoanAmountPerDSCR);
 loanAmortization.domElement.addEventListener('input', calculateMaximumSupportableLoanAmountPerDSCR);
 loanTermPeriod.addEventListener('change', calculateMaximumSupportableLoanAmountPerDSCR);
+// Event Listeners for changing Loan Term Period Value
+loanTermPeriod.addEventListener('input', () => {
+  if (loanTermPeriod.checked) {
+    loanTermPeriod.value = 'Monthly';
+  } else {
+    loanTermPeriod.value = 'Yearly';
+  }
+});
 underwrittenDebtYield.addEventListener('input', calculateMaxSupportableLoanAmountPerDebtYield);
+// Event Listners for generating sharable link and copy link to clipboard
+shareResultButton.addEventListener('click', () => {
+  let link = generateSharableLink(url, [underwrittenNetOperatingIncome, underwrittenCapRate, underwrittenDebtYield, interestRate, dscrRequirement, maximumLTV, loanTermPeriod, loanAmortization]);
+  shareLink.value = link;
+  shareLink.style.width = '75%';
+  shareLink.style.padding = '0.5rem';
+  copyText.style.opacity = '1';
+});
+// Get parmas from url
+const params = new URLSearchParams(url.search);
+// Toggle checkbox based on url params
+if (params.has('loan-term-period')) {
+  let value = params.get('loan-term-period');
+  
+  if (value === 'Monthly') {
+    loanTermPeriod.checked = true;
+  } else {
+    loanTermPeriod.checked = false;
+  }
+}
+// Populating input fields for sharable link and calculating the result
+parseFromUrl(window.location.href, [calculateValueAtCapRate, calculateAllowableDebtService, calculateMaxSupportableLoanAmountPerDebtYield]);

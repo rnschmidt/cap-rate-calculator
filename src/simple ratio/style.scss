@@ -1,180 +1,188 @@
 @import "../style.scss";
 
 .simple-ratio-container {
-  @include flex-row();
-  gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 
-  @media screen and (max-width: 1024px) {
-    flex-direction: column;
-    align-items: center;
-  }
+  .simple-ratio-cards {
+    @include flex-row();
+    gap: 2rem;
 
-  .inputs {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-
-    @include input-container();
-
-    .row {
-      width: 100%;
-      @include flex-row();
-      justify-content: space-between;
-      background: lighten($secondaryColor, 42%);
-      padding: 0.5rem;
-      border-radius: 0.5rem;
-      @media screen and (max-width: 768px) {
-        h4 {
-          font-size: 0.75rem;
-        }
-      }
+    @media screen and (max-width: 1024px) {
+      flex-direction: column;
+      align-items: center;
     }
 
-    .property-value {
-      width: 100%;
-      @include flex-row();
+    .inputs {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       gap: 1rem;
-      
-      @media screen and (max-width: 1200px) {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      &-inner {
-        max-width: 24rem;
-        min-width: 24rem;
+
+      @include input-container();
+
+      .row {
         width: 100%;
+        @include flex-row();
+        justify-content: space-between;
+        background: lighten($secondaryColor, 42%);
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        @media screen and (max-width: 768px) {
+          h4 {
+            font-size: 0.75rem;
+          }
+        }
+      }
+
+      .property-value {
+        width: 100%;
+        @include flex-row();
+        gap: 1rem;
+        
+        @media screen and (max-width: 1200px) {
+          flex-direction: column;
+          align-items: center;
+        }
+        
+        &-inner {
+          max-width: 24rem;
+          min-width: 24rem;
+          width: 100%;
+          padding: 0.75rem 1rem;
+          border-style: solid;
+          border-width: 4px 0;
+          border-color: lighten($secondaryColor, 25%);
+          border-top-right-radius: 0.75rem;
+          box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.25);
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          gap: 0.5rem;
+
+          @media screen and (max-width: 768px) {
+            border-top-left-radius: 0.75rem;
+          }
+
+          .input-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 0.5rem;
+          }
+
+          @media screen and (max-width: 1200px) {
+            min-width: unset;
+            max-width: unset;
+          }
+
+          @media screen and (max-width: 1024px) {
+            max-width: 95%;
+          }
+        }
+
+        &-left {
+        background-color: lighten($secondaryColor, 49%);
+        }
+
+        &-right {
+          background-color: lighten($secondaryColor, 49%);;
+        }
+      }
+
+      .operating-expenses {
+        max-width: 49rem;
         padding: 0.75rem 1rem;
         border-style: solid;
         border-width: 4px 0;
         border-color: lighten($secondaryColor, 25%);
         border-top-right-radius: 0.75rem;
         box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.25);
+        background-color: lighten($secondaryColor, 49%);
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: space-around;
         gap: 0.5rem;
+
+        @media screen and (max-width: 1024px) {
+          max-width: 95%;
+        }
 
         @media screen and (max-width: 768px) {
           border-top-left-radius: 0.75rem;
         }
 
-        .input-wrapper {
+        &-inner {
           display: flex;
           flex-wrap: wrap;
           justify-content: space-between;
           gap: 0.5rem;
         }
-
-        @media screen and (max-width: 1200px) {
-          min-width: unset;
-          max-width: unset;
-        }
-
-        @media screen and (max-width: 1024px) {
-          max-width: 95%;
-        }
-      }
-
-      &-left {
-       background-color: lighten($secondaryColor, 49%);
-      }
-
-      &-right {
-        background-color: lighten($secondaryColor, 49%);;
       }
     }
 
-    .operating-expenses {
-      max-width: 49rem;
-      padding: 0.75rem 1rem;
-      border-style: solid;
-      border-width: 4px 0;
-      border-color: lighten($secondaryColor, 25%);
-      border-top-right-radius: 0.75rem;
-      box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.25);
-      background-color: lighten($secondaryColor, 49%);
+    .result {
       display: flex;
       flex-direction: column;
-      justify-content: space-around;
-      gap: 0.5rem;
+      justify-content: space-between;
+      max-width: 24rem;
+      min-width: 21rem;
+      min-height: 41.7rem;
+      border-style: solid;
+      border-width: 4px 0;
+      border-color: lighten($primaryColor, 25%);
+      border-top-right-radius: 0.75rem;
+      background-color: lighten($secondaryColor, 49%);
+      box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.25);
+
+      @media screen and (max-width: 1200px) {
+        min-width: 24rem;
+        max-height: 50.7rem;
+      }
 
       @media screen and (max-width: 1024px) {
-        max-width: 95%;
+        min-width: 95%;
+        min-height: 0;
+        max-height: 100%;
       }
 
       @media screen and (max-width: 768px) {
         border-top-left-radius: 0.75rem;
       }
-
+      
       &-inner {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 0.5rem;
-      }
-    }
-  }
-
-  .result {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    max-width: 24rem;
-    min-width: 21rem;
-    min-height: 41.7rem;
-    border-style: solid;
-    border-width: 4px 0;
-    border-color: lighten($primaryColor, 25%);
-    border-top-right-radius: 0.75rem;
-    background-color: lighten($secondaryColor, 49%);
-    box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.25);
-
-    @media screen and (max-width: 1200px) {
-      min-width: 24rem;
-      max-height: 50.7rem;
-    }
-
-    @media screen and (max-width: 1024px) {
-      min-width: 95%;
-      min-height: 0;
-      max-height: 100%;
-    }
-
-    @media screen and (max-width: 768px) {
-      border-top-left-radius: 0.75rem;
-    }
-    
-    &-inner {
-      height: 88%;
-      padding: 1rem;
-      border-top-right-radius: 0.75rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-
-      .card {
-        margin-top: 1rem;
+        height: 88%;
+        padding: 1rem;
+        border-top-right-radius: 0.75rem;
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        justify-content: space-around;
 
-        .row {
-          @include flex-row();
-          justify-content: space-between;
+        .card {
+          margin-top: 1rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
 
-          h4 {
-            font-size: 1rem;
-            font-weight: 600;
+          .row {
+            @include flex-row();
+            justify-content: space-between;
+
+            h4 {
+              font-size: 1rem;
+              font-weight: 600;
+            }
           }
         }
       }
-    }
-  
-    @include cap-rate();
-    .cap-rate {
-      height: 10%;
+    
+      @include cap-rate();
+      .cap-rate {
+        height: 10%;
+      }
     }
   }
+
+  @include share-result();
 }

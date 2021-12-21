@@ -1,5 +1,5 @@
 /* ------------------------SIMPLE RATIO ------------------------------------- */
-import { numberWithCommas, insertErrorMessage, removeErrorMessage, amountConfig } from "../utils/utils.js";
+import { numberWithCommas, insertErrorMessage, removeErrorMessage, amountConfig, generateSharableLink, parseFromUrl } from "../utils/utils.js";
 
 // Gross Potential Income
 const propertyValue = new AutoNumeric('#property-value', amountConfig);
@@ -30,6 +30,11 @@ const resultantTotalExpenses = document.getElementById('resultant-total-expenses
 const netOperatingIncome = document.getElementById('net-operating-income');
 const resultantPropertyValue = document.getElementById('resultant-property-value');
 const capRate = document.getElementById('cap-rate');
+// Sharable Link
+const shareResultButton = document.getElementById('share-result');
+const shareLink = document.getElementById('share-link');
+const copyText = document.getElementById('copy-text');
+const url = new URL(window.location.href);
 
 // Validate Total Rent Square Feet to accept value less than or equal to 1,000,000,000
 const validateTotalRentSquareFeet = (e) => {
@@ -105,9 +110,9 @@ const calculateEffectiveGrossIncome = () => {
   # Update Total Expenses Property on Calculated Results
 */
 const updateResultantTotalExpenses = (element) => {
-  let resultantId = 'resultant-' + element.target.id;
+  let resultantId = 'resultant-' + (element.target ? element.target.id : element.id);
   let resultant = document.getElementById(resultantId);
-  let value = element.target.value;
+  let value = element.target ? element.target.value : element.value;
   let isManagementFee = resultantId === 'resultant-management-fee';
   
   if (value) {
@@ -210,3 +215,14 @@ managementFee.addEventListener('input', (e) => { calculateTotalExpenses(); updat
 // For all the input fileds required for expenses add event listener to trigger calculation of Total Expenses
 expenses.forEach(expense => new AutoNumeric(expense, amountConfig));
 expenses.forEach(expense => expense.addEventListener('input', (e) => { calculateTotalExpenses(); updateResultantTotalExpenses(e); }));
+
+shareResultButton.addEventListener('click', () => {
+  let link = generateSharableLink(url, [propertyValue,totalRentSquareFeet, averageRentPerSquareFoot, vacanyCreditLoss, otherIncome, managementFee, ...expenses]);
+  shareLink.value = link;
+  shareLink.style.width = '75%';
+  shareLink.style.padding = '0.5rem';
+  copyText.style.opacity = '1';
+});
+
+parseFromUrl(window.location.href, [calculateGrossPotentialIncome]);
+expenses.forEach(expense => updateResultantTotalExpenses(expense));

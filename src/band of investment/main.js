@@ -1,6 +1,6 @@
 /*------------------------------------- BAND OF INVESTMENT ------------------------------------------------ */
 
-import { insertErrorMessage, removeErrorMessage } from "../utils/utils.js";
+import { generateSharableLink, insertErrorMessage, parseFromUrl, removeErrorMessage } from "../utils/utils.js";
 
 // Inputs for Band of Investment
 const interestRate = document.getElementById('interest-rate');
@@ -24,6 +24,11 @@ const resultantEquityDividendRate = document.getElementById('resultant-equity-di
 const equityComponent = document.getElementById('equity-component');
 const indicatedCapitalizationRate = document.getElementById('indicated-capitalization-rate');
 const finalRoundedCapRate = document.getElementById('final-rounded-cap-rate');
+// Shareable link
+const shareResultButton = document.getElementById('share-result');
+const shareLink = document.getElementById('share-link');
+const copyText = document.getElementById('copy-text');
+const url = new URL(window.location.href);
 
 /*
   # Calculate Mortgage Loan Constant
@@ -131,7 +136,37 @@ compoundingPeriodsPerYear.addEventListener('input', validateCompoundingPeriodsPe
 loanTerm.domElement.addEventListener('input', validateLoanTerm, false);
 // Event Listeners for calculating Mortgage Loan Constant
 [interestRate, compoundingPeriodsPerYear, loanTerm.domElement, loanTermPeriod].forEach(element => element.addEventListener('input', (e) => { calculateMortgageLoanConstant(); }));
+// Event Listeners for changing Loan Term Period Value
+loanTermPeriod.addEventListener('input', () => {
+  if (loanTermPeriod.checked) {
+    loanTermPeriod.value = 'Monthly';
+  } else {
+    loanTermPeriod.value = 'Yearly';
+  }
+});
 // Event Listeners for calculating Mortgage Component
 loanValueRatio.addEventListener('input', (e) => { calculateDebtComponent(); });
 // Event Listeners for calculating Equity Component
 [loanValueRatio, equityDividendRate].forEach(element => element.addEventListener('input', (e) => { calculateEquityComponent(); }));
+// Event Listners for generating sharable link and copy link to clipboard
+shareResultButton.addEventListener('click', () => {
+  let link = generateSharableLink(url, [interestRate, compoundingPeriodsPerYear, loanValueRatio, loanTerm, loanTermPeriod, equityDividendRate]);
+  shareLink.value = link;
+  shareLink.style.width = '75%';
+  shareLink.style.padding = '0.5rem';
+  copyText.style.opacity = '1';
+});
+// Get parmas from url
+const params = new URLSearchParams(url.search);
+// Toggle checkbox based on url params
+if (params.has('loan-term-period')) {
+  let value = params.get('loan-term-period');
+  
+  if (value === 'Monthly') {
+    loanTermPeriod.checked = true;
+  } else {
+    loanTermPeriod.checked = false;
+  }
+}
+// Populating input fields for sharable link and calculating the result
+parseFromUrl(window.location.href, [calculateMortgageLoanConstant, calculateEquityComponent]);

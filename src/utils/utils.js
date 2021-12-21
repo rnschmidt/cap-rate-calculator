@@ -94,7 +94,7 @@ export const parseFromUrl = (link, callBackArray) => {
 
   params.forEach((value, key) => {
     let element = document.getElementById(key);
-    
+
     if (value.includes('$')) {
       AutoNumeric.set(element, value.replace(/\$|,/g, ''));
     } else {
