@@ -170,6 +170,36 @@ nav {
   font-size: 0.75rem;
 }
 
+.simple-ratio-container .simple-ratio-cards .inputs .input-container .label-container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.simple-ratio-container .simple-ratio-cards .inputs .input-container input[type=checkbox] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.simple-ratio-container .simple-ratio-cards .inputs .input-container .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
 .simple-ratio-container .simple-ratio-cards .inputs .dollar::before {
   content: '$';
   position: absolute;

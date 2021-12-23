@@ -4,6 +4,7 @@ import { IRR, NPV, insertErrorMessage, removeErrorMessage, numberWithCommas, par
 
 // const interestRate = document.getElementById('interest-rate');
 const numberOfPeriods = document.getElementById('number-of-periods');
+const allowMultipleInputs = document.getElementById('allow-multiple-inputs');
 
 const cashFlowContainer = document.querySelector('.cash-flow-container');
 const resultantCashFlowContainer = document.querySelector('.resultant-cash-flow-container');
@@ -100,8 +101,17 @@ const getCashFlowInput = (number, value) => {
   });
   elements.push(autoInput);
   input.addEventListener('input', () => {
-    updateCashFlow(number, parseInt(autoInput.rawValue) || 0);
-    updateResultantCashFlow(number, autoInput.domElement.value);
+    if (allowMultipleInputs.checked) {
+      for (let number = 0; number <= numberOfPeriods.value; number++) {
+        let element = document.getElementById(`${number}${getSuperScript(number)}-year`);
+        AutoNumeric.set(element, autoInput.rawValue);
+        updateCashFlow(number, parseInt(autoInput.rawValue) || 0);
+        updateResultantCashFlow(number, autoInput.domElement.value);
+      }      
+    } else {
+      updateCashFlow(number, parseInt(autoInput.rawValue) || 0);
+      updateResultantCashFlow(number, autoInput.domElement.value);
+    }
     calculateIRR();
     // calculateNPV();
   });
