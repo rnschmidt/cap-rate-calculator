@@ -225,8 +225,8 @@ shareResultButton.addEventListener('click', () => {
 const params = new URLSearchParams(url.search);
 const numberOfPeriodsValue = params.get('number-of-periods');
 
-numberOfPeriods.value = numberOfPeriodsValue || 1;
-updateResultantNumberOfPeriods(numberOfPeriodsValue);
+numberOfPeriods.value = numberOfPeriodsValue || 5;
+updateResultantNumberOfPeriods(numberOfPeriodsValue || 5);
 
 for (let period = 0; period <= numberOfPeriodsValue; period++) {
   let id = `${period}${getSuperScript(period)}-year`;
