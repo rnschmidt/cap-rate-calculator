@@ -41,6 +41,14 @@ const validateNumberOfPeriods = (e) => {
   }
 }
 
+const updateResultantNumberOfPeriods = (numberOfPeriodsValue) => { 
+  if (numberOfPeriodsValue) {
+    resultantNumberOfPeriods.innerText = numberOfPeriodsValue;
+  } else {
+    resultantNumberOfPeriods.innerText = 1;
+  }
+}
+
 const getSuperScript = (number) => { 
   switch (number) { 
     case 1: return 'st';
@@ -201,6 +209,7 @@ const calculateNPV = () => {
 // interestRate.addEventListener('input', calculateNPV);
 numberOfPeriods.addEventListener('input', (e) => {
   validateNumberOfPeriods(e);
+  updateResultantNumberOfPeriods(e.target.value);
   updateCashFlowContainer();
 });
 
@@ -217,6 +226,7 @@ const params = new URLSearchParams(url.search);
 const numberOfPeriodsValue = params.get('number-of-periods');
 
 numberOfPeriods.value = numberOfPeriodsValue || 1;
+updateResultantNumberOfPeriods(numberOfPeriodsValue);
 
 for (let period = 0; period <= numberOfPeriodsValue; period++) {
   let id = `${period}${getSuperScript(period)}-year`;
