@@ -175,6 +175,8 @@ const calculateIRR = () => {
   } else {
     resultantIRR.innerText = '0.0%';
   }
+
+  shareLink.value = generateSharableLink(url, [numberOfPeriods, ...elements]);
 }
 
 const calculateNPV = () => { 
@@ -211,8 +213,8 @@ numberOfPeriods.addEventListener('input', (e) => {
   validateNumberOfPeriods(e);
   updateResultantNumberOfPeriods(e.target.value);
   updateCashFlowContainer();
+  shareLink.value = generateSharableLink(url, [numberOfPeriods, ...elements]);
 });
-
 
 shareResultButton.addEventListener('click', () => {
   let link = generateSharableLink(url, [numberOfPeriods, ...elements]);
