@@ -100,7 +100,7 @@ const getCashFlowInput = (number, value) => {
   });
   elements.push(autoInput);
   input.addEventListener('input', () => {
-    updateCashFlow(number, parseInt(autoInput.rawValue));
+    updateCashFlow(number, parseInt(autoInput.rawValue) || 0);
     updateResultantCashFlow(number, autoInput.domElement.value);
     calculateIRR();
     // calculateNPV();
@@ -151,7 +151,7 @@ const calculateIRR = () => {
   let n = parseInt(numberOfPeriods.value) + 1;
   let irr = IRR(cashFlows.slice(0, n));
   irr = (irr * 100).toFixed(2);
-
+  
   if (irr !== 'NaN') {
     resultantIRR.innerText = irr + '%';
   } else {
