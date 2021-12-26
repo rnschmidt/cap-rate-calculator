@@ -19,32 +19,54 @@
         <div class="card-input">
           <h3>Maximum Supportable Loan Amount</h3>
 
-          <div class="input-container dollar">
+          <div class="input-container">
             <div class="input-label">
               <label for="underwritten-net-operating-income">Underwritten Net Operating Income</label>
             </div>  
-            <input type="text" name="underwritten-net-operating-income" id="underwritten-net-operating-income" class="validate-amount" placeholder="0" step="1">
+            <div class="input-wrapper">
+                <span class="dollar-sign">$</span>
+                <input type="text" name="underwritten-net-operating-income" id="underwritten-net-operating-income" class="dollar validate-amount" placeholder="0" step="1">
+            </div>
           </div>
 
-          <div class="input-container percent">
+          <div class="input-container">
             <div class="input-label">
               <label for="underwritten-cap-rate">Underwritten Cap Rate</label>
             </div>  
-            <input type="number" name="underwritten-cap-rate" id="underwritten-cap-rate" class="float-field validate-percent" placeholder="0.00" min="0.00" step="0.01">
+            <div class="input-wrapper">
+              <input type="number" name="underwritten-cap-rate" id="underwritten-cap-rate" class="percent float-field validate-percent" placeholder="0.00" min="0.00" step="0.01">
+              <span class="percent-sign">%</span>
+            </div>
           </div>
 
-          <div class="input-container percent">
+          <div class="input-container">
+            <div class="input-label">
+              <label for="maximum-ltv">Maximum LTV</label>
+            </div>  
+            <div class="input-wrapper">
+              <input type="number" name="maximum-ltv" id="maximum-ltv" class="percent float-field validate-percent" placeholder="0.00" min="0.00" step="0.01">
+              <span class="percent-sign">%</span>
+            </div>
+          </div>
+
+          <div class="input-container">
             <div class="input-label">
               <label for="underwritten-debt-yield">Underwritten Debt Yield</label>
             </div>  
-            <input type="number" name="underwritten-debt-yield" id="underwritten-debt-yield" class="float-field validate-percent" placeholder="0.00" min="0.00" step="0.01">
+            <div class="input-wrapper">
+              <input type="number" name="underwritten-debt-yield" id="underwritten-debt-yield" class="percent float-field validate-percent" placeholder="0.00" min="0.00" step="0.01">
+              <span class="percent-sign">%</span>
+            </div>
           </div>
 
-          <div class="input-container percent">
+          <div class="input-container">
             <div class="input-label">
               <label for="interest-rate">Interest Rate</label>
             </div>  
-            <input type="number" name="interest-rate" id="interest-rate" class="float-field validate-percent" placeholder="0.00" min="0.00" step="0.01">
+            <div class="input-wrapper">
+              <input type="number" name="interest-rate" id="interest-rate" class="percent float-field validate-percent" placeholder="0.00" min="0.00" step="0.01">
+              <span class="percent-sign">%</span>
+            </div>
           </div>
 
           <div class="input-container">
@@ -52,13 +74,6 @@
               <label for="dscr-requirement">DSCR Requirement</label>
             </div>  
             <input type="number" name="dscr-requirement" id="dscr-requirement" class="float-field" placeholder="0.00" min="0.00" step="0.01">
-          </div>
-
-          <div class="input-container percent">
-            <div class="input-label">
-              <label for="maximum-ltv">Maximum LTV</label>
-            </div>  
-            <input type="number" name="maximum-ltv" id="maximum-ltv" class="float-field validate-percent" placeholder="0.00" min="0.00" step="0.01">
           </div>
 
           <div class="loan-term-container">
@@ -72,7 +87,7 @@
             <div class="toggle-container">
               <label for="Annual">Yearly</label>
               <label class="switch">
-                <input type="checkbox" id="loan-term-period" checked>
+                <input type="checkbox" id="loan-term-period" value="Monthly" checked>
                 <span class="slider round"></span>
               </label>
               <label for="Monthly">Monthly</label>
@@ -154,13 +169,14 @@
 
       <div class="share-result-container">
         <button id="share-result">Share Result</button>
-        
-        <input type="text" id="share-link" />
-        
-        <span id="copy-text">
-          <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clipboard" class="svg-inline--fa fa-clipboard fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M384 112v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h80c0-35.29 28.71-64 64-64s64 28.71 64 64h80c26.51 0 48 21.49 48 48zM192 40c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24m96 114v-20a6 6 0 0 0-6-6H102a6 6 0 0 0-6 6v20a6 6 0 0 0 6 6h180a6 6 0 0 0 6-6z"></path></svg>
-          <div class="tooltip">Copy to clipboard</div>
-        </span>
+        <div class="link-container">
+          <input type="text" id="share-link" />
+
+          <span id="copy-text">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clipboard" class="svg-inline--fa fa-clipboard fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M384 112v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h80c0-35.29 28.71-64 64-64s64 28.71 64 64h80c26.51 0 48 21.49 48 48zM192 40c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24m96 114v-20a6 6 0 0 0-6-6H102a6 6 0 0 0-6 6v20a6 6 0 0 0 6 6h180a6 6 0 0 0 6-6z"></path></svg>
+            <div class="tooltip">Copy to clipboard</div>
+          </span>
+        </div>
       </div>
     </div>
   </div>

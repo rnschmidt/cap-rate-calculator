@@ -36,6 +36,7 @@ nav {
       -ms-flex-direction: column;
           flex-direction: column;
   gap: 4rem;
+  overflow: hidden;
 }
 
 .container h3 {
@@ -84,7 +85,7 @@ nav {
 
 @media screen and (max-width: 1024px) {
   .gordon-model-container .card {
-    min-width: 95%;
+    min-width: 100%;
   }
 }
 
@@ -145,6 +146,7 @@ nav {
   border-radius: 0.5rem;
   outline: none;
   font-size: 1rem;
+  background-color: #ffffff;
 }
 
 @media screen and (max-width: 1200px) {
@@ -161,7 +163,7 @@ nav {
 
 @media screen and (max-width: 768px) {
   .gordon-model-container .card-inner-input .input-container input {
-    min-width: 100%;
+    min-width: 80%;
   }
 }
 
@@ -180,54 +182,48 @@ nav {
   -moz-appearance: textfield;
 }
 
+.gordon-model-container .card-inner-input .input-container .input-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.gordon-model-container .card-inner-input .input-container .input-wrapper .dollar-sign, .gordon-model-container .card-inner-input .input-container .input-wrapper .percent-sign {
+  padding: 0.5rem 1rem;
+  font-size: 1.3rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #1E73BE;
+  text-align: center;
+  background-color: #f6f6f6;
+  border: 1px solid #afafaf;
+  width: 1%;
+  white-space: nowrap;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.gordon-model-container .card-inner-input .input-container .input-wrapper .dollar-sign, .gordon-model-container .card-inner-input .input-container .input-wrapper .percent {
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.gordon-model-container .card-inner-input .input-container .input-wrapper .percent-sign, .gordon-model-container .card-inner-input .input-container .input-wrapper .dollar {
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
 .gordon-model-container .card-inner-input .input-container .error-label {
   color: tomato;
   font-size: 0.75rem;
-}
-
-.gordon-model-container .card-inner-input .input-container .label-container {
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.gordon-model-container .card-inner-input .input-container input[type=checkbox] {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-.gordon-model-container .card-inner-input .input-container .checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-color: #eee;
-}
-
-.gordon-model-container .card-inner-input .dollar::before {
-  content: '$';
-  position: absolute;
-  left: 14px;
-  top: 32px;
-  font-size: 1.25rem;
-}
-
-.gordon-model-container .card-inner-input .percent::after {
-  content: '%';
-  position: absolute;
-  right: 20px;
-  top: 35px;
 }
 
 .gordon-model-container .card-inner-input input {
@@ -240,10 +236,11 @@ nav {
 }
 
 .gordon-model-container .card-result .cap-rate {
-  height: 20%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -261,12 +258,8 @@ nav {
   }
 }
 
-.gordon-model-container .card-result .cap-rate {
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-}
-
 .gordon-model-container .share-result-container {
+  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -314,12 +307,28 @@ nav {
 
 @media screen and (max-width: 768px) {
   .gordon-model-container .share-result-container button {
-    width: 75%;
-    font-size: 1.125rem;
+    width: 100%;
   }
 }
 
-.gordon-model-container .share-result-container input {
+.gordon-model-container .share-result-container .link-container {
+  width: calc(100% - 11rem);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 0.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .gordon-model-container .share-result-container .link-container {
+    width: 100%;
+  }
+}
+
+.gordon-model-container .share-result-container .link-container input {
   width: 0%;
   height: 3.5rem;
   border: none;
@@ -332,11 +341,11 @@ nav {
   transition: all 1s ease-in;
 }
 
-.gordon-model-container .share-result-container input:focus {
+.gordon-model-container .share-result-container .link-container input:focus {
   outline: 1px solid rgba(254, 144, 0, 0.25);
 }
 
-.gordon-model-container .share-result-container span {
+.gordon-model-container .share-result-container .link-container span {
   opacity: 0;
   height: 3.5rem;
   aspect-ratio: 1;
@@ -349,7 +358,7 @@ nav {
   position: relative;
 }
 
-.gordon-model-container .share-result-container span .tooltip {
+.gordon-model-container .share-result-container .link-container span .tooltip {
   visibility: hidden;
   width: 140px;
   background-color: rgba(254, 144, 0, 0.75);
@@ -367,7 +376,7 @@ nav {
   transition: opacity 0.3s;
 }
 
-.gordon-model-container .share-result-container span .tooltip::after {
+.gordon-model-container .share-result-container .link-container span .tooltip::after {
   content: "";
   position: absolute;
   top: 100%;
@@ -378,12 +387,12 @@ nav {
   border-color: rgba(254, 144, 0, 0.75) transparent transparent transparent;
 }
 
-.gordon-model-container .share-result-container span:hover {
+.gordon-model-container .share-result-container .link-container span:hover {
   background-color: rgba(254, 144, 0, 0.5);
   color: rgba(255, 255, 255, 0.75);
 }
 
-.gordon-model-container .share-result-container span:hover .tooltip {
+.gordon-model-container .share-result-container .link-container span:hover .tooltip {
   visibility: visible;
   opacity: 1;
 }

@@ -213,6 +213,8 @@ const calculateMaxSupportableLoanAmount = () => {
     maxSupportableLoanAmountValue = 0;
   }
   maxSupportableLoanAmount.innerText = '$' + numberWithCommas(maxSupportableLoanAmountValue);
+
+  shareLink.value = generateSharableLink(url, [underwrittenNetOperatingIncome, underwrittenCapRate, underwrittenDebtYield, interestRate, dscrRequirement, maximumLTV, loanTermPeriod, loanAmortization]);
 }
 /*
   # Validating the DSCR Requirement
@@ -226,8 +228,8 @@ const validateDSCRRequirement = (e) => {
     e.target.value = value;
     removeErrorMessage(e);
   } else { 
-    insertErrorMessage(e, 'DSCR Requirement must be between 0 and 3 (inclusive)');
-    e.target.value = '';
+    insertErrorMessage(e, 'Please select a value between 0 and 3 (inclusive)');
+    e.target.value = '3';
   }
 }
 // Event Listeners
@@ -253,12 +255,13 @@ loanTermPeriod.addEventListener('input', () => {
     loanTermPeriod.value = 'Yearly';
   }
 });
+
 underwrittenDebtYield.addEventListener('input', calculateMaxSupportableLoanAmountPerDebtYield);
 // Event Listners for generating sharable link and copy link to clipboard
 shareResultButton.addEventListener('click', () => {
   let link = generateSharableLink(url, [underwrittenNetOperatingIncome, underwrittenCapRate, underwrittenDebtYield, interestRate, dscrRequirement, maximumLTV, loanTermPeriod, loanAmortization]);
   shareLink.value = link;
-  shareLink.style.width = '75%';
+  shareLink.style.width = 'calc(100% - 3.5rem)';
   shareLink.style.padding = '0.5rem';
   copyText.style.opacity = '1';
 });

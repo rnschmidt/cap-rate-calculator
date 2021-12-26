@@ -32,8 +32,7 @@
         box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.25);
       
         @media screen and (max-width: 1024px) {
-          min-width: 95%;
-          width: 95%;
+          min-width: 100%;
         }
         
         @media screen and (max-width: 768px) {
@@ -50,57 +49,19 @@
           width: 100%;
         }
 
-        .label-container {
-          display: flex;
-          align-items: center;
-          position: relative;
-          padding-left: 35px;
-          margin-bottom: 12px;
+        .copy-down-icon {
+          width: 1.5rem;
+          aspect-ratio: 1;
           cursor: pointer;
-          font-size: 22px;
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-          user-select: none;
-    
-          input {
-            width: auto;
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-            height: 0;
-            width: 0;
-    
-            &:checked ~ .checkmark {
-              background-color: lighten($primaryColor, 25%);
-            }
-    
-            &:checked ~ .checkmark:after {
-              display: block;
-            }
+          color: lighten($primaryColor, 30%);
+          opacity: 0;
+          &:hover {
+            color: lighten($primaryColor, 25%);
           }
-    
-          .checkmark {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 25px;
-            width: 25px;
-            background-color: lighten($secondaryColor, 40%);
-    
-            &:after {
-              content: '';
-              display: none;
-              position: absolute;
-              left: 9px;
-              top: 5px;
-              width: 5px;
-              height: 10px;
-              border: solid white;
-              border-width: 0 3px 3px 0;
-              transform: rotate(45deg);
-            }
-          }
+        }
+
+        .input-container:hover .copy-down-icon {
+          opacity: 1;
         }
         
         .cash-flow-container {
@@ -117,35 +78,33 @@
             
             .input-wrapper {
               width: 80%;
+              display: flex;
+              align-items: center;
               
               input {
                 width: 100%;
-                position: relative;
+                border-radius: 0 0.5rem 0.5rem 0;
+                @media screen and (max-width: 768px) {
+                  min-width: 80%;
+                }
               }
 
+              
               span {
-                font-size: 1.25rem;
-                position: absolute;
-                top: 5px;
-                left: 20%;
-                z-index: 1;
-
-                @media screen and (max-width: 1024px) {
-                  left: 18%;
-                }
-
-                @media screen and (max-width: 768px) {
-                  left: 19%;
-                }
-
-                @media screen and (max-width: 480px) {
-                  left: 23%;
-                }
-
-                @media screen and (max-width: 376px) {
-                  left: 26%;
-                  top: 10px;
-                }
+                padding: 0.5rem 1rem;
+                font-size: 1.3rem;
+                font-weight: 400;
+                line-height: 1;
+                color: $primaryColor;
+                text-align: center;
+                background-color: lighten($secondaryColor, 48%);
+                border: 1px solid #ccc;
+                border-radius: 0.5rem 0 0 0.5rem;
+                width: 1%;
+                white-space: nowrap;
+                display: flex;
+                align-items: center;
+                justify-content: center;
               }
             }
           }
@@ -197,9 +156,6 @@
   
         border-color: lighten($primaryColor, 25%);
         @include cap-rate();
-        .cap-rate {
-          height: auto;
-        }
       }
     }
   }

@@ -20,25 +20,34 @@
           <h3>Gordon Model for Calculating Cap Rate</h3>
           
           <div class="card-inner-input">
-            <div class="input-container dollar">
+            <div class="input-container">
               <div class="input-label">
                 <label for="noi">Net Operating Income</label>
               </div>  
-              <input type="text" name="noi" id="noi" class="validate-amount" placeholder="0" step="1">
+              <div class="input-wrapper">
+                <span class="dollar-sign">$</span>
+                <input type="text" name="noi" id="noi" class="validate-amount dollar" placeholder="0" step="1">
+              </div>
             </div>
 
-            <div class="input-container percent">
+            <div class="input-container">
               <div class="input-label">
                 <label for="discount-rate">Discount Rate</label>
               </div>  
-              <input type="number" name="discount-rate" id="discount-rate" class="float-field validate-percent" placeholder="0.00" min="0.00" step="0.01">
+              <div class="input-wrapper">
+                <input type="number" name="discount-rate" id="discount-rate" class="percent float-field validate-percent" placeholder="0.00" min="0.00" step="0.01">
+                <span class="percent-sign">%</span>
+              </div>
             </div>
 
-            <div class="input-container percent">
+            <div class="input-container">
               <div class="input-label">
                 <label for="noi-growth-rate">NOI Growth Rate</label>
               </div>  
-              <input type="number" name="noi-growth-rate" id="noi-growth-rate" class="float-field validate-percent" placeholder="0.00" min="0.00" step="0.01">
+              <div class="input-wrapper">
+                <input type="number" name="noi-growth-rate" id="noi-growth-rate" class="percent float-field validate-percent" placeholder="0.00" min="0.00" step="0.01">
+                <span class="percent-sign">%</span>
+              </div>
             </div>
           </div>
         </div>
@@ -58,11 +67,14 @@
 
       <div class="share-result-container">
         <button id="share-result">Share Result</button>
-        <input type="text" id="share-link" />
-        <span id="copy-text">
-          <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clipboard" class="svg-inline--fa fa-clipboard fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M384 112v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h80c0-35.29 28.71-64 64-64s64 28.71 64 64h80c26.51 0 48 21.49 48 48zM192 40c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24m96 114v-20a6 6 0 0 0-6-6H102a6 6 0 0 0-6 6v20a6 6 0 0 0 6 6h180a6 6 0 0 0 6-6z"></path></svg>
-          <div class="tooltip">Copy to clipboard</div>
-        </span>
+        <div class="link-container">
+          <input type="text" id="share-link" />
+
+          <span id="copy-text">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clipboard" class="svg-inline--fa fa-clipboard fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M384 112v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h80c0-35.29 28.71-64 64-64s64 28.71 64 64h80c26.51 0 48 21.49 48 48zM192 40c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24m96 114v-20a6 6 0 0 0-6-6H102a6 6 0 0 0-6 6v20a6 6 0 0 0 6 6h180a6 6 0 0 0 6-6z"></path></svg>
+            <div class="tooltip">Copy to clipboard</div>
+          </span>
+        </div>
       </div>
     </div>
   </div>

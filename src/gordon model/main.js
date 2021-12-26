@@ -31,6 +31,8 @@ const calculateGordonModelCapRate = () => {
     let value = (noiValue * (100 / capRate)).toFixed(2);
     gordonModelValue.innerText = '$' + numberWithCommas(value);
   }
+
+  shareLink.value = generateSharableLink(url, [noi, discountRate, noiGrowthRate]);
 }
 
 noi.domElement.addEventListener('input', (e) => { calculateGordonModelCapRate(); });
@@ -39,7 +41,7 @@ noiGrowthRate.addEventListener('input', (e) => { calculateGordonModelCapRate(); 
 shareResultButton.addEventListener('click', () => {
   let link = generateSharableLink(url, [noi, discountRate, noiGrowthRate]);
   shareLink.value = link;
-  shareLink.style.width = '75%';
+  shareLink.style.width = 'calc(100% - 3.5rem)';
   shareLink.style.padding = '0.5rem';
   copyText.style.opacity = '1';
 });

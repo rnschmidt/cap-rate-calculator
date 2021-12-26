@@ -36,6 +36,7 @@ nav {
       -ms-flex-direction: column;
           flex-direction: column;
   gap: 4rem;
+  overflow: hidden;
 }
 
 .container h3 {
@@ -69,6 +70,9 @@ nav {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
   gap: 2rem;
 }
 
@@ -92,9 +96,6 @@ nav {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
   gap: 1rem;
 }
 
@@ -130,6 +131,7 @@ nav {
   border-radius: 0.5rem;
   outline: none;
   font-size: 1rem;
+  background-color: #ffffff;
 }
 
 @media screen and (max-width: 1200px) {
@@ -146,7 +148,7 @@ nav {
 
 @media screen and (max-width: 768px) {
   .simple-ratio-container .simple-ratio-cards .inputs .input-container input {
-    min-width: 100%;
+    min-width: 80%;
   }
 }
 
@@ -165,54 +167,48 @@ nav {
   -moz-appearance: textfield;
 }
 
+.simple-ratio-container .simple-ratio-cards .inputs .input-container .input-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.simple-ratio-container .simple-ratio-cards .inputs .input-container .input-wrapper .dollar-sign, .simple-ratio-container .simple-ratio-cards .inputs .input-container .input-wrapper .percent-sign {
+  padding: 0.5rem 1rem;
+  font-size: 1.3rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #1E73BE;
+  text-align: center;
+  background-color: #f6f6f6;
+  border: 1px solid #afafaf;
+  width: 1%;
+  white-space: nowrap;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.simple-ratio-container .simple-ratio-cards .inputs .input-container .input-wrapper .dollar-sign, .simple-ratio-container .simple-ratio-cards .inputs .input-container .input-wrapper .percent {
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.simple-ratio-container .simple-ratio-cards .inputs .input-container .input-wrapper .percent-sign, .simple-ratio-container .simple-ratio-cards .inputs .input-container .input-wrapper .dollar {
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
 .simple-ratio-container .simple-ratio-cards .inputs .input-container .error-label {
   color: tomato;
   font-size: 0.75rem;
-}
-
-.simple-ratio-container .simple-ratio-cards .inputs .input-container .label-container {
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.simple-ratio-container .simple-ratio-cards .inputs .input-container input[type=checkbox] {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-.simple-ratio-container .simple-ratio-cards .inputs .input-container .checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-color: #eee;
-}
-
-.simple-ratio-container .simple-ratio-cards .inputs .dollar::before {
-  content: '$';
-  position: absolute;
-  left: 14px;
-  top: 32px;
-  font-size: 1.25rem;
-}
-
-.simple-ratio-container .simple-ratio-cards .inputs .percent::after {
-  content: '%';
-  position: absolute;
-  right: 20px;
-  top: 35px;
 }
 
 .simple-ratio-container .simple-ratio-cards .inputs .row {
@@ -224,6 +220,9 @@ nav {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -292,7 +291,7 @@ nav {
   }
 }
 
-.simple-ratio-container .simple-ratio-cards .inputs .property-value-inner .input-wrapper {
+.simple-ratio-container .simple-ratio-cards .inputs .property-value-inner .input-flex-wrap {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -313,7 +312,7 @@ nav {
 
 @media screen and (max-width: 1024px) {
   .simple-ratio-container .simple-ratio-cards .inputs .property-value-inner {
-    max-width: 95%;
+    max-width: 100%;
   }
 }
 
@@ -349,7 +348,7 @@ nav {
 
 @media screen and (max-width: 1024px) {
   .simple-ratio-container .simple-ratio-cards .inputs .operating-expenses {
-    max-width: 95%;
+    max-width: 100%;
   }
 }
 
@@ -379,12 +378,15 @@ nav {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
   max-width: 24rem;
   min-width: 21rem;
-  min-height: 41.7rem;
+  min-height: 36.7rem;
   border-style: solid;
   border-width: 4px 0;
   border-color: #73b1e9;
@@ -397,15 +399,12 @@ nav {
 @media screen and (max-width: 1200px) {
   .simple-ratio-container .simple-ratio-cards .result {
     min-width: 24rem;
-    max-height: 50.7rem;
   }
 }
 
 @media screen and (max-width: 1024px) {
   .simple-ratio-container .simple-ratio-cards .result {
-    min-width: 95%;
-    min-height: 0;
-    max-height: 100%;
+    min-width: 100%;
   }
 }
 
@@ -416,7 +415,7 @@ nav {
 }
 
 .simple-ratio-container .simple-ratio-cards .result-inner {
-  height: 88%;
+  height: 100%;
   padding: 1rem;
   border-top-right-radius: 0.75rem;
   display: -webkit-box;
@@ -431,6 +430,7 @@ nav {
 }
 
 .simple-ratio-container .simple-ratio-cards .result-inner .card {
+  height: 100%;
   margin-top: 1rem;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -439,6 +439,8 @@ nav {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
   gap: 0.75rem;
 }
 
@@ -461,10 +463,11 @@ nav {
 }
 
 .simple-ratio-container .simple-ratio-cards .result .cap-rate {
-  height: 20%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -482,11 +485,8 @@ nav {
   }
 }
 
-.simple-ratio-container .simple-ratio-cards .result .cap-rate {
-  height: 10%;
-}
-
 .simple-ratio-container .share-result-container {
+  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -534,12 +534,28 @@ nav {
 
 @media screen and (max-width: 768px) {
   .simple-ratio-container .share-result-container button {
-    width: 75%;
-    font-size: 1.125rem;
+    width: 100%;
   }
 }
 
-.simple-ratio-container .share-result-container input {
+.simple-ratio-container .share-result-container .link-container {
+  width: calc(100% - 11rem);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 0.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .simple-ratio-container .share-result-container .link-container {
+    width: 100%;
+  }
+}
+
+.simple-ratio-container .share-result-container .link-container input {
   width: 0%;
   height: 3.5rem;
   border: none;
@@ -552,11 +568,11 @@ nav {
   transition: all 1s ease-in;
 }
 
-.simple-ratio-container .share-result-container input:focus {
+.simple-ratio-container .share-result-container .link-container input:focus {
   outline: 1px solid rgba(254, 144, 0, 0.25);
 }
 
-.simple-ratio-container .share-result-container span {
+.simple-ratio-container .share-result-container .link-container span {
   opacity: 0;
   height: 3.5rem;
   aspect-ratio: 1;
@@ -569,7 +585,7 @@ nav {
   position: relative;
 }
 
-.simple-ratio-container .share-result-container span .tooltip {
+.simple-ratio-container .share-result-container .link-container span .tooltip {
   visibility: hidden;
   width: 140px;
   background-color: rgba(254, 144, 0, 0.75);
@@ -587,7 +603,7 @@ nav {
   transition: opacity 0.3s;
 }
 
-.simple-ratio-container .share-result-container span .tooltip::after {
+.simple-ratio-container .share-result-container .link-container span .tooltip::after {
   content: "";
   position: absolute;
   top: 100%;
@@ -598,12 +614,12 @@ nav {
   border-color: rgba(254, 144, 0, 0.75) transparent transparent transparent;
 }
 
-.simple-ratio-container .share-result-container span:hover {
+.simple-ratio-container .share-result-container .link-container span:hover {
   background-color: rgba(254, 144, 0, 0.5);
   color: rgba(255, 255, 255, 0.75);
 }
 
-.simple-ratio-container .share-result-container span:hover .tooltip {
+.simple-ratio-container .share-result-container .link-container span:hover .tooltip {
   visibility: visible;
   opacity: 1;
 }

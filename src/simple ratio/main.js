@@ -198,6 +198,8 @@ const calculateCapRate = (propertyVal) => {
   } else {
     capRate.innerText = '0.00%';
   }
+
+  shareLink.value = generateSharableLink(url, [propertyValue,totalRentSquareFeet, averageRentPerSquareFoot, vacanyCreditLoss, otherIncome, managementFee, ...expenses]);
 }
 
 // Add event listener to Property Value field to trigger calculation of Cap Rate
@@ -219,7 +221,7 @@ expenses.forEach(expense => expense.addEventListener('input', (e) => { calculate
 shareResultButton.addEventListener('click', () => {
   let link = generateSharableLink(url, [propertyValue,totalRentSquareFeet, averageRentPerSquareFoot, vacanyCreditLoss, otherIncome, managementFee, ...expenses]);
   shareLink.value = link;
-  shareLink.style.width = '75%';
+  shareLink.style.width = 'calc(100% - 3.5rem)';
   shareLink.style.padding = '0.5rem';
   copyText.style.opacity = '1';
 });

@@ -23,15 +23,17 @@
             <div class="property-value-left property-value-inner">
               <h3>Gross Potential Income</h3>
 
-              <div class="input-container dollar">
+              <div class="input-container">
                 <div class="input-label">
                   <label for="property-value" class="required">Property Value</label>
                 </div>
-                <input type="text" name="property-value" id="property-value" class="validate-amount" placeholder="0"
-                  step="1" required>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="property-value" id="property-value" class="validate-amount dollar" placeholder="0" step="1" required>
+                </div>
               </div>
 
-              <div class="input-wrapper">
+              <div class="input-flex-wrap">
                 <div class="input-container">
                   <div class="input-label">
                     <label for="total-rent-sq-feet">Total Rental Square Feet</label>
@@ -39,12 +41,14 @@
                   <input type="text" name="total-rent-sq-feet" id="total-rent-square-feet" placeholder="0" step="1">
                 </div>
 
-                <div class="input-container dollar">
+                <div class="input-container">
                   <div class="input-label">
                     <label for="av-rent-per-sq-foot">Average Rent per Square Foot</label>
                   </div>
-                  <input type="text" name="av-rent-per-sq-foot" id="av-rent-per-sq-foot" class="validate-amount"
-                    placeholder="0.00" step="0.01">
+                  <div class="input-wrapper">
+                    <span class="dollar-sign">$</span>
+                    <input type="text" name="av-rent-per-sq-foot" id="av-rent-per-sq-foot" class="validate-amount dollar" placeholder="0.00" step="0.01">
+                  </div>
                 </div>
               </div>
 
@@ -57,21 +61,27 @@
             <div class="property-value-right property-value-inner">
               <h3>Effective Gross Income</h3>
 
-              <div class="input-wrapper">
-                <div class="input-container percent">
+              <div class="input-flex-wrap">
+                <div class="input-container">
                   <div class="input-label">
                     <label for="vacany-credit-loss">Vacancy & Credit Loss</label>
                   </div>
-                  <input type="number" name="vacany-credit-loss" id="vacany-credit-loss"
-                    class="float-field validate-percent" placeholder="0.00" min="0.00" step="0.01">
+                  <div class="input-wrapper">
+                    <input type="number" name="vacany-credit-loss" id="vacany-credit-loss"
+                      class="float-field validate-percent percent" placeholder="0.00" min="0.00" step="0.01">
+                    <span class="percent-sign">%</span>
+                  </div>
                 </div>
 
-                <div class="input-container dollar">
+                <div class="input-container">
                   <div class="input-label">
                     <label for="other-income">Other Income</label>
                   </div>
-                  <input type="text" name="other-income" id="other-income" class="validate-amount" placeholder="0"
-                    min="0" step="1">
+                  <div class="input-wrapper">
+                    <span class="dollar-sign">$</span>
+                    <input type="text" name="other-income" id="other-income" class="validate-amount dollar" placeholder="0"
+                      min="0" step="1">
+                  </div>
                 </div>
               </div>
 
@@ -86,52 +96,70 @@
             <h3>Operating Expenses</h3>
 
             <div class="operating-expenses-inner">
-              <div class="input-container dollar">
+              <div class="input-container">
                 <div class="input-label">
                   <label for="property-taxes">Property Taxes</label>
                 </div>
-                <input type="text" name="property-taxes" id="property-taxes" class="expenses validate-amount"
-                  placeholder="0" min="0" step="1">
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="property-taxes" id="property-taxes" class="expenses validate-amount dollar"
+                    placeholder="0" min="0" step="1">
+                </div>
               </div>
 
-              <div class="input-container dollar">
+              <div class="input-container">
                 <div class="input-label">
                   <label for="insurance">Insurance</label>
                 </div>
-                <input type="text" name="insurance" id="insurance" class="expenses validate-amount" placeholder="0"
-                  min="0" step="1">
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="insurance" id="insurance" class="expenses validate-amount dollar" placeholder="0"
+                    min="0" step="1">
+                </div>
               </div>
 
-              <div class="input-container dollar">
+              <div class="input-container">
                 <div class="input-label">
                   <label for="maintenance">Maintenance</label>
                 </div>
-                <input type="text" name="maintenance" id="maintenance" class="expenses validate-amount" placeholder="0"
-                  min="0" step="1">
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="maintenance" id="maintenance" class="expenses validate-amount dollar" placeholder="0"
+                    min="0" step="1">
+                </div>
               </div>
 
-              <div class="input-container percent">
+              <div class="input-container">
                 <div class="input-label">
                   <label for="management-fee">Management Fee</label>
                 </div>
-                <input type="number" name="management-fee" id="management-fee" class="float-field validate-percent"
-                  placeholder="0.00" min="0.00" step="0.01">
+                <div class="input-wrapper">
+                  <input type="number" name="management-fee" id="management-fee" class="float-field validate-percent percent"
+                    placeholder="0.00" min="0.00" step="0.01">
+                  <span class="percent-sign">%</span>
+                </div>
               </div>
 
-              <div class="input-container dollar">
+              <div class="input-container">
                 <div class="input-label">
                   <label for="reserve-for-replacement">Reserve for Replacement</label>
                 </div>
-                <input type="text" name="reserve-for-replacement" id="reserve-for-replacement"
-                  class="expenses validate-amount" placeholder="0" min="0" step="1">
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="reserve-for-replacement" id="reserve-for-replacement"
+                    class="expenses validate-amount dollar" placeholder="0" min="0" step="1">
+                </div>
               </div>
 
-              <div class="input-container dollar">
+              <div class="input-container">
                 <div class="input-label">
                   <label for="other-expenses">Other Expenses</label>
                 </div>
-                <input type="text" name="other-expenses" id="other-expenses" class="expenses validate-amount"
-                  placeholder="0" min="0" step="1">
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="other-expenses" id="other-expenses" class="expenses validate-amount dollar"
+                    placeholder="0" min="0" step="1">
+                </div>
               </div>
             </div>
 
@@ -212,13 +240,15 @@
 
       <div class="share-result-container">
         <button id="share-result">Share Result</button>
-        
-        <input type="text" id="share-link" />
-        
-        <span id="copy-text">
-          <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clipboard" class="svg-inline--fa fa-clipboard fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M384 112v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h80c0-35.29 28.71-64 64-64s64 28.71 64 64h80c26.51 0 48 21.49 48 48zM192 40c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24m96 114v-20a6 6 0 0 0-6-6H102a6 6 0 0 0-6 6v20a6 6 0 0 0 6 6h180a6 6 0 0 0 6-6z"></path></svg>
-          <div class="tooltip">Copy to clipboard</div>
-        </span>
+
+        <div class="link-container">
+          <input type="text" id="share-link" />
+
+          <span id="copy-text">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clipboard" class="svg-inline--fa fa-clipboard fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M384 112v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h80c0-35.29 28.71-64 64-64s64 28.71 64 64h80c26.51 0 48 21.49 48 48zM192 40c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24m96 114v-20a6 6 0 0 0-6-6H102a6 6 0 0 0-6 6v20a6 6 0 0 0 6 6h180a6 6 0 0 0 6-6z"></path></svg>
+            <div class="tooltip">Copy to clipboard</div>
+          </span>
+        </div>
       </div>
     </div>
   </div>

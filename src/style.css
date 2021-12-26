@@ -36,6 +36,7 @@ nav {
       -ms-flex-direction: column;
           flex-direction: column;
   gap: 4rem;
+  overflow: hidden;
 }
 
 .container h3 {

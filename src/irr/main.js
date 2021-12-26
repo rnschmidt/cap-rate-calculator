@@ -1,10 +1,9 @@
 // Dynamic IRR Calculator
 
-import { IRR, NPV, insertErrorMessage, removeErrorMessage, numberWithCommas, parseFromUrl, generateSharableLink } from "../utils/utils.js";
+import { IRR, NPV, insertErrorMessage, removeErrorMessage, numberWithCommas, parseFromUrl, generateSharableLink, renderCopyDownIcon } from "../utils/utils.js";
 
 // const interestRate = document.getElementById('interest-rate');
 const numberOfPeriods = document.getElementById('number-of-periods');
-const allowMultipleInputs = document.getElementById('allow-multiple-inputs');
 
 const cashFlowContainer = document.querySelector('.cash-flow-container');
 const resultantCashFlowContainer = document.querySelector('.resultant-cash-flow-container');
@@ -85,10 +84,6 @@ const getCashFlowInput = (number, value) => {
   const numberText = document.createElement('span');
   numberText.innerText = number;
   label.appendChild(numberText);
-  // const superscript = document.createElement('sup');
-  // superscript.classList.add('superscript');
-  // superscript.innerText = getSuperScript(number);
-  // label.appendChild(superscript);
   inputLabel.appendChild(label);
   const inputWrapper = document.createElement('div');
   inputWrapper.classList.add('input-wrapper');
@@ -109,23 +104,23 @@ const getCashFlowInput = (number, value) => {
   });
   elements.push(autoInput);
   input.addEventListener('input', () => {
-    if (allowMultipleInputs.checked) {
-      for (let number = 0; number <= numberOfPeriods.value; number++) {
-        let element = document.getElementById(`${number}${getSuperScript(number)}-year`);
-        AutoNumeric.set(element, autoInput.rawValue);
-        updateCashFlow(number, parseInt(autoInput.rawValue) || 0);
-        updateResultantCashFlow(number, autoInput.domElement.value);
-      }      
-    } else {
-      updateCashFlow(number, parseInt(autoInput.rawValue) || 0);
-      updateResultantCashFlow(number, autoInput.domElement.value);
-    }
+    updateCashFlow(number, parseInt(autoInput.rawValue) || 0);
+    updateResultantCashFlow(number, autoInput.domElement.value);
     calculateIRR();
     // calculateNPV();
   });
   inputWrapper.appendChild(input);
   inputContainer.appendChild(inputLabel);
   inputContainer.appendChild(inputWrapper);
+  const copyDownIcon = renderCopyDownIcon(inputContainer);
+  copyDownIcon.addEventListener('click', () => { 
+    for (let index = number; index <= numberOfPeriods.value; index++) {
+      let element = document.getElementById(`${index}${getSuperScript(index)}-year`);
+      AutoNumeric.set(element, autoInput.rawValue);
+      updateCashFlow(index, parseInt(autoInput.rawValue) || 0);
+      updateResultantCashFlow(index, autoInput.domElement.value);
+    } 
+  });
   return inputContainer;
 }
 
@@ -219,7 +214,7 @@ numberOfPeriods.addEventListener('input', (e) => {
 shareResultButton.addEventListener('click', () => {
   let link = generateSharableLink(url, [numberOfPeriods, ...elements]);
   shareLink.value = link;
-  shareLink.style.width = '75%';
+  shareLink.style.width = 'calc(100% - 3.5rem)';
   shareLink.style.padding = '0.5rem';
   copyText.style.opacity = '1';
 });

@@ -36,6 +36,7 @@ nav {
       -ms-flex-direction: column;
           flex-direction: column;
   gap: 4rem;
+  overflow: hidden;
 }
 
 .container h3 {
@@ -95,6 +96,9 @@ nav {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -102,7 +106,7 @@ nav {
   max-width: 48rem;
   min-width: 21rem;
   width: 100%;
-  height: 44rem;
+  min-height: 44rem;
   border-style: solid;
   border-width: 4px 0;
   border-top-right-radius: 0.75rem;
@@ -113,9 +117,7 @@ nav {
 
 @media screen and (max-width: 1024px) {
   .maximum-supportable-loan-amount-container .cards .card-input, .maximum-supportable-loan-amount-container .cards .card-result {
-    min-width: 95%;
-    width: 95%;
-    height: 52rem;
+    min-width: 100%;
   }
 }
 
@@ -162,6 +164,7 @@ nav {
   border-radius: 0.5rem;
   outline: none;
   font-size: 1rem;
+  background-color: #ffffff;
 }
 
 @media screen and (max-width: 1200px) {
@@ -178,7 +181,7 @@ nav {
 
 @media screen and (max-width: 768px) {
   .maximum-supportable-loan-amount-container .cards .card-input .input-container input {
-    min-width: 100%;
+    min-width: 80%;
   }
 }
 
@@ -197,54 +200,48 @@ nav {
   -moz-appearance: textfield;
 }
 
+.maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .dollar-sign, .maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .percent-sign {
+  padding: 0.5rem 1rem;
+  font-size: 1.3rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #1E73BE;
+  text-align: center;
+  background-color: #f6f6f6;
+  border: 1px solid #afafaf;
+  width: 1%;
+  white-space: nowrap;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .dollar-sign, .maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .percent {
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .percent-sign, .maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .dollar {
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
 .maximum-supportable-loan-amount-container .cards .card-input .input-container .error-label {
   color: tomato;
   font-size: 0.75rem;
-}
-
-.maximum-supportable-loan-amount-container .cards .card-input .input-container .label-container {
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.maximum-supportable-loan-amount-container .cards .card-input .input-container input[type=checkbox] {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-.maximum-supportable-loan-amount-container .cards .card-input .input-container .checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-color: #eee;
-}
-
-.maximum-supportable-loan-amount-container .cards .card-input .dollar::before {
-  content: '$';
-  position: absolute;
-  left: 14px;
-  top: 32px;
-  font-size: 1.25rem;
-}
-
-.maximum-supportable-loan-amount-container .cards .card-input .percent::after {
-  content: '%';
-  position: absolute;
-  right: 20px;
-  top: 35px;
 }
 
 .maximum-supportable-loan-amount-container .cards .card-input input {
@@ -263,6 +260,9 @@ nav {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   background: #e7e7e7;
   padding: 0.5rem;
   border-radius: 0.5rem;
@@ -362,6 +362,7 @@ nav {
 
 .maximum-supportable-loan-amount-container .cards .card-result-inner {
   padding: 1rem;
+  min-height: 35rem;
   height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -393,10 +394,11 @@ nav {
 }
 
 .maximum-supportable-loan-amount-container .cards .card-result .cap-rate {
-  height: 20%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -414,11 +416,8 @@ nav {
   }
 }
 
-.maximum-supportable-loan-amount-container .cards .card-result .cap-rate {
-  height: 10%;
-}
-
 .maximum-supportable-loan-amount-container .share-result-container {
+  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -466,12 +465,28 @@ nav {
 
 @media screen and (max-width: 768px) {
   .maximum-supportable-loan-amount-container .share-result-container button {
-    width: 75%;
-    font-size: 1.125rem;
+    width: 100%;
   }
 }
 
-.maximum-supportable-loan-amount-container .share-result-container input {
+.maximum-supportable-loan-amount-container .share-result-container .link-container {
+  width: calc(100% - 11rem);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 0.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .maximum-supportable-loan-amount-container .share-result-container .link-container {
+    width: 100%;
+  }
+}
+
+.maximum-supportable-loan-amount-container .share-result-container .link-container input {
   width: 0%;
   height: 3.5rem;
   border: none;
@@ -484,11 +499,11 @@ nav {
   transition: all 1s ease-in;
 }
 
-.maximum-supportable-loan-amount-container .share-result-container input:focus {
+.maximum-supportable-loan-amount-container .share-result-container .link-container input:focus {
   outline: 1px solid rgba(254, 144, 0, 0.25);
 }
 
-.maximum-supportable-loan-amount-container .share-result-container span {
+.maximum-supportable-loan-amount-container .share-result-container .link-container span {
   opacity: 0;
   height: 3.5rem;
   aspect-ratio: 1;
@@ -501,7 +516,7 @@ nav {
   position: relative;
 }
 
-.maximum-supportable-loan-amount-container .share-result-container span .tooltip {
+.maximum-supportable-loan-amount-container .share-result-container .link-container span .tooltip {
   visibility: hidden;
   width: 140px;
   background-color: rgba(254, 144, 0, 0.75);
@@ -519,7 +534,7 @@ nav {
   transition: opacity 0.3s;
 }
 
-.maximum-supportable-loan-amount-container .share-result-container span .tooltip::after {
+.maximum-supportable-loan-amount-container .share-result-container .link-container span .tooltip::after {
   content: "";
   position: absolute;
   top: 100%;
@@ -530,12 +545,12 @@ nav {
   border-color: rgba(254, 144, 0, 0.75) transparent transparent transparent;
 }
 
-.maximum-supportable-loan-amount-container .share-result-container span:hover {
+.maximum-supportable-loan-amount-container .share-result-container .link-container span:hover {
   background-color: rgba(254, 144, 0, 0.5);
   color: rgba(255, 255, 255, 0.75);
 }
 
-.maximum-supportable-loan-amount-container .share-result-container span:hover .tooltip {
+.maximum-supportable-loan-amount-container .share-result-container .link-container span:hover .tooltip {
   visibility: visible;
   opacity: 1;
 }

@@ -109,6 +109,8 @@ const calculateIndicatedCapitalizationRate = () => {
   let indicatedCapitalizationRateValue = parseFloat(debtComponentValue) + parseFloat(equityComponentValue);
   indicatedCapitalizationRate.innerText = indicatedCapitalizationRateValue.toFixed(8);
   finalRoundedCapRate.innerText = (indicatedCapitalizationRateValue * 100).toFixed(2) + '%';
+
+  shareLink.value = generateSharableLink(url, [interestRate, compoundingPeriodsPerYear, loanValueRatio, loanTerm, loanTermPeriod, equityDividendRate]);
 }
 // validate compounding periods per year to accept value less than or equal to 365
 const validateCompoundingPeriodsPerYear = (e) => {
@@ -152,7 +154,7 @@ loanValueRatio.addEventListener('input', (e) => { calculateDebtComponent(); });
 shareResultButton.addEventListener('click', () => {
   let link = generateSharableLink(url, [interestRate, compoundingPeriodsPerYear, loanValueRatio, loanTerm, loanTermPeriod, equityDividendRate]);
   shareLink.value = link;
-  shareLink.style.width = '75%';
+  shareLink.style.width = 'calc(100% - 3.5rem)';
   shareLink.style.padding = '0.5rem';
   copyText.style.opacity = '1';
 });
