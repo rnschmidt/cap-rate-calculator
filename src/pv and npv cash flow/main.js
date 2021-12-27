@@ -1,8 +1,8 @@
 // Dynamic IRR Calculator
 
-import { IRR, NPV, insertErrorMessage, removeErrorMessage, numberWithCommas, parseFromUrl, generateSharableLink, renderCopyDownIcon } from "../utils/utils.js";
+import { NPV, insertErrorMessage, removeErrorMessage, numberWithCommas, generateSharableLink, renderCopyDownIcon } from "../utils/utils.js";
 
-// const interestRate = document.getElementById('interest-rate');
+const interestRate = document.getElementById('interest-rate');
 const numberOfPeriods = document.getElementById('number-of-periods');
 
 const cashFlowContainer = document.querySelector('.cash-flow-container');
@@ -10,9 +10,8 @@ const resultantCashFlowContainer = document.querySelector('.resultant-cash-flow-
 
 const resultantInterestRate = document.getElementById('resultant-interest-rate');
 const resultantNumberOfPeriods = document.getElementById('resultant-number-of-periods');
-// const resultantPV = document.getElementById('resultant-pv');
-// const resultantNPV = document.getElementById('resultant-npv');
-const resultantIRR = document.getElementById('irr');
+const resultantPV = document.getElementById('resultant-pv');
+const resultantNPV = document.getElementById('resultant-npv');
 const shareResultButton = document.getElementById('share-result');
 const shareLink = document.getElementById('share-link');
 const copyText = document.getElementById('copy-text');
@@ -106,8 +105,7 @@ const getCashFlowInput = (number, value) => {
   input.addEventListener('input', () => {
     updateCashFlow(number, parseInt(autoInput.rawValue) || 0);
     updateResultantCashFlow(number, autoInput.domElement.value);
-    calculateIRR();
-    // calculateNPV();
+    calculateNPV();
   });
   inputWrapper.appendChild(input);
   inputContainer.appendChild(inputLabel);
@@ -156,22 +154,7 @@ const updateCashFlowContainer = () => {
     resultantCashFlowContainer.appendChild(getCashFlowOutput(i, cashFlows[i]));
   }
   
-  calculateIRR();
-  // calculateNPV();
-}
-
-const calculateIRR = () => {
-  let n = parseInt(numberOfPeriods.value) + 1;
-  let irr = IRR(cashFlows.slice(0, n));
-  irr = (irr * 100).toFixed(2);
-  
-  if (irr !== 'NaN') {
-    resultantIRR.innerText = irr + '%';
-  } else {
-    resultantIRR.innerText = '0.0%';
-  }
-
-  shareLink.value = generateSharableLink(url, [numberOfPeriods, ...elements]);
+  calculateNPV();
 }
 
 const calculateNPV = () => { 
@@ -201,18 +184,20 @@ const calculateNPV = () => {
     resultantPV.innerText = '$0';
     resultantNPV.innerText = '$0';
   }
+
+  shareLink.value = generateSharableLink(url, [numberOfPeriods, interestRate, ...elements]);
 }
 
-// interestRate.addEventListener('input', calculateNPV);
+interestRate.addEventListener('input', calculateNPV);
+
 numberOfPeriods.addEventListener('input', (e) => {
   validateNumberOfPeriods(e);
   updateResultantNumberOfPeriods(e.target.value);
   updateCashFlowContainer();
-  shareLink.value = generateSharableLink(url, [numberOfPeriods, ...elements]);
 });
 
 shareResultButton.addEventListener('click', () => {
-  let link = generateSharableLink(url, [numberOfPeriods, ...elements]);
+  let link = generateSharableLink(url, [numberOfPeriods, interestRate, ...elements]);
   shareLink.value = link;
   shareLink.style.width = 'calc(100% - 3.5rem)';
   shareLink.style.padding = '0.5rem';
@@ -221,9 +206,17 @@ shareResultButton.addEventListener('click', () => {
 
 const params = new URLSearchParams(url.search);
 const numberOfPeriodsValue = params.get('number-of-periods');
+const interestRateValue = params.get('interest-rate');
 
 numberOfPeriods.value = numberOfPeriodsValue || 5;
 updateResultantNumberOfPeriods(numberOfPeriodsValue || 5);
+
+if (interestRateValue) { 
+  interestRate.value = interestRateValue;
+  resultantInterestRate.innerText = interestRateValue + '%';
+} else {
+  resultantInterestRate.innerText = '0.0%';
+}
 
 for (let period = 0; period <= numberOfPeriodsValue; period++) {
   let id = `${period}${getSuperScript(period)}-year`;
