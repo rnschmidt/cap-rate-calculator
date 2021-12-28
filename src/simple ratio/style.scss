@@ -5,6 +5,8 @@
   flex-direction: column;
   gap: 1rem;
 
+  @include reset-heading-margin();
+
   .simple-ratio-cards {
     @include flex-row();
     align-items: stretch;

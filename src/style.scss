@@ -19,6 +19,12 @@ $subHeadSize: 1.2em;
   flex-direction: row;
 }
 
+@mixin reset-heading-margin() {
+  h3, h4, h5, h6 {
+    margin-bottom: 0;
+  }
+}
+
 @mixin input-container() {
   .input-container {
     position: relative;
@@ -317,6 +323,7 @@ body, button, input, select, textarea {
 
 body {
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 h3, h4, h5, h6 {
@@ -340,7 +347,6 @@ nav {
   display: flex;
   flex-direction: column;
   gap: 4rem;
-  overflow: hidden;
 
   h3 {
     color: $contrastHead;

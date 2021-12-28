@@ -87,9 +87,11 @@ const getCashFlowInput = (number, value) => {
   const inputWrapper = document.createElement('div');
   inputWrapper.classList.add('input-wrapper');
   let dollar = document.createElement('span');
+  dollar.classList.add('dollar-sign');
   dollar.innerText = '$';
   inputWrapper.appendChild(dollar);
   const input = document.createElement('input');
+  input.classList.add('dollar');
   input.id = `${number}${getSuperScript(number)}-year`;
   input.type = 'text';
   input.name = input.id;

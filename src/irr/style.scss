@@ -5,9 +5,7 @@
   flex-direction: column;
   gap: 1rem;
 
-  h3, h4, h5, h6 {
-    margin-bottom: 0;
-  }
+  @include reset-heading-margin();
 
   .cards {
     @include flex-row();
@@ -49,6 +47,7 @@
         border-color: lighten($secondaryColor, 25%);
         
         @include input-container();
+
         input {
           width: 100%;
         }
@@ -79,36 +78,10 @@
             align-items: center;
             justify-content: space-around;
             gap: 1rem;
-            
-            .input-wrapper {
-              width: 80%;
-              display: flex;
-              align-items: center;
-              
-              input {
-                width: 100%;
-                border-radius: 0 0.5rem 0.5rem 0;
-                @media screen and (max-width: 768px) {
-                  min-width: 80%;
-                }
-              }
 
-              
-              span {
-                padding: 0.5rem 1rem;
-                font-size: 1.3rem;
-                font-weight: 400;
-                line-height: 1;
-                color: $primaryColor;
-                text-align: center;
-                background-color: lighten($secondaryColor, 48%);
-                border: 1px solid #ccc;
-                border-radius: 0.5rem 0 0 0.5rem;
-                width: 1%;
-                white-space: nowrap;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+            .input-label {
+              label {
+                font-size: 0.9rem;
               }
             }
           }

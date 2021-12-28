@@ -15,6 +15,7 @@ body, button, input, select, textarea {
 
 body {
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 h3, h4, h5, h6 {
@@ -50,7 +51,6 @@ nav {
       -ms-flex-direction: column;
           flex-direction: column;
   gap: 4rem;
-  overflow: hidden;
 }
 
 .container h3 {
@@ -310,48 +310,8 @@ nav {
   gap: 1rem;
 }
 
-.dynamic-irr-container .cards .card-input .cash-flow-container .input-container .input-wrapper {
-  width: 80%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.dynamic-irr-container .cards .card-input .cash-flow-container .input-container .input-wrapper input {
-  width: 100%;
-  border-radius: 0 0.5rem 0.5rem 0;
-}
-
-@media screen and (max-width: 768px) {
-  .dynamic-irr-container .cards .card-input .cash-flow-container .input-container .input-wrapper input {
-    min-width: 80%;
-  }
-}
-
-.dynamic-irr-container .cards .card-input .cash-flow-container .input-container .input-wrapper span {
-  padding: 0.5rem 1rem;
-  font-size: 1.3rem;
-  font-weight: 400;
-  line-height: 1;
-  color: #1E73BE;
-  text-align: center;
-  background-color: #f6f6f6;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem 0 0 0.5rem;
-  width: 1%;
-  white-space: nowrap;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+.dynamic-irr-container .cards .card-input .cash-flow-container .input-container .input-label label {
+  font-size: 0.9rem;
 }
 
 .dynamic-irr-container .cards .card-result {
