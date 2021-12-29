@@ -93,7 +93,7 @@ export const generateSharableLink = (url, elementArray) => {
     }
   });
 
-  return 'http://' + url.host + url.pathname + '?' + params.toString();
+  return 'https://' + url.host + url.pathname + '?' + params.toString();
 }
 // Get parmaeter values from URL and insert into respective fields and calculate result by calling required function
 export const parseFromUrl = (link, callBackArray) => {
