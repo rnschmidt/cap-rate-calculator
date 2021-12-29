@@ -53,6 +53,12 @@
           width: 100%;
         }
 
+        .col {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
         .copy-down-icon {
           width: 1.5rem;
           aspect-ratio: 1;

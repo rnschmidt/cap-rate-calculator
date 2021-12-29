@@ -18,24 +18,28 @@
       <div class="cards">
         <div class="card-input">
           <h3>Dynamic PV & NPV Calculator</h3>
-  
-          <div class="input-container percent">
-            <div class="input-label">
-              <label for="interest-rate">Discount Rate</label>
-            </div>  
-            <input type="number" name="interest-rate" id="interest-rate" class="float-field validate-percent" placeholder="0.0" step="0.01">
+          
+          <div class="col">
+            <div class="input-container percent">
+              <div class="input-label">
+                <label for="interest-rate">Discount Rate</label>
+              </div>  
+              <input type="number" name="interest-rate" id="interest-rate" class="float-field validate-percent" placeholder="0.0" step="0.01">
+            </div>
+    
+            <div class="input-container">
+              <div class="input-label">
+                <label for="number-of-periods">Number of Periods</label>
+              </div>  
+              <input type="number" name="number-of-periods" id="number-of-periods" placeholder="1" min="0" step="1" value="5">
+            </div>
+          </div>
+          
+          <div class="col">
+            <h3>Cash Flow</h3>
+            <div class="cash-flow-container"></div>
           </div>
   
-          <div class="input-container">
-            <div class="input-label">
-              <label for="number-of-periods">Number of Periods</label>
-            </div>  
-            <input type="number" name="number-of-periods" id="number-of-periods" placeholder="1" min="0" step="1" value="5">
-          </div>
-  
-          <h3>Cash Flow</h3>
-  
-          <div class="cash-flow-container"></div>
         </div>
   
         <div class="card-result">
