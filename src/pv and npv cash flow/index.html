@@ -21,7 +21,7 @@
   
           <div class="input-container percent">
             <div class="input-label">
-              <label for="interest-rate">Interest Rate</label>
+              <label for="interest-rate">Discount Rate</label>
             </div>  
             <input type="number" name="interest-rate" id="interest-rate" class="float-field validate-percent" placeholder="0.0" step="0.01">
           </div>
@@ -43,7 +43,7 @@
   
           <div class="card-result-inner">
             <div class="row">
-              <h4>Interest Rate</h4>
+              <h4>Discount Rate</h4>
               <h4 id="resultant-interest-rate">0.0%</h4>
             </div>
   
@@ -62,6 +62,11 @@
           </div>
           
           <div class="final-result">
+            <div class="cap-rate">
+              <h3>Internal Rate of Return (IRR)</h3>
+              <h3 id="irr">0.0%</h3>
+            </div>
+            
             <div class="cap-rate">
               <h3>Present Value (PV)</h3>
               <h3 id="resultant-pv">$0</h3>

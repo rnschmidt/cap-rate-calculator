@@ -5,6 +5,7 @@
   flex-direction: column;
   gap: 1rem;
 
+  @include set-head-size();
   @include reset-heading-margin();
   
   .cards {
@@ -95,11 +96,6 @@
           .row {
             @include flex-row();
             justify-content: space-between;
-  
-            h4 {
-              font-size: 1rem;
-              font-weight: 600;
-            }
           }
         }
 

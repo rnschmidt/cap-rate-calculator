@@ -7,7 +7,7 @@
 }
 
 body, button, input, select, textarea {
-  font-family: Open Sans, sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 18px;
   line-height: 1.5;
 }
@@ -50,17 +50,5 @@ nav {
       -ms-flex-direction: column;
           flex-direction: column;
   gap: 4rem;
-}
-
-.container h3 {
-  color: #111111;
-  font-size: 1.5em;
-  font-weight: 700;
-}
-
-.container label, .container p {
-  color: #444444;
-  font-size: 1.2em;
-  font-weight: 400;
 }
 /*# sourceMappingURL=style.css.map */

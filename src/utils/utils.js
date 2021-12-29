@@ -69,6 +69,7 @@ export const validatePercentage = (e) => {
 // Make sure amount value does not exceed 100,000,000,000,000
 export const validateAmount = (e) => {
   let val = e.target.value;
+  console.log(val)
   if (parseInt(val.replace(/,/g, ""), 10) > 100000000000000) {
     e.target.value = '100,000,000,000,000';
     insertErrorMessage(e, 'Please select a value less than 100,000,000,000,000.');

@@ -5,6 +5,7 @@
   flex-direction: column;
   gap: 1rem;
 
+  @include set-head-size();
   @include reset-heading-margin();
 
   .simple-ratio-cards {
@@ -34,7 +35,7 @@
         border-radius: 0.5rem;
         @media screen and (max-width: 768px) {
           h4 {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
           }
         }
       }
@@ -171,11 +172,6 @@
           .row {
             @include flex-row();
             justify-content: space-between;
-
-            h4 {
-              font-size: 1rem;
-              font-weight: 600;
-            }
           }
         }
       }

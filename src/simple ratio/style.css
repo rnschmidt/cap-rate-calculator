@@ -7,7 +7,7 @@
 }
 
 body, button, input, select, textarea {
-  font-family: Open Sans, sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 18px;
   line-height: 1.5;
 }
@@ -52,18 +52,6 @@ nav {
   gap: 4rem;
 }
 
-.container h3 {
-  color: #111111;
-  font-size: 1.5em;
-  font-weight: 700;
-}
-
-.container label, .container p {
-  color: #444444;
-  font-size: 1.2em;
-  font-weight: 400;
-}
-
 .simple-ratio-container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -73,6 +61,24 @@ nav {
       -ms-flex-direction: column;
           flex-direction: column;
   gap: 1rem;
+}
+
+.simple-ratio-container h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #111111;
+}
+
+.simple-ratio-container h4 {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #111111;
+}
+
+.simple-ratio-container label, .simple-ratio-container p, .simple-ratio-container span {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #444444;
 }
 
 .simple-ratio-container h3, .simple-ratio-container h4, .simple-ratio-container h5, .simple-ratio-container h6 {
@@ -141,10 +147,6 @@ nav {
   color: tomato;
 }
 
-.simple-ratio-container .simple-ratio-cards .inputs .input-container .input-label label {
-  font-size: 1rem;
-}
-
 .simple-ratio-container .simple-ratio-cards .inputs .input-container input {
   min-width: 20rem;
   padding: 0.5rem 1.5rem;
@@ -200,9 +202,9 @@ nav {
 
 .simple-ratio-container .simple-ratio-cards .inputs .input-container .input-wrapper .dollar-sign, .simple-ratio-container .simple-ratio-cards .inputs .input-container .input-wrapper .percent-sign {
   padding: 0.5rem 1rem;
-  font-size: 1.3rem;
+  font-size: 1rem;
   font-weight: 400;
-  line-height: 1;
+  line-height: 1.3;
   color: #1E73BE;
   text-align: center;
   background-color: #f6f6f6;
@@ -255,7 +257,7 @@ nav {
 
 @media screen and (max-width: 768px) {
   .simple-ratio-container .simple-ratio-cards .inputs .row h4 {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
   }
 }
 
@@ -479,11 +481,6 @@ nav {
           justify-content: space-between;
 }
 
-.simple-ratio-container .simple-ratio-cards .result-inner .card .row h4 {
-  font-size: 1rem;
-  font-weight: 600;
-}
-
 .simple-ratio-container .simple-ratio-cards .result .cap-rate {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -501,9 +498,13 @@ nav {
   background-color: #e1eefa;
 }
 
+.simple-ratio-container .simple-ratio-cards .result .cap-rate h3 {
+  font-size: 1.25rem;
+}
+
 @media screen and (max-width: 768px) {
   .simple-ratio-container .simple-ratio-cards .result .cap-rate h3 {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
   }
 }
 

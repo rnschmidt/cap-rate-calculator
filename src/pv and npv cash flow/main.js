@@ -1,6 +1,6 @@
 // Dynamic IRR Calculator
 
-import { NPV, insertErrorMessage, removeErrorMessage, numberWithCommas, generateSharableLink, renderCopyDownIcon } from "../utils/utils.js";
+import { NPV, insertErrorMessage, removeErrorMessage, numberWithCommas, generateSharableLink, renderCopyDownIcon, IRR } from "../utils/utils.js";
 
 const interestRate = document.getElementById('interest-rate');
 const numberOfPeriods = document.getElementById('number-of-periods');
@@ -10,6 +10,7 @@ const resultantCashFlowContainer = document.querySelector('.resultant-cash-flow-
 
 const resultantInterestRate = document.getElementById('resultant-interest-rate');
 const resultantNumberOfPeriods = document.getElementById('resultant-number-of-periods');
+const resultantIRR = document.getElementById('irr');
 const resultantPV = document.getElementById('resultant-pv');
 const resultantNPV = document.getElementById('resultant-npv');
 const shareResultButton = document.getElementById('share-result');
@@ -92,6 +93,7 @@ const getCashFlowInput = (number, value) => {
   inputWrapper.appendChild(dollar);
   const input = document.createElement('input');
   input.classList.add('dollar');
+  input.classList.add('validate-amount');
   input.id = `${number}${getSuperScript(number)}-year`;
   input.type = 'text';
   input.name = input.id;
@@ -107,6 +109,7 @@ const getCashFlowInput = (number, value) => {
   input.addEventListener('input', () => {
     updateCashFlow(number, parseInt(autoInput.rawValue) || 0);
     updateResultantCashFlow(number, autoInput.domElement.value);
+    calculateIRR();
     calculateNPV();
   });
   inputWrapper.appendChild(input);
@@ -156,7 +159,22 @@ const updateCashFlowContainer = () => {
     resultantCashFlowContainer.appendChild(getCashFlowOutput(i, cashFlows[i]));
   }
   
+  calculateIRR();
   calculateNPV();
+}
+
+const calculateIRR = () => {
+  let n = parseInt(numberOfPeriods.value) + 1;
+  let irr = IRR(cashFlows.slice(0, n));
+  irr = (irr * 100).toFixed(2);
+  
+  if (irr !== 'NaN') {
+    resultantIRR.innerText = irr + '%';
+  } else {
+    resultantIRR.innerText = '0.0%';
+  }
+
+  shareLink.value = generateSharableLink(url, [numberOfPeriods, ...elements]);
 }
 
 const calculateNPV = () => { 
