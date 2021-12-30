@@ -189,6 +189,40 @@ const InternalPV = (values, guess) => {
   return tempTotal;
 }
 
+const EVALNPV = (rate, values, npvType, lowerBound, upperBound) => {
+  let tempVar = 1;
+  let tempTotal = 0;
+  let i = lowerBound;
+
+  while (i <= upperBound) {
+    let tempVar2 = values[i];
+    tempVar = tempVar + tempVar * rate;
+
+    if (! (npvType > 0 &&  tempVar2 > 0) || ! (npvType < 0 && tempVar2 < 0)) {
+      tempTotal = tempTotal + tempVar2 / tempVar;
+    }
+    i++
+  }
+  return tempTotal
+}
+
+export const NPV = (values, rate) => {
+  values = values.slice(1);
+  let lowerBound = 0;
+  let upperBound = values.length -1;
+  let tempVar = upperBound - lowerBound + 1;
+
+  if (tempVar < 1) {
+    return "Error - Invalid Values"
+  }
+
+  if (rate === -1) {
+    return "Error - Invalid Rate"
+  }
+
+  return EVALNPV(rate, values, 0, lowerBound, upperBound);
+}
+
 export const IRR = (values, guess) => {
   guess = typeof guess === "undefined" ? 0.1 : guess;
 
@@ -273,36 +307,30 @@ export const IRR = (values, guess) => {
   return "Error - iterMax exceeded"
 }
 
-const EVALNPV = (rate, values, npvType, lowerBound, upperBound) => {
-  let tempVar = 1;
-  let tempTotal = 0;
-  let i = lowerBound;
+const npv = (values, rate) => values.reduce(
+  (acc, curr, i) => acc + (curr / (1 + rate) ** i),
+  0
+);
 
-  while (i <= upperBound) {
-    let tempVar2 = values[i];
-    tempVar = tempVar + tempVar * rate;
-
-    if (! (npvType > 0 &&  tempVar2 > 0) || ! (npvType < 0 && tempVar2 < 0)) {
-      tempTotal = tempTotal + tempVar2 / tempVar;
+export const MIRR = (values, financeRate, reinvestRate) => {
+  let positive = false;
+  let negative = false;
+  for (let i = 0; i < values.length; i++) {
+    if (values[i] > 0) {
+      positive = true;
     }
-    i++
-  }
-  return tempTotal
-}
-
-export const NPV = (values, rate) => {
-  values = values.slice(1);
-  let lowerBound = 0;
-  let upperBound = values.length -1;
-  let tempVar = upperBound - lowerBound + 1;
-
-  if (tempVar < 1) {
-    return "Error - Invalid Values"
+    if (values[i] < 0) {
+      negative = true;
+    }
   }
 
-  if (rate === -1) {
-    return "Error - Invalid Rate"
+  // Return error if values does not contain at least one
+  // positive value and one negative value
+  if (!positive || !negative) {
+    return Number.NaN;
   }
-
-  return EVALNPV(rate, values, 0, lowerBound, upperBound);
+  
+  const numer = Math.abs(npv(values, reinvestRate));
+  const denom = Math.abs(npv(values, financeRate));
+  return (numer / denom) ** (1 / (values.length - 1)) * (1 + reinvestRate) - 1;
 }
