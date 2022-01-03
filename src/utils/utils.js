@@ -357,7 +357,7 @@ export const MIRR = (values, financeRate, reinvestRate) => {
     return Number.NaN;
   }
 
-  const numer = Math.abs(npv(values, reinvestRate));
-  const denom = Math.abs(npv(values, financeRate));
+  const numer = Math.abs(npv(values.map((x) => x > 0 ? x : 0), reinvestRate));
+  const denom = Math.abs(npv(values.map(x => x < 0 ? x : 0), financeRate));
   return (numer / denom) ** (1 / (values.length - 1)) * (1 + reinvestRate) - 1;
 }
