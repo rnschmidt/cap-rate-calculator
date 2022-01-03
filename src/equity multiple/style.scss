@@ -1,6 +1,6 @@
 @import "../style.scss";
 
-.dynamic-irr-container {
+.equity-multiple-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -124,6 +124,10 @@
   
         border-color: lighten($primaryColor, 25%);
         @include cap-rate();
+        
+        .cap-rate:last-child {
+          border-top-right-radius: 0;
+        }
       }
     }
   }

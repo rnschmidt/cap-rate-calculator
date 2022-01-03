@@ -165,6 +165,33 @@ export const renderCopyDownIcon = (node) => {
   return iconSvg;
 }
 
+export const renderDeleteIcon = (node) => { 
+  const iconSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  const iconPath = document.createElementNS(
+    'http://www.w3.org/2000/svg',
+    'path'
+  );
+
+  iconSvg.setAttribute('fill', 'currentColor');
+  iconSvg.setAttribute('viewBox', '0 0 640 512');
+  iconSvg.setAttribute('stroke', 'black');
+  iconSvg.classList.add('delete-icon');
+
+  iconPath.setAttribute(
+    'd',
+    'M 576 64 H 205.26 A 63.97 63.97 0 0 0 160 82.75 L 9.37 233.37 c -12.5 12.5 -12.5 32.76 0 45.25 L 160 429.25 c 12 12 28.28 18.75 45.25 18.75 H 576 c 35.35 0 64 -28.65 64 -64 V 128 c 0 -35.35 -28.65 -64 -64 -64 Z m -84.69 254.06 c 6.25 6.25 6.25 16.38 0 22.63 l -22.62 22.62 c -6.25 6.25 -16.38 6.25 -22.63 0 L 384 301.25 l -62.06 62.06 c -6.25 6.25 -16.38 6.25 -22.63 0 l -22.62 -22.62 c -6.25 -6.25 -6.25 -16.38 0 -22.63 L 338.75 256 l -62.06 -62.06 c -6.25 -6.25 -6.25 -16.38 0 -22.63 l 22.62 -22.62 c 6.25 -6.25 16.38 -6.25 22.63 0 L 384 210.75 l 62.06 -62.06 c 6.25 -6.25 16.38 -6.25 22.63 0 l 22.62 22.62 c 6.25 6.25 6.25 16.38 0 22.63 L 429.25 256 l 62.06 62.06 Z'
+  );
+  iconPath.setAttribute('aria-hidden', 'true');
+  iconPath.setAttribute('focusable', 'false');
+  iconPath.setAttribute('stroke-width', '2');
+
+  iconSvg.appendChild(iconPath);
+
+  node.appendChild(iconSvg);
+
+  return iconSvg;
+}
+
 const InternalPV = (values, guess) => {
   guess = typeof guess === "undefined" ? 0.1 : guess;
 
@@ -329,7 +356,7 @@ export const MIRR = (values, financeRate, reinvestRate) => {
   if (!positive || !negative) {
     return Number.NaN;
   }
-  
+
   const numer = Math.abs(npv(values, reinvestRate));
   const denom = Math.abs(npv(values, financeRate));
   return (numer / denom) ** (1 / (values.length - 1)) * (1 + reinvestRate) - 1;

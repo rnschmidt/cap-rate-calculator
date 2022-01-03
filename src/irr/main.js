@@ -2,7 +2,6 @@
 
 import { IRR, insertErrorMessage, removeErrorMessage, numberWithCommas, generateSharableLink, renderCopyDownIcon } from "../utils/utils.js";
 
-// const interestRate = document.getElementById('interest-rate');
 const numberOfPeriods = document.getElementById('number-of-periods');
 
 const cashFlowContainer = document.querySelector('.cash-flow-container');
@@ -18,7 +17,7 @@ const url = new URL(window.location.href);
 let cashFlows = new Array(21).fill(0);
 
 let elements = [];
-
+// Validate Number of Periods input with proper error message
 const validateNumberOfPeriods = (e) => { 
   const numberOfPeriodsValue = parseInt(numberOfPeriods.value);
 
@@ -36,7 +35,7 @@ const validateNumberOfPeriods = (e) => {
     removeErrorMessage(e);
   }
 }
-
+// update Number of Periods on Calculated Result Container
 const updateResultantNumberOfPeriods = (numberOfPeriodsValue) => { 
   if (numberOfPeriodsValue) {
     resultantNumberOfPeriods.innerText = numberOfPeriodsValue;
@@ -53,22 +52,22 @@ const getSuperScript = (number) => {
     default: return 'th';
   }
 }
-
+// updated cash flow array to reflect the new input
 const updateCashFlow = (id, value) => cashFlows[id] = value;
-
+// clear cash flow on change of number of periods
 const clearCashFlows = () => {
   const numberOfPeriodsValue = parseInt(numberOfPeriods.value);
   for (let i = numberOfPeriodsValue + 1; i < cashFlows.length; i++) {
     cashFlows[i] = 0;
   }
 }
-
+// update cash flow on resultant container where row number is equal to `number` argument
 const updateResultantCashFlow = (number, value) => {
   const id = `resultant-${number}${getSuperScript(number)}-year`;
   const amount = document.getElementById(id);
   amount.innerText = cashFlows[number] >= 0 ? '$' + value : '-$' + value.replace('-', '');
 }
-
+// insert new set of input along with label and event listner for cash flow on change of nubmer of periods
 const getCashFlowInput = (number, value) => { 
   const inputContainer = document.createElement('div');
   inputContainer.classList.add('input-container');
@@ -121,7 +120,7 @@ const getCashFlowInput = (number, value) => {
   });
   return inputContainer;
 }
-
+// insert new row of cash flow on resultant container on change of number of periods
 const getCashFlowOutput = (number, value) => { 
   const row = document.createElement('div');
   row.classList.add('row');
@@ -134,13 +133,21 @@ const getCashFlowOutput = (number, value) => {
   row.appendChild(amountText);
   return row;
 }
-
+// On change of number of periods, clear cash flow and insert new set of input
 const removeAllChildNodes = (parent) => {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild);
   }
 }
-
+/*
+  Steps follwed on change of number of periods:
+  1. Clear cash flow (remove all chlid nodes on cash flow container)
+  2. Clear cash flow on resultant container (remove all chlid nodes on resultant cash flow container)
+  3. Clear the cash flow array
+  4. Insert new set of input along with label and event listner for cash flow
+  5. Insert new row of cash flow on resultant container
+  6. Calculate IRR
+*/
 const updateCashFlowContainer = () => { 
   const numberOfPeriodsValue = parseInt(numberOfPeriods.value);
 
@@ -156,7 +163,10 @@ const updateCashFlowContainer = () => {
   
   calculateIRR();
 }
-
+/* 
+  Calaulate IRR (helper function is present in utils.js)
+  Generate new sharable link for new sets of inputs
+  */
 const calculateIRR = () => {
   let n = parseInt(numberOfPeriods.value) + 1;
   let irr = IRR(cashFlows.slice(0, n));
@@ -170,14 +180,13 @@ const calculateIRR = () => {
 
   shareLink.value = generateSharableLink(url, [numberOfPeriods, ...elements]);
 }
-
+// add event listner for number of periods 
 numberOfPeriods.addEventListener('input', (e) => {
   validateNumberOfPeriods(e);
   updateResultantNumberOfPeriods(e.target.value);
   updateCashFlowContainer();
-  shareLink.value = generateSharableLink(url, [numberOfPeriods, ...elements]);
 });
-
+// add event listner for share result button to generate new sharable link
 shareResultButton.addEventListener('click', () => {
   let link = generateSharableLink(url, [numberOfPeriods, ...elements]);
   shareLink.value = link;
@@ -185,13 +194,16 @@ shareResultButton.addEventListener('click', () => {
   shareLink.style.padding = '0.5rem';
   copyText.style.opacity = '1';
 });
-
+// Following code below is responsible to populate the page with values from url parameters 
 const params = new URLSearchParams(url.search);
 const numberOfPeriodsValue = params.get('number-of-periods');
-
+// default value for number of periods is 5
 numberOfPeriods.value = numberOfPeriodsValue || 5;
 updateResultantNumberOfPeriods(numberOfPeriodsValue || 5);
-
+/*
+  Check if parameter is present in url for cash flow values. 
+  If yes, populate the page with values
+*/
 for (let period = 0; period <= numberOfPeriodsValue; period++) {
   let id = `${period}${getSuperScript(period)}-year`;
  

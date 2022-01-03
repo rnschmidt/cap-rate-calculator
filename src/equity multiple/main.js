@@ -1,24 +1,15 @@
-// Dynamic MIRR Calculator
+// Dynamic IRR Calculator
 
-import { NPV, insertErrorMessage, removeErrorMessage, numberWithCommas, generateSharableLink, renderCopyDownIcon, IRR, MIRR } from "../utils/utils.js";
-// input fields
-const discountRate = document.getElementById('discount-rate');
-const financeRate = document.getElementById('finance-rate');
-const reinvestmentRate = document.getElementById('reinvestment-rate');
+import { IRR, insertErrorMessage, removeErrorMessage, numberWithCommas, generateSharableLink, renderCopyDownIcon } from "../utils/utils.js";
+
 const numberOfPeriods = document.getElementById('number-of-periods');
-// containers for input and output
+
 const cashFlowContainer = document.querySelector('.cash-flow-container');
 const resultantCashFlowContainer = document.querySelector('.resultant-cash-flow-container');
-// output
-const resultantDiscountRate = document.getElementById('resultant-discount-rate');
-const resultantFinanceRate = document.getElementById('resultant-finance-rate');
-const resultantReinvestmentRate = document.getElementById('resultant-reinvestment-rate');
+
 const resultantNumberOfPeriods = document.getElementById('resultant-number-of-periods');
 const resultantIRR = document.getElementById('irr');
-const resultantMIRR = document.getElementById('mirr');
-const resultantPV = document.getElementById('resultant-pv');
-const resultantNPV = document.getElementById('resultant-npv');
-// share link
+const equityMultiple = document.getElementById('equity-multiple');
 const shareResultButton = document.getElementById('share-result');
 const shareLink = document.getElementById('share-link');
 const copyText = document.getElementById('copy-text');
@@ -27,7 +18,7 @@ const url = new URL(window.location.href);
 let cashFlows = new Array(21).fill(0);
 
 let elements = [];
-// validate number of periods with proper error message
+// Validate Number of Periods input with proper error message
 const validateNumberOfPeriods = (e) => { 
   const numberOfPeriodsValue = parseInt(numberOfPeriods.value);
 
@@ -45,7 +36,7 @@ const validateNumberOfPeriods = (e) => {
     removeErrorMessage(e);
   }
 }
-// update Number of Periods on calculated result side
+// update Number of Periods on Calculated Result Container
 const updateResultantNumberOfPeriods = (numberOfPeriodsValue) => { 
   if (numberOfPeriodsValue) {
     resultantNumberOfPeriods.innerText = numberOfPeriodsValue;
@@ -62,22 +53,22 @@ const getSuperScript = (number) => {
     default: return 'th';
   }
 }
-// update cash flow array on input change with given index and value
+// updated cash flow array to reflect the new input
 const updateCashFlow = (id, value) => cashFlows[id] = value;
-// clear cash flows array on change of number of periods
+// clear cash flow on change of number of periods
 const clearCashFlows = () => {
   const numberOfPeriodsValue = parseInt(numberOfPeriods.value);
   for (let i = numberOfPeriodsValue + 1; i < cashFlows.length; i++) {
     cashFlows[i] = 0;
   }
 }
-// update cash flow on resultant side with given index and value
+// update cash flow on resultant container where row number is equal to `number` argument
 const updateResultantCashFlow = (number, value) => {
   const id = `resultant-${number}${getSuperScript(number)}-year`;
   const amount = document.getElementById(id);
   amount.innerText = cashFlows[number] >= 0 ? '$' + value : '-$' + value.replace('-', '');
 }
-// insert input field along with label to cash flow container and add event listener to input field
+// insert new set of input along with label and event listner for cash flow on change of nubmer of periods
 const getCashFlowInput = (number, value) => { 
   const inputContainer = document.createElement('div');
   inputContainer.classList.add('input-container');
@@ -99,7 +90,6 @@ const getCashFlowInput = (number, value) => {
   inputWrapper.appendChild(dollar);
   const input = document.createElement('input');
   input.classList.add('dollar');
-  input.classList.add('validate-amount');
   input.id = `${number}${getSuperScript(number)}-year`;
   input.type = 'text';
   input.name = input.id;
@@ -116,8 +106,7 @@ const getCashFlowInput = (number, value) => {
     updateCashFlow(number, parseInt(autoInput.rawValue) || 0);
     updateResultantCashFlow(number, autoInput.domElement.value);
     calculateIRR();
-    calculateMIRR();
-    calculateNPV();
+    calculateEquityMultiple();
   });
   inputWrapper.appendChild(input);
   inputContainer.appendChild(inputLabel);
@@ -133,7 +122,7 @@ const getCashFlowInput = (number, value) => {
   });
   return inputContainer;
 }
-// insert new row to resultant cash flow container
+// insert new row of cash flow on resultant container on change of number of periods
 const getCashFlowOutput = (number, value) => { 
   const row = document.createElement('div');
   row.classList.add('row');
@@ -146,20 +135,20 @@ const getCashFlowOutput = (number, value) => {
   row.appendChild(amountText);
   return row;
 }
-// remove all inputs from cash flow container and all rows from resultant cash flow container
+// On change of number of periods, clear cash flow and insert new set of input
 const removeAllChildNodes = (parent) => {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild);
   }
 }
 /*
-  Updating cash flow container involve follwing steps:
-  1. Remove all inputs from cash flow container
-  2. Remove all rows from resultant cash flow container
-  3. Insert new inputs and rows to cash flow container
-  4. Update cash flow array on input change with given index and value
-  5. Update resultant cash flow on input change with given index and value
-  6. Calculate IRR, MIRR and NPV
+  Steps follwed on change of number of periods:
+  1. Clear cash flow (remove all chlid nodes on cash flow container)
+  2. Clear cash flow on resultant container (remove all chlid nodes on resultant cash flow container)
+  3. Clear the cash flow array
+  4. Insert new set of input along with label and event listner for cash flow
+  5. Insert new row of cash flow on resultant container
+  6. Calculate IRR
 */
 const updateCashFlowContainer = () => { 
   const numberOfPeriodsValue = parseInt(numberOfPeriods.value);
@@ -175,10 +164,12 @@ const updateCashFlowContainer = () => {
   }
   
   calculateIRR();
-  calculateMIRR();
-  calculateNPV();
+  calculateEquityMultiple();
 }
-// calculate IRR on input change whose helper function is present in utils.js
+/* 
+  Calaulate IRR (helper function is present in utils.js)
+  Generate new sharable link for new sets of inputs
+  */
 const calculateIRR = () => {
   let n = parseInt(numberOfPeriods.value) + 1;
   let irr = IRR(cashFlows.slice(0, n));
@@ -190,109 +181,52 @@ const calculateIRR = () => {
     resultantIRR.innerText = '0.0%';
   }
 
-  shareLink.value = generateSharableLink(url, [numberOfPeriods, discountRate, financeRate, reinvestmentRate, ...elements]);
+  shareLink.value = generateSharableLink(url, [numberOfPeriods, ...elements]);
 }
-// calculate MIRR on input change whose helper function is present in utils.js
-const calculateMIRR = () => { 
-  let n = parseInt(numberOfPeriods.value) + 1;
-  let financeRateValue = parseFloat(financeRate.value) / 100;
-  let reinvestmentRateValue = parseFloat(reinvestmentRate.value) / 100;
-
-  if (financeRateValue) {
-    resultantFinanceRate.innerText = financeRateValue * 100 + '%';
-  } else {
-    resultantFinanceRate.innerText = '0.0%';
+/*
+  Calculate Equity Multiple
+  Equity Multiple is sum of all positive cash flows divided by absolute sum of all negative cash flows
+*/
+const calculateEquityMultiple = () => {
+  let sum = 0;
+  let sumNegative = 0;
+  for (let i = 0; i < cashFlows.length; i++) {
+    if (cashFlows[i] >= 0) {
+      sum += cashFlows[i];
+    } else {
+      sumNegative += cashFlows[i];
+    }
   }
-
-  if (reinvestmentRateValue) {
-    resultantReinvestmentRate.innerText = reinvestmentRateValue * 100 + '%';
+  if (sum === 0 || sumNegative === 0) {
+    equityMultiple.innerText = '0.0';
   } else {
-    resultantReinvestmentRate.innerText = '0.0%';
+    equityMultiple.innerText = (sum / Math.abs(sumNegative)).toFixed(2);
   }
-
-  let mirr = MIRR(cashFlows.slice(0, n), financeRateValue, reinvestmentRateValue);
-  mirr = (mirr * 100).toFixed(2);
-  
-  if (mirr !== 'NaN') {
-    resultantMIRR.innerText = mirr + '%';
-  } else {
-    resultantMIRR.innerText = '0.0%';
-  }
-
-  shareLink.value = generateSharableLink(url, [numberOfPeriods, discountRate, financeRate, reinvestmentRate, ...elements]);
 }
-// calculate NPV on input change whose helper function is present in utils.js
-const calculateNPV = () => { 
-  const numberOfPeriodsValue = parseInt(numberOfPeriods.value);
-  const discountRateValue = parseFloat(discountRate.value);
-  
-  if (numberOfPeriodsValue) {
-    resultantNumberOfPeriods.innerText = numberOfPeriodsValue;
-  } else {
-    resultantNumberOfPeriods.innerText = 1;
-  }
-
-  if (discountRateValue) { 
-    resultantDiscountRate.innerText = discountRateValue + '%';
-  } else {
-    resultantDiscountRate.innerText = '0.0%';
-  }
-
-  let pv = NPV(cashFlows.slice(0, numberOfPeriodsValue + 1), discountRateValue / 100);
-  pv = Math.round(pv);
-  
-  if (pv) {
-    let npv = cashFlows[0] + pv;
-    resultantPV.innerText = pv >= 0 ? '$' + numberWithCommas(pv) : '-$' + numberWithCommas(Math.abs(pv));
-    resultantNPV.innerText = npv >= 0 ? '$' + numberWithCommas(npv) : '-$' + numberWithCommas(Math.abs(npv));
-  } else {
-    resultantPV.innerText = '$0';
-    resultantNPV.innerText = '$0';
-  }
-
-  shareLink.value = generateSharableLink(url, [numberOfPeriods, discountRate, financeRate, reinvestmentRate, ...elements]);
-}
-// event listener for finance rate input and reinvestment rate input
-discountRate.addEventListener('input', calculateNPV);
-[financeRate, reinvestmentRate].forEach(element => element.addEventListener('input', calculateMIRR));
-// event listener for number of periods input
+// add event listner for number of periods 
 numberOfPeriods.addEventListener('input', (e) => {
   validateNumberOfPeriods(e);
   updateResultantNumberOfPeriods(e.target.value);
   updateCashFlowContainer();
 });
-// on click of share result button generate new sharable link 
+// add event listner for share result button to generate new sharable link
 shareResultButton.addEventListener('click', () => {
-  let link = generateSharableLink(url, [numberOfPeriods, discountRate, financeRate, reinvestmentRate, ...elements]);
+  let link = generateSharableLink(url, [numberOfPeriods, ...elements]);
   shareLink.value = link;
   shareLink.style.width = 'calc(100% - 3.5rem)';
   shareLink.style.padding = '0.5rem';
   copyText.style.opacity = '1';
 });
-// Form here is used to pre-populate the form with the values from the sharable link url parameters
+// Following code below is responsible to populate the page with values from url parameters 
 const params = new URLSearchParams(url.search);
 const numberOfPeriodsValue = params.get('number-of-periods');
-const discountRateValue = params.get('discount-rate');
-const financeRateValue = params.get('finance-rate');
-const reinvestmentRateValue = params.get('reinvestment-rate');
-
+// default value for number of periods is 5
 numberOfPeriods.value = numberOfPeriodsValue || 5;
 updateResultantNumberOfPeriods(numberOfPeriodsValue || 5);
-
-if (discountRateValue) { 
-  discountRate.value = discountRateValue;
-  resultantDiscountRate.innerText = discountRateValue + '%';
-}
-
-if (financeRateValue) { 
-  financeRate.value = financeRateValue;
-  resultantFinanceRate.innerText = financeRateValue + '%';
-}
-if (reinvestmentRateValue) { 
-  reinvestmentRate.value = reinvestmentRateValue;
-  resultantReinvestmentRate.innerText = reinvestmentRateValue + '%';
-}
-
+/*
+  Check if parameter is present in url for cash flow values. 
+  If yes, populate the page with values
+*/
 for (let period = 0; period <= numberOfPeriodsValue; period++) {
   let id = `${period}${getSuperScript(period)}-year`;
  

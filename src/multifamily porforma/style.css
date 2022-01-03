@@ -1,0 +1,471 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+body, button, input, select, textarea {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+body {
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h3, h4, h5, h6 {
+  margin-bottom: 20px;
+}
+
+nav {
+  -webkit-box-shadow: 1px 1px 8px 2px rgba(0, 0, 0, 0.75);
+          box-shadow: 1px 1px 8px 2px rgba(0, 0, 0, 0.75);
+  height: 10vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.container {
+  min-height: 90vh;
+  padding: 75px 20px 180px;
+  max-width: 75rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 4rem;
+}
+
+.multifamily-proforma-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1rem;
+}
+
+.multifamily-proforma-container h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #111111;
+}
+
+.multifamily-proforma-container h4 {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #111111;
+}
+
+.multifamily-proforma-container label, .multifamily-proforma-container p, .multifamily-proforma-container span {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #444444;
+}
+
+.multifamily-proforma-container h3, .multifamily-proforma-container h4, .multifamily-proforma-container h5, .multifamily-proforma-container h6 {
+  margin-bottom: 0;
+}
+
+.multifamily-proforma-container .share-result-container {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 0.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .multifamily-proforma-container .share-result-container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+.multifamily-proforma-container .share-result-container button {
+  width: 11rem;
+  height: 4rem;
+  padding: 1.5rem 1rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-family: 'Assistant', sans-serif;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #fe9000;
+  color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  cursor: pointer;
+}
+
+.multifamily-proforma-container .share-result-container button:hover {
+  background-color: #e58200;
+}
+
+@media screen and (max-width: 768px) {
+  .multifamily-proforma-container .share-result-container button {
+    width: 100%;
+  }
+}
+
+.multifamily-proforma-container .share-result-container .link-container {
+  width: calc(100% - 11rem);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 0.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .multifamily-proforma-container .share-result-container .link-container {
+    width: 100%;
+  }
+}
+
+.multifamily-proforma-container .share-result-container .link-container input {
+  width: 0%;
+  padding: 0;
+  height: 3.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  color: #1E73BE;
+  -webkit-box-shadow: 1px 2px 4px 1px rgba(254, 144, 0, 0.25);
+          box-shadow: 1px 2px 4px 1px rgba(254, 144, 0, 0.25);
+  font-size: 1.5rem;
+  -webkit-transition: all 1s ease-in;
+  transition: all 1s ease-in;
+}
+
+.multifamily-proforma-container .share-result-container .link-container input:focus {
+  outline: 1px solid rgba(254, 144, 0, 0.25);
+}
+
+.multifamily-proforma-container .share-result-container .link-container span {
+  opacity: 0;
+  height: 3.5rem;
+  aspect-ratio: 1;
+  color: orange;
+  padding: 0.75rem 1rem;
+  -webkit-box-shadow: 1px 1px 8px 1px rgba(254, 144, 0, 0.25);
+          box-shadow: 1px 1px 8px 1px rgba(254, 144, 0, 0.25);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.multifamily-proforma-container .share-result-container .link-container span .tooltip {
+  visibility: hidden;
+  width: 140px;
+  background-color: rgba(254, 144, 0, 0.75);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 120%;
+  left: 50%;
+  margin-left: -75px;
+  opacity: 0;
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+}
+
+.multifamily-proforma-container .share-result-container .link-container span .tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(254, 144, 0, 0.75) transparent transparent transparent;
+}
+
+.multifamily-proforma-container .share-result-container .link-container span:hover {
+  background-color: rgba(254, 144, 0, 0.5);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.multifamily-proforma-container .share-result-container .link-container span:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.multifamily-proforma-container .building-data-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  gap: 2rem;
+}
+
+.multifamily-proforma-container .building-data-container .card-input, .multifamily-proforma-container .building-data-container .card-result {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  gap: 0.75rem;
+  min-width: 21rem;
+  width: 100%;
+  min-height: 16rem;
+  border-style: solid;
+  border-width: 4px 0;
+  border-top-right-radius: 0.75rem;
+  background-color: #f9f9f9;
+  -webkit-box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.25);
+          box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.25);
+}
+
+@media screen and (max-width: 1024px) {
+  .multifamily-proforma-container .building-data-container .card-input, .multifamily-proforma-container .building-data-container .card-result {
+    min-width: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .multifamily-proforma-container .building-data-container .card-input, .multifamily-proforma-container .building-data-container .card-result {
+    border-top-left-radius: 0.75rem;
+  }
+}
+
+.multifamily-proforma-container .building-data-container .card-input {
+  padding: 1rem;
+  border-color: #bcbcbc;
+}
+
+.multifamily-proforma-container .building-data-container .card-input .building-data-inputs-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1rem;
+}
+
+.multifamily-proforma-container .building-data-container .card-input .building-data-inputs-container .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.multifamily-proforma-container .building-data-container .card-input .building-data-inputs-container .row .input-container .input-wrapper {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  /* Hide Arrows/Spinners */
+  /* Chrome, Safari, Edge, Opera */
+  /* Firefox */
+}
+
+.multifamily-proforma-container .building-data-container .card-input .building-data-inputs-container .row .input-container .input-wrapper .input-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.multifamily-proforma-container .building-data-container .card-input .building-data-inputs-container .row .input-container .input-wrapper input {
+  max-width: 16rem;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid #afafaf;
+  border-radius: 0.5rem;
+  outline: none;
+  font-size: 1rem;
+  line-height: 1.3;
+  background-color: #ffffff;
+}
+
+.multifamily-proforma-container .building-data-container .card-input .building-data-inputs-container .row .input-container .input-wrapper input:focus, .multifamily-proforma-container .building-data-container .card-input .building-data-inputs-container .row .input-container .input-wrapper input:hover {
+  border-color: #1E73BE;
+  -webkit-box-shadow: 0px 1px 4px 1px #cbe2f7;
+          box-shadow: 0px 1px 4px 1px #cbe2f7;
+}
+
+.multifamily-proforma-container .building-data-container .card-input .building-data-inputs-container .row .input-container .input-wrapper input::-webkit-outer-spin-button,
+.multifamily-proforma-container .building-data-container .card-input .building-data-inputs-container .row .input-container .input-wrapper input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.multifamily-proforma-container .building-data-container .card-input .building-data-inputs-container .row .input-container .input-wrapper input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.multifamily-proforma-container .building-data-container .card-input .building-data-inputs-container .row .input-container .input-wrapper .short-input {
+  max-width: 4rem;
+  padding: 0.5rem 0.8rem;
+}
+
+.multifamily-proforma-container .building-data-container .card-input .building-data-inputs-container .row .input-container .input-wrapper .rounded-left {
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.multifamily-proforma-container .building-data-container .card-input .building-data-inputs-container .row .input-container .input-wrapper .rounded-right {
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.multifamily-proforma-container .building-data-container .card-input .building-data-inputs-container .row .input-container .input-wrapper span {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.3;
+  color: #1E73BE;
+  text-align: center;
+  background-color: #f6f6f6;
+  border: 1px solid #afafaf;
+  width: 1%;
+  white-space: nowrap;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.multifamily-proforma-container .building-data-container .card-input .building-data-inputs-container .row svg {
+  width: 2.5rem;
+  aspect-ratio: 1;
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+  color: tomato;
+  cursor: pointer;
+}
+
+.multifamily-proforma-container .building-data-container .card-input .building-data-inputs-container .row svg:hover {
+  color: #ff3814;
+}
+
+.multifamily-proforma-container .building-data-container .card-input .add-row {
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  max-width: 28rem;
+  min-width: 8rem;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  color: white;
+  background: #bcbcbc;
+  cursor: pointer;
+  -webkit-box-shadow: 1px 1px 4px 1px #a2a2a2;
+          box-shadow: 1px 1px 4px 1px #a2a2a2;
+}
+
+.multifamily-proforma-container .building-data-container .card-input .add-row:hover {
+  background: #a2a2a2;
+}
+
+.multifamily-proforma-container .building-data-container .card-result {
+  border-color: #73b1e9;
+}
+
+.multifamily-proforma-container .building-data-container .card-result-head {
+  padding: 1rem 1rem 0;
+}
+
+.multifamily-proforma-container .building-data-container .card-result .resultant-building-data {
+  padding: 1rem;
+  min-height: 10rem;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.multifamily-proforma-container .building-data-container .card-result .resultant-building-data-head, .multifamily-proforma-container .building-data-container .card-result .resultant-building-data-container-row, .multifamily-proforma-container .building-data-container .card-result .resultant-building-data-total {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.multifamily-proforma-container .building-data-container .card-result .resultant-building-data-head h4, .multifamily-proforma-container .building-data-container .card-result .resultant-building-data-container-row h4, .multifamily-proforma-container .building-data-container .card-result .resultant-building-data-total h4 {
+  width: 25%;
+  border: 1px solid #cbe2f7;
+  padding: 0.5rem;
+  overflow: auto;
+}
+
+.multifamily-proforma-container .building-data-container .card-result .resultant-building-data-head {
+  background-color: #d8e9f9;
+}
+
+.multifamily-proforma-container .building-data-container .card-result .resultant-building-data-total {
+  background-color: #6eafe8;
+}
+/*# sourceMappingURL=style.css.map */
