@@ -79,6 +79,7 @@ const addNewRowToContainer = (id) => {
   deleteIcon.addEventListener('click', () => { 
     removeAllInputsEventListeners(id);
     deleteRowFromContainer(id)
+    updateTotalValues();
   });
 
   buildingDataInputContainer.appendChild(row);
@@ -123,11 +124,13 @@ const calculateTotalAnnualRent = (id, numberOfUnits, averageRentPerMonth) => {
   const totalAnnualRentValue = numberOfUnits * averageRentPerMonth * 12; 
   totalAnnualRent.innerText = `$${numberWithCommas(totalAnnualRentValue)}`;
   updateTotalValues();
+  shareLink.value = generateSharableLink();
 }
 
 const handleBrBaInputs = (id, brValue, baValue) => { 
   const resultantUnitType = document.getElementById(`resultant-unit-type-${id}`);
   resultantUnitType.innerText = `${brValue}br / ${baValue}ba`;
+  shareLink.value = generateSharableLink();
 }
 
 const handleNumberOfUnits = (id, numberOfUnitsValue, averageRentPerMonthValue) => { 
