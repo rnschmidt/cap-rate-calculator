@@ -122,6 +122,8 @@ const getCashFlowInput = (number, value) => {
       AutoNumeric.set(element, autoInput.rawValue);
       updateCashFlow(index, parseInt(autoInput.rawValue) || 0);
       updateResultantCashFlow(index, autoInput.domElement.value);
+      calculateIRR();
+      calculateNPV();
     } 
   });
   return inputContainer;
