@@ -6,6 +6,13 @@ const addNewRowButton = document.getElementById('add-new-row');
 const totalUnits = document.getElementById('total-units');
 const totalRent = document.getElementById('total-rent');
 const totalAnnualRent = document.getElementById('total-annual-rent');
+// share link
+const shareResultButton = document.getElementById('share-result');
+const shareLink = document.getElementById('share-link');
+const copyText = document.getElementById('copy-text');
+const url = new URL(window.location.href);
+// building data input selectors
+const buildingDataInputSelectors = ['.unit-type-br', '.unit-type-ba', '.number-of-units', '.average-rent-per-month'];
 // remove event listeners from inputs when row is deleted
 const removeAllInputsEventListeners = (id) => { 
   const br = document.getElementById(`unit-type-br-${id}`);
@@ -14,16 +21,10 @@ const removeAllInputsEventListeners = (id) => {
   [br, ba].forEach(element => element.removeEventListener('input', handleBrBaInputs, false));
 
   const numberOfUnits = document.getElementById(`number-of-units-${id}`);
-  const totalUnitsToRemove = parseInt(numberOfUnits.value) || 0;
   numberOfUnits.removeEventListener('input', handleNumberOfUnits, false);
 
   const averageRentPerMonth = document.getElementById(`average-rent-per-month-${id}`);
-  const totalRentToRemove = parseInt(averageRentPerMonth.value.replace(/\,/g, '')) || 0;
   averageRentPerMonth.removeEventListener('input', handleAverageRentPerMonth, false);
-
-  totalUnitsValue -= totalUnitsToRemove;
-  totalRentValue -= totalRentToRemove;
-  totalAnnualRentValue -= (totalUnitsToRemove * totalRentToRemove * 12);
 }
 // delete row from input container & result container
 const deleteRowFromContainer = (id) => { 
@@ -45,10 +46,10 @@ const addNewRowToContainer = (id) => {
       <div class="input-wrapper">
         <div class="input-row">
           <span class="rounded-left">br</span>
-          <input type="number" name="unit-type" id="unit-type-br-${id}" class="short-input rounded-right" placeholder="0" min="0" step="1" />
+          <input type="number" name="unit-type" id="unit-type-br-${id}" class="unit-type-br short-input rounded-right" placeholder="0" min="0" step="1" />
         </div>
         <div class="input-row">
-          <input type="number" name="unit-type" id="unit-type-ba-${id}" class="short-input rounded-left" placeholder="0" min="0" step="1" />
+          <input type="number" name="unit-type" id="unit-type-ba-${id}" class="unit-type-ba short-input rounded-left" placeholder="0" min="0" step="1" />
           <span class="rounded-right">ba</span>
         </div>
       </div>
@@ -69,7 +70,7 @@ const addNewRowToContainer = (id) => {
       </div>
       <div class="input-wrapper">
         <span class="rounded-left">$</span>
-        <input type="text" name="average-rent-per-month" id="average-rent-per-month-${id}" class="validate-amount rounded-right average-rent-per-month" min="0" step="1" placeholder="0" />
+        <input type="text" name="average-rent-per-month" id="average-rent-per-month-${id}" class="average-rent-per-month validate-amount rounded-right" min="0" step="1" placeholder="0" />
       </div>
     </div>
   `;
@@ -163,3 +164,65 @@ addNewRowButton.addEventListener('click', () => {
 });
 // On fresh load of page -> atleast one row should be added
 addNewRowButton.click();
+// generate sharable link for building data
+const generateSharableLink = () => { 
+  let parameters = {};
+  
+  buildingDataInputSelectors.forEach(selector => {
+    const inputs = Array.from(document.querySelectorAll(selector));
+    parameters[selector] = inputs.map(input => input.value);
+  });
+  
+  let params = new URLSearchParams(parameters);
+  
+  return 'http://' + url.host + url.pathname + '?' + params.toString();
+}
+// parse parameter from url and pre-populate building data container inputs and resultant-building data container
+const parseUrlParameters = (link) => { 
+  const url = new URL(link);
+  const params = new URLSearchParams(url.search);
+  const parmasMap = {};
+  let rows = 0;
+
+  params.forEach((value, key) => { 
+    parmasMap[key] = value.split(',');
+    rows = parmasMap[key].length;
+  });
+
+  for (let i = 1; i < rows; i++) addNewRowButton.click();
+
+  let ids = [];
+
+  buildingDataInputSelectors.forEach(selector => { 
+    const inputs = Array.from(document.querySelectorAll(selector));
+    inputs.forEach((input, index) => {
+      if (parmasMap[selector]) { 
+        input.value = parmasMap[selector][index];
+        let className = input.classList[0];
+        let id = input.id.replace(className + '-', '');
+        if(!ids.includes(id)) ids.push(id);
+      } 
+    });
+  });
+
+  ids.forEach(id => {
+    const br = document.getElementById(`unit-type-br-${id}`);
+    const ba = document.getElementById(`unit-type-ba-${id}`);
+    handleBrBaInputs(id, br.value, ba.value);
+
+    const numberOfUnits = document.getElementById(`number-of-units-${id}`);
+    const averageRentPerMonth = document.getElementById(`average-rent-per-month-${id}`);
+    handleNumberOfUnits(id, numberOfUnits.value, averageRentPerMonth.value);
+    handleAverageRentPerMonth(id, numberOfUnits.value, averageRentPerMonth.value);
+  });
+}
+// On click of share button -> generate sharable link and show copy to clipboard icon
+shareResultButton.addEventListener('click', () => {
+  let link = generateSharableLink();
+  shareLink.value = link;
+  shareLink.style.width = 'calc(100% - 3.5rem)';
+  shareLink.style.padding = '0.5rem';
+  copyText.style.opacity = '1';
+});
+
+parseUrlParameters(window.location.href);
