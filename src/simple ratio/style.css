@@ -76,7 +76,7 @@ nav {
 }
 
 .simple-ratio-container label, .simple-ratio-container p, .simple-ratio-container span {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 400;
   color: #444444;
 }
@@ -142,7 +142,7 @@ nav {
 .simple-ratio-container .simple-ratio-cards .inputs .input-container .required::after {
   content: '*';
   position: absolute;
-  top: -2px;
+  top: -8px;
   right: -10px;
   color: tomato;
 }
@@ -232,6 +232,11 @@ nav {
 
 .simple-ratio-container .simple-ratio-cards .inputs .input-container .error-label {
   color: tomato;
+  font-size: 0.75rem;
+}
+
+.simple-ratio-container .simple-ratio-cards .inputs .input-container .warning-message {
+  color: orange;
   font-size: 0.75rem;
 }
 

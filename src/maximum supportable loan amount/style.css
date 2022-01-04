@@ -76,7 +76,7 @@ nav {
 }
 
 .maximum-supportable-loan-amount-container label, .maximum-supportable-loan-amount-container p, .maximum-supportable-loan-amount-container span {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 400;
   color: #444444;
 }
@@ -265,6 +265,11 @@ nav {
 
 .maximum-supportable-loan-amount-container .cards .card-input .input-container .error-label {
   color: tomato;
+  font-size: 0.75rem;
+}
+
+.maximum-supportable-loan-amount-container .cards .card-input .input-container .warning-message {
+  color: orange;
   font-size: 0.75rem;
 }
 

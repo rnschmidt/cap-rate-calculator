@@ -1,8 +1,7 @@
 // Dynamic MIRR Calculator
 
-import { NPV, insertErrorMessage, removeErrorMessage, numberWithCommas, generateSharableLink, renderCopyDownIcon, IRR, MIRR } from "../utils/utils.js";
+import { insertErrorMessage, removeErrorMessage, insertWarningMessage, removeWarningMessage,numberWithCommas, generateSharableLink, renderCopyDownIcon, IRR, MIRR } from "../utils/utils.js";
 // input fields
-const discountRate = document.getElementById('discount-rate');
 const financeRate = document.getElementById('finance-rate');
 const reinvestmentRate = document.getElementById('reinvestment-rate');
 const numberOfPeriods = document.getElementById('number-of-periods');
@@ -10,14 +9,11 @@ const numberOfPeriods = document.getElementById('number-of-periods');
 const cashFlowContainer = document.querySelector('.cash-flow-container');
 const resultantCashFlowContainer = document.querySelector('.resultant-cash-flow-container');
 // output
-const resultantDiscountRate = document.getElementById('resultant-discount-rate');
 const resultantFinanceRate = document.getElementById('resultant-finance-rate');
 const resultantReinvestmentRate = document.getElementById('resultant-reinvestment-rate');
 const resultantNumberOfPeriods = document.getElementById('resultant-number-of-periods');
 const resultantIRR = document.getElementById('irr');
 const resultantMIRR = document.getElementById('mirr');
-const resultantPV = document.getElementById('resultant-pv');
-const resultantNPV = document.getElementById('resultant-npv');
 // share link
 const shareResultButton = document.getElementById('share-result');
 const shareLink = document.getElementById('share-link');
@@ -32,7 +28,6 @@ const validateNumberOfPeriods = (e) => {
   const numberOfPeriodsValue = parseInt(numberOfPeriods.value);
 
   if (numberOfPeriodsValue < 1) { 
-    numberOfPeriods.value = 1;
     insertErrorMessage(e, 'Number of periods must be greater than 0');
   }
 
@@ -85,7 +80,7 @@ const getCashFlowInput = (number, value) => {
   inputLabel.classList.add('input-label');
   const label = document.createElement('label');
   const year = document.createElement('span');
-  year.innerText = 'Year ';
+  // year.innerText = 'Year ';
   label.appendChild(year);
   const numberText = document.createElement('span');
   numberText.innerText = number;
@@ -117,7 +112,6 @@ const getCashFlowInput = (number, value) => {
     updateResultantCashFlow(number, autoInput.domElement.value);
     calculateIRR();
     calculateMIRR();
-    calculateNPV();
   });
   inputWrapper.appendChild(input);
   inputContainer.appendChild(inputLabel);
@@ -131,7 +125,6 @@ const getCashFlowInput = (number, value) => {
       updateResultantCashFlow(index, autoInput.domElement.value);
       calculateIRR();
       calculateMIRR();
-      calculateNPV();
     } 
   });
   return inputContainer;
@@ -179,7 +172,6 @@ const updateCashFlowContainer = () => {
   
   calculateIRR();
   calculateMIRR();
-  calculateNPV();
 }
 // calculate IRR on input change whose helper function is present in utils.js
 const calculateIRR = () => {
@@ -193,24 +185,28 @@ const calculateIRR = () => {
     resultantIRR.innerText = '0.0%';
   }
 
-  shareLink.value = generateSharableLink(url, [numberOfPeriods, discountRate, financeRate, reinvestmentRate, ...elements]);
+  shareLink.value = generateSharableLink(url, [numberOfPeriods, financeRate, reinvestmentRate, ...elements]);
 }
 // calculate MIRR on input change whose helper function is present in utils.js
 const calculateMIRR = () => { 
   let n = parseInt(numberOfPeriods.value) + 1;
   let financeRateValue = parseFloat(financeRate.value) / 100;
   let reinvestmentRateValue = parseFloat(reinvestmentRate.value) / 100;
-
+  
   if (financeRateValue) {
     resultantFinanceRate.innerText = financeRateValue * 100 + '%';
+    removeWarningMessage(financeRate);
   } else {
     resultantFinanceRate.innerText = '0.0%';
+    insertWarningMessage(financeRate, 'Finance rate is required to calculate MIRR');
   }
 
   if (reinvestmentRateValue) {
     resultantReinvestmentRate.innerText = reinvestmentRateValue * 100 + '%';
+    removeWarningMessage(reinvestmentRate);
   } else {
     resultantReinvestmentRate.innerText = '0.0%';
+    insertWarningMessage(reinvestmentRate, 'Reinvestment rate is required to calculate MIRR');
   }
 
   let mirr = MIRR(cashFlows.slice(0, n), financeRateValue, reinvestmentRateValue);
@@ -222,41 +218,9 @@ const calculateMIRR = () => {
     resultantMIRR.innerText = '0.0%';
   }
 
-  shareLink.value = generateSharableLink(url, [numberOfPeriods, discountRate, financeRate, reinvestmentRate, ...elements]);
+  shareLink.value = generateSharableLink(url, [numberOfPeriods, financeRate, reinvestmentRate, ...elements]);
 }
-// calculate NPV on input change whose helper function is present in utils.js
-const calculateNPV = () => { 
-  const numberOfPeriodsValue = parseInt(numberOfPeriods.value);
-  const discountRateValue = parseFloat(discountRate.value);
-  
-  if (numberOfPeriodsValue) {
-    resultantNumberOfPeriods.innerText = numberOfPeriodsValue;
-  } else {
-    resultantNumberOfPeriods.innerText = 1;
-  }
 
-  if (discountRateValue) { 
-    resultantDiscountRate.innerText = discountRateValue + '%';
-  } else {
-    resultantDiscountRate.innerText = '0.0%';
-  }
-
-  let pv = NPV(cashFlows.slice(0, numberOfPeriodsValue + 1), discountRateValue / 100);
-  pv = Math.round(pv);
-  
-  if (pv) {
-    let npv = cashFlows[0] + pv;
-    resultantPV.innerText = pv >= 0 ? '$' + numberWithCommas(pv) : '-$' + numberWithCommas(Math.abs(pv));
-    resultantNPV.innerText = npv >= 0 ? '$' + numberWithCommas(npv) : '-$' + numberWithCommas(Math.abs(npv));
-  } else {
-    resultantPV.innerText = '$0';
-    resultantNPV.innerText = '$0';
-  }
-
-  shareLink.value = generateSharableLink(url, [numberOfPeriods, discountRate, financeRate, reinvestmentRate, ...elements]);
-}
-// event listener for finance rate input and reinvestment rate input
-discountRate.addEventListener('input', calculateNPV);
 [financeRate, reinvestmentRate].forEach(element => element.addEventListener('input', calculateMIRR));
 // event listener for number of periods input
 numberOfPeriods.addEventListener('input', (e) => {
@@ -266,7 +230,7 @@ numberOfPeriods.addEventListener('input', (e) => {
 });
 // on click of share result button generate new sharable link 
 shareResultButton.addEventListener('click', () => {
-  let link = generateSharableLink(url, [numberOfPeriods, discountRate, financeRate, reinvestmentRate, ...elements]);
+  let link = generateSharableLink(url, [numberOfPeriods, financeRate, reinvestmentRate, ...elements]);
   shareLink.value = link;
   shareLink.style.width = 'calc(100% - 3.5rem)';
   shareLink.style.padding = '0.5rem';
@@ -275,17 +239,11 @@ shareResultButton.addEventListener('click', () => {
 // Form here is used to pre-populate the form with the values from the sharable link url parameters
 const params = new URLSearchParams(url.search);
 const numberOfPeriodsValue = params.get('number-of-periods');
-const discountRateValue = params.get('discount-rate');
 const financeRateValue = params.get('finance-rate');
 const reinvestmentRateValue = params.get('reinvestment-rate');
 
 numberOfPeriods.value = numberOfPeriodsValue || 5;
 updateResultantNumberOfPeriods(numberOfPeriodsValue || 5);
-
-if (discountRateValue) { 
-  discountRate.value = discountRateValue;
-  resultantDiscountRate.innerText = discountRateValue + '%';
-}
 
 if (financeRateValue) { 
   financeRate.value = financeRateValue;

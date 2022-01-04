@@ -6,7 +6,7 @@ $contrastHead: #111111;
 $contrastText: #444444;
 $headSize: 1.35rem;
 $subHeadSize: 0.88rem;
-$textSize: 0.9rem;
+$textSize: 1rem;
 
 * {
   margin: 0;
@@ -61,7 +61,7 @@ $textSize: 0.9rem;
       &::after {
         content: '*';
         position: absolute;
-        top: -2px;
+        top: -8px;
         right: -10px;
         color: tomato;
       }
@@ -136,6 +136,11 @@ $textSize: 0.9rem;
 
     .error-label {
       color: tomato;
+      font-size: 0.75rem;
+    }
+
+    .warning-message {
+      color: orange;
       font-size: 0.75rem;
     }
   }

@@ -22,17 +22,7 @@
           <div class="col">
             <div class="input-container">
               <div class="input-label">
-                <label for="discount-rate">Discount Rate</label>
-              </div>
-              <div class="input-wrapper">
-                <input type="number" name="discount-rate" id="discount-rate" class="float-field validate-percent percent" placeholder="0.0" step="0.01">
-                <span class="percent-sign">%</span>
-              </div>  
-            </div>
-
-            <div class="input-container">
-              <div class="input-label">
-                <label for="finance-rate">Finance (Safe) Rate</label>
+                <label for="finance-rate" class="required">Finance (Safe) Rate</label>
               </div>
               <div class="input-wrapper">
                 <input type="number" name="finance-rate" id="finance-rate" class="float-field validate-percent percent" placeholder="0.0" step="0.01">
@@ -42,7 +32,7 @@
 
             <div class="input-container">
               <div class="input-label">
-                <label for="reinvestment-rate">Reinvestment Rate</label>
+                <label for="reinvestment-rate" class="required">Reinvestment Rate</label>
               </div>
               <div class="input-wrapper">
                 <input type="number" name="reinvestment-rate" id="reinvestment-rate" class="float-field validate-percent percent" placeholder="0.0" step="0.01">
@@ -69,11 +59,6 @@
           <h3 class="card-result-head">Calculated Result</h3>
   
           <div class="card-result-inner">
-            <div class="row">
-              <h4>Discount Rate</h4>
-              <h4 id="resultant-discount-rate">0.0%</h4>
-            </div>
-
             <div class="row">
               <h4>Finance (Safe) Rate</h4>
               <h4 id="resultant-finance-rate">0.0%</h4>
@@ -107,16 +92,6 @@
             <div class="cap-rate">
               <h3>Modified Internal Rate of Return (MIRR)</h3>
               <h3 id="mirr">0.0%</h3>
-            </div>
-
-            <div class="cap-rate">
-              <h3>Present Value (PV)</h3>
-              <h3 id="resultant-pv">$0</h3>
-            </div>
-  
-            <div class="cap-rate">
-              <h3>Net Present Value (NPV)</h3>
-              <h3 id="resultant-npv">$0</h3>
             </div>
           </div>
         </div>  

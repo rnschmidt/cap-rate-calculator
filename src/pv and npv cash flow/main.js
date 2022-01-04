@@ -1,6 +1,6 @@
 // Dynamic IRR Calculator
 
-import { NPV, insertErrorMessage, removeErrorMessage, numberWithCommas, generateSharableLink, renderCopyDownIcon, IRR } from "../utils/utils.js";
+import { insertWarningMessage, removeWarningMessage, insertErrorMessage, removeErrorMessage, numberWithCommas, generateSharableLink, renderCopyDownIcon, IRR, NPV } from "../utils/utils.js";
 
 const interestRate = document.getElementById('interest-rate');
 const numberOfPeriods = document.getElementById('number-of-periods');
@@ -79,7 +79,6 @@ const getCashFlowInput = (number, value) => {
   inputLabel.classList.add('input-label');
   const label = document.createElement('label');
   const year = document.createElement('span');
-  year.innerText = 'Year ';
   label.appendChild(year);
   const numberText = document.createElement('span');
   numberText.innerText = number;
@@ -191,8 +190,10 @@ const calculateNPV = () => {
 
   if (interestRateValue) { 
     resultantInterestRate.innerText = interestRateValue + '%';
+    removeWarningMessage(interestRate);
   } else {
     resultantInterestRate.innerText = '0.0%';
+    insertWarningMessage(interestRate, 'Discount Rate is required to calculate NPV & PV'); 
   }
 
   let pv = NPV(cashFlows.slice(0, numberOfPeriodsValue + 1), interestRateValue / 100);

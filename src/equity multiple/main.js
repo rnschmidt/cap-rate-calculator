@@ -76,7 +76,6 @@ const getCashFlowInput = (number, value) => {
   inputLabel.classList.add('input-label');
   const label = document.createElement('label');
   const year = document.createElement('span');
-  year.innerText = 'Year ';
   label.appendChild(year);
   const numberText = document.createElement('span');
   numberText.innerText = number;
@@ -200,9 +199,9 @@ const calculateEquityMultiple = () => {
     }
   }
   if (sum === 0 || sumNegative === 0) {
-    equityMultiple.innerText = '0.0';
+    equityMultiple.innerText = '0.0x';
   } else {
-    equityMultiple.innerText = (sum / Math.abs(sumNegative)).toFixed(2);
+    equityMultiple.innerText = (sum / Math.abs(sumNegative)).toFixed(2) + 'x';
   }
 }
 // add event listner for number of periods 

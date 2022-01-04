@@ -76,7 +76,7 @@ nav {
 }
 
 .equity-multiple-container label, .equity-multiple-container p, .equity-multiple-container span {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 400;
   color: #444444;
 }
@@ -262,6 +262,11 @@ nav {
 
 .equity-multiple-container .cards .card-input .input-container .error-label {
   color: tomato;
+  font-size: 0.75rem;
+}
+
+.equity-multiple-container .cards .card-input .input-container .warning-message {
+  color: orange;
   font-size: 0.75rem;
 }
 

@@ -76,7 +76,7 @@ nav {
 }
 
 .dynamic-pv-and-npv-container label, .dynamic-pv-and-npv-container p, .dynamic-pv-and-npv-container span {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 400;
   color: #444444;
 }
@@ -172,7 +172,7 @@ nav {
 .dynamic-pv-and-npv-container .cards .card-input .input-container .required::after {
   content: '*';
   position: absolute;
-  top: -2px;
+  top: -8px;
   right: -10px;
   color: tomato;
 }
@@ -262,6 +262,11 @@ nav {
 
 .dynamic-pv-and-npv-container .cards .card-input .input-container .error-label {
   color: tomato;
+  font-size: 0.75rem;
+}
+
+.dynamic-pv-and-npv-container .cards .card-input .input-container .warning-message {
+  color: orange;
   font-size: 0.75rem;
 }
 

@@ -76,7 +76,7 @@ nav {
 }
 
 .band-of-investment-container label, .band-of-investment-container p, .band-of-investment-container span {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 400;
   color: #444444;
 }
@@ -265,6 +265,11 @@ nav {
 
 .band-of-investment-container .cards .card-input .input-container .error-label {
   color: tomato;
+  font-size: 0.75rem;
+}
+
+.band-of-investment-container .cards .card-input .input-container .warning-message {
+  color: orange;
   font-size: 0.75rem;
 }
 

@@ -76,7 +76,7 @@ nav {
 }
 
 .gordon-model-container label, .gordon-model-container p, .gordon-model-container span {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 400;
   color: #444444;
 }
@@ -247,6 +247,11 @@ nav {
 
 .gordon-model-container .card-inner-input .input-container .error-label {
   color: tomato;
+  font-size: 0.75rem;
+}
+
+.gordon-model-container .card-inner-input .input-container .warning-message {
+  color: orange;
   font-size: 0.75rem;
 }
 

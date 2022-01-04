@@ -75,7 +75,6 @@ const getCashFlowInput = (number, value) => {
   inputLabel.classList.add('input-label');
   const label = document.createElement('label');
   const year = document.createElement('span');
-  year.innerText = 'Year ';
   label.appendChild(year);
   const numberText = document.createElement('span');
   numberText.innerText = number;

@@ -28,10 +28,25 @@ export const validateFloating = (e) => {
   const t = e.target.value;
   e.target.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 3)) : t;
 }
+// Add HTML element to the DOM to show warning
+export const insertWarningMessage = (element, message, color = 'orange') => { 
+  if (element.style.borderColor !== color) { 
+    element.style.borderColor = color;
+    element.parentNode.insertAdjacentHTML('afterend', `<div class="warning-message">${message}</div>`);
+  }
+}
+// Remove HTML element from the DOM
+export const removeWarningMessage = (element) => { 
+  const warningMessage = element.parentNode.nextElementSibling;
+  if (warningMessage && warningMessage.classList.value === 'warning-message') {
+    element.style.borderColor = '';
+    warningMessage.remove();
+  }
+}
 // Add HTML element to show error message
 export const insertErrorMessage = (e, message) => {
   if (e.target.style.borderColor !== 'red') {
-    e.target.style.borderColor = "red";
+    e.target.style.borderColor = 'red';
     const errorMessage = document.createElement('div');
     errorMessage.classList.add('error-label');
     errorMessage.innerText = message;
@@ -69,7 +84,7 @@ export const validatePercentage = (e) => {
 // Make sure amount value does not exceed 100,000,000,000,000
 export const validateAmount = (e) => {
   let val = e.target.value;
-  console.log(val)
+
   if (parseInt(val.replace(/,/g, ""), 10) > 100000000000000) {
     e.target.value = '100,000,000,000,000';
     insertErrorMessage(e, 'Please select a value less than 100,000,000,000,000.');
