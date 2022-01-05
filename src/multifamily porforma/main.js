@@ -113,6 +113,10 @@ const updateTotalValues = () => {
   const resultantTotalAnnualRent = document.querySelectorAll('.total-annual-rent');
   const totalAnnualRentValue = Array.from(resultantTotalAnnualRent).reduce((acc, curr) => acc + (parseInt(curr.innerText.replace(/\,|\$/g, '')) || 0), 0);
   totalAnnualRent.innerText = '$' + numberWithCommas(totalAnnualRentValue);
+  resultantPotentialIncome.innerText = '$' + numberWithCommas(totalAnnualRentValue);
+
+  calculateTotalOtherIncome();
+  calculatePricePerUnit();
 }
 /*
   Calculate and update `total annual rent` on result container
@@ -166,7 +170,260 @@ addNewRowButton.addEventListener('click', () => {
   addEventListnersToInputs(id);
 });
 // On fresh load of page -> atleast one row should be added
-addNewRowButton.click();
+addNewRowButton.click(); 
+
+/*------------------------------------Investment & Financing Data---------------- */
+// investment data inputs
+const purchasePrice = new AutoNumeric('#purchase-price', amountConfig);
+const terminalCapRate = document.getElementById('terminal-cap-rate');
+const saleMonth = document.getElementById('sale-month');
+const costOfSale = document.getElementById('cost-of-sale');
+const discountRateUnlevered = document.getElementById('discount-rate-unlevered');
+const discountRateLevered = document.getElementById('discount-rate-levered');
+// financing data inputs
+const loanInterestRate = document.getElementById('loan-interest-rate');
+const loanAmortization = document.getElementById('loan-amortization');
+const ltv = document.getElementById('ltv');
+const dscr = document.getElementById('dscr');
+// calculated result
+const resultantPurchasePrice = document.getElementById('resultant-purchase-price');
+const resultantPerUnit = document.getElementById('resultant-per-unit');
+const resultantTerminalCapRate = document.getElementById('resultant-terminal-cap-rate');
+const resultantSaleMonth = document.getElementById('resultant-sale-month');
+const resultantCostOfSale = document.getElementById('resultant-cost-of-sale');
+const resultantDiscountRateUnlevered = document.getElementById('resultant-discount-rate-unlevered');
+const resultantDiscountRateLevered = document.getElementById('resultant-discount-rate-levered');
+const resultantLoanInterestRate = document.getElementById('resultant-loan-interest-rate');
+const resultantLoanAmortization = document.getElementById('resultant-loan-amortization');
+const resultantLtv = document.getElementById('resultant-ltv');
+const resultantDscr = document.getElementById('resultant-dscr');
+const loanAmountLtv = document.getElementById('loan-amount-ltv');
+const loanAmountDscr = document.getElementById('loan-amount-dscr');
+const maximumLoanAmount = document.getElementById('maximum-loan-amount');
+const initialEquity = document.getElementById('initial-equity');
+const monthlyDebtService = document.getElementById('monthly-debt-service');
+const annualDebtService = document.getElementById('annual-debt-service');
+
+const validateSaleMonth = (e) => { }
+
+const validateDSCR = (e) => { }
+
+const calculatePricePerUnit = () => { 
+  const purchasePriceValue = parseInt(purchasePrice.rawValue) || 0;
+  const totalUnitsValue = parseInt(totalUnits.innerText);
+  
+  if (purchasePriceValue) {
+    resultantPurchasePrice.innerText = `$${numberWithCommas(purchasePriceValue)}`;
+  } else { 
+    resultantPurchasePrice.innerText = '$0';
+  }
+
+  const pricePerUnit = Math.round(purchasePriceValue / totalUnitsValue);
+  
+  if(pricePerUnit && pricePerUnit !== Infinity) {
+    resultantPerUnit.innerText = `$${numberWithCommas(pricePerUnit)}`;
+  } else {
+    resultantPerUnit.innerText = '$0';
+  }
+}
+
+const calculateLoanAmountLTV = () => {
+  const purchasePriceValue = parseInt(purchasePrice.rawValue) || 0;
+  const ltvValue = parseFloat(ltv.value) || 0;
+
+  if (ltvValue) {
+    resultantLtv.innerText = `${ltvValue}%`;
+  } else {
+    resultantLtv.innerText = '0.0%';
+  }
+
+  const loanAmountLtvValue = Math.round(purchasePriceValue * ltvValue / 100);
+
+  if (loanAmountLtvValue) { 
+    loanAmountLtv.innerText = `$${numberWithCommas(loanAmountLtvValue)}`;
+  } else {
+    loanAmountLtv.innerText = '$0';
+  }
+}
+
+// add event listners to inputs and update values on result container
+purchasePrice.domElement.addEventListener('input', () => { calculatePricePerUnit(); calculateLoanAmountLTV(); });
+ltv.addEventListener('input', calculateLoanAmountLTV);
+
+/* -----------------------------------Operating Statement ----------------------- */
+
+// operating statement inputs
+const otherIncome = new AutoNumeric('#other-income', amountConfig);
+const vacanyCreditLoss = document.getElementById('vacany-credit-loss');
+const expenses = document.querySelectorAll('.expenses');
+// internal calculations
+const effectiveGrossIncome = document.getElementById('effective-gross-income');
+const totalExpenses = document.getElementById('total-expenses');
+// Operating Expenses
+const managementFee = document.getElementById('management-fee'); 
+// calculated results
+const resultantPotentialIncome = document.getElementById('resultant-potential-income');
+const totalOtherIncome = document.getElementById('total-other-income');
+const resultantPotentialGrossIncome = document.getElementById('resultant-potential-gross-income');
+const resultantVacancyCreditLoss = document.getElementById('resultant-vacancy-credit-loss');
+const resultantEffectiveGrossIncome = document.getElementById('resultant-effective-gross-income');
+const resultantTotalExpenses = document.getElementById('resultant-total-expenses');
+const netOperatingIncome = document.getElementById('net-operating-income');
+const operatingMargin = document.getElementById('operating-margin');
+const debtService = document.getElementById('debt-service');
+const cashFlowBeforeTax = document.getElementById('cash-flow-before-tax');
+/*
+  # Update Total Expenses Property on Calculated Results
+*/
+const updateResultantTotalExpenses = (element) => {
+  let resultantId = 'resultant-' + (element.target ? element.target.id : element.id);
+  let resultant = document.getElementById(resultantId);
+  let value = element.target ? element.target.value : element.value;
+  let isManagementFee = resultantId === 'resultant-management-fee';
+  
+  if (value) {
+    if (isManagementFee) return;
+    resultant.innerText = "$" + value;
+  } else {
+    resultant.innerText = '$0';
+  }
+}
+/*
+  # Calculate Managment Fee from percentage value
+  # If `managementFee` is filled in and, `grossPotentialIncome` is valid, calculate Management Fee in dollars
+*/
+const calculateManagementFee = () => {
+  const managementFeeValue = parseFloat(managementFee.value);
+  const effectiveGrossIncomeValue = parseFloat(effectiveGrossIncome.innerText.replace(/\$|,/g, ''));
+  const resultantManagementFee = document.getElementById('resultant-management-fee');
+  let netManagementFee = 0;
+
+  if (managementFeeValue && effectiveGrossIncomeValue) {
+    netManagementFee = (effectiveGrossIncomeValue * managementFeeValue / 100).toFixed(2);
+    resultantManagementFee.innerText = "$" + numberWithCommas(Math.round(netManagementFee));
+  }
+
+  return parseFloat(netManagementFee);
+}
+/*
+  # Calculate Total Expenses
+  # Total Expenses = Sum of all Expenses
+  # If any of the Expenses are filled in, calculate Total Expenses
+  # Any change in any of the Expenses will trigger the calculation of Net Operating Income
+*/
+const calculateTotalExpenses = () => {
+  let totalExpensesValue = calculateManagementFee();
+  expenses.forEach(expense => {
+    let expenseValue = parseFloat(expense.value.replaceAll(',', ''));
+    if (expenseValue) {
+      totalExpensesValue += expenseValue;
+    }
+  });
+  totalExpenses.innerText = "$" + numberWithCommas(Math.round(totalExpensesValue));
+  resultantTotalExpenses.innerText = "$" + numberWithCommas(Math.round(totalExpensesValue));
+
+  calculateNetOperatingIncome();
+}
+/* 
+  Calculate Total Other Income
+  Total Other Income = Other Income * Total Units
+*/
+const calculateTotalOtherIncome = () => { 
+  const totalUnitsValue = parseInt(totalUnits.innerText);
+  const otherIncomeValue = parseInt(otherIncome.rawValue);
+  const totalOtherIncomeValue = totalUnitsValue * otherIncomeValue;
+  if (totalOtherIncomeValue) { 
+    totalOtherIncome.innerText = "$" + numberWithCommas(totalOtherIncomeValue);
+  } else {
+    totalOtherIncome.innerText = '$0';
+  }
+
+  calculatePotentialGrossIncome();
+}
+/*
+  Calculate Potential Gross Income
+  Potential Gross Income = Potential Rental Income + Total Other Income
+*/
+const calculatePotentialGrossIncome = () => { 
+  const potentialRentalIncomeValue = parseInt(resultantPotentialIncome.innerText.replace(/\$|,/g, ''));
+  const totalOtherIncomeValue = parseInt(totalOtherIncome.innerText.replace(/\$|,/g, ''));
+  const resultantPotentialGrossIncomeValue = potentialRentalIncomeValue + totalOtherIncomeValue;
+  if (resultantPotentialGrossIncomeValue) {
+    resultantPotentialGrossIncome.innerText = "$" + numberWithCommas(resultantPotentialGrossIncomeValue);
+  } else {
+    resultantPotentialGrossIncome.innerText = '$0';
+  }
+
+  calculateEffectiveGrossIncome();
+}
+/*
+  Calculate Effective Gross Income
+  Effective Gross Income = Potential Gross Income - Vacancy & Credit Loss
+*/
+const calculateEffectiveGrossIncome = () => { 
+  const potentialGrossIncomeValue = parseInt(resultantPotentialGrossIncome.innerText.replace(/\$|,/g, ''));
+  const vacancyCreditLossValue = Math.round(vacanyCreditLoss.value * potentialGrossIncomeValue / 100);
+  
+  if (vacancyCreditLossValue) {
+    resultantVacancyCreditLoss.innerText = "$" + numberWithCommas(vacancyCreditLossValue);   
+  } else {
+    resultantVacancyCreditLoss.innerText = '$0';
+  }
+  
+  const resultantEffectiveGrossIncomeValue = potentialGrossIncomeValue - vacancyCreditLossValue;
+ 
+  if (resultantEffectiveGrossIncomeValue) {
+    effectiveGrossIncome.innerText = "$" + numberWithCommas(resultantEffectiveGrossIncomeValue);
+    resultantEffectiveGrossIncome.innerText = "$" + numberWithCommas(resultantEffectiveGrossIncomeValue);
+  } else {
+    effectiveGrossIncome.innerText = '$0';
+    resultantEffectiveGrossIncome.innerText = '$0';
+  }
+
+  calculateNetOperatingIncome();
+}
+/*
+  Calculate Net Operating Income
+  Net Operating Income = Effective Gross Income - Total Expenses
+*/
+const calculateNetOperatingIncome = () => { 
+  const effectiveGrossIncomeValue = parseInt(effectiveGrossIncome.innerText.replace(/\$|,/g, ''));
+  const totalExpensesValue = parseInt(totalExpenses.innerText.replace(/\$|,/g, ''));
+  const netOperatingIncomeValue = effectiveGrossIncomeValue - totalExpensesValue;
+  if (netOperatingIncomeValue) {
+    netOperatingIncome.innerText = "$" + numberWithCommas(netOperatingIncomeValue);
+  } else {
+    netOperatingIncome.innerText = '$0';
+  }
+
+  calculateOperatingMargin();
+}
+/*
+  Calculate Operating Margin
+  Operating Margin = Net Operating Income / Effective Gross Income
+*/
+const calculateOperatingMargin = () => {
+  const effectiveGrossIncomeValue = parseInt(effectiveGrossIncome.innerText.replace(/\$|,/g, ''));
+  const netOperatingIncomeValue = parseInt(netOperatingIncome.innerText.replace(/\$|,/g, ''));
+  const operatingMarginValue = netOperatingIncomeValue / effectiveGrossIncomeValue;
+  if (operatingMarginValue) {
+    operatingMargin.innerText = operatingMarginValue.toFixed(2) + '%';
+  } else {
+    operatingMargin.innerText = '0%';
+  }
+}
+// For all the input fileds required for expenses add event listener to trigger calculation of Total Expenses
+expenses.forEach(expense => new AutoNumeric(expense, amountConfig));
+expenses.forEach(expense => expense.addEventListener('input', (e) => { calculateTotalExpenses(); updateResultantTotalExpenses(e); }));
+// add event listner for other income
+otherIncome.domElement.addEventListener('input', calculateTotalOtherIncome);
+// add event listner for vacancy credit loss
+vacanyCreditLoss.addEventListener('input', calculateEffectiveGrossIncome);
+// add event listner for management fee
+managementFee.addEventListener('input', calculateTotalExpenses);
+
+/* -----------------------------------Sharable link----------------------------- */
+
 // generate sharable link for building data
 const generateSharableLink = () => { 
   let parameters = {};

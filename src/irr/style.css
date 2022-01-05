@@ -172,7 +172,7 @@ nav {
 .dynamic-irr-container .cards .card-input .input-container .required::after {
   content: '*';
   position: absolute;
-  top: -2px;
+  top: -8px;
   right: -10px;
   color: tomato;
 }
