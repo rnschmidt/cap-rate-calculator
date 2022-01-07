@@ -107,7 +107,7 @@ const updateTotalValues = () => {
   totalUnits.innerText = numberWithCommas(totalNumberOfUnits);
 
   const averageRentPerMonth = document.querySelectorAll('.average-rent-per-month');
-  const totalAvRentPerMonth = Array.from(averageRentPerMonth).reduce((acc, curr) => acc + (parseInt(curr.value.replace(/\,/g, '')) || 0), 0);
+  const totalAvRentPerMonth = (Array.from(averageRentPerMonth).reduce((acc, curr, index) => acc + (parseInt(curr.value.replace(/\,/g, '')) || 0) * numberOfUnits[index].value, 0) / totalNumberOfUnits).toFixed(2);
   totalRent.innerText = '$' + numberWithCommas(totalAvRentPerMonth);
 
   const resultantTotalAnnualRent = document.querySelectorAll('.total-annual-rent');
@@ -226,7 +226,10 @@ const calculatePricePerUnit = () => {
     resultantPerUnit.innerText = '$0';
   }
 }
-
+/*
+  Calculate Loan Amount (LTV)
+  Loan Amount (LTV) = Purchase Price * LTV
+*/
 const calculateLoanAmountLTV = () => {
   const purchasePriceValue = parseInt(purchasePrice.rawValue) || 0;
   const ltvValue = parseFloat(ltv.value) || 0;
@@ -244,11 +247,151 @@ const calculateLoanAmountLTV = () => {
   } else {
     loanAmountLtv.innerText = '$0';
   }
+
+  calculateMaximumLoanAmount();
+}
+// Courtesy of https://github.com/kgkars/tvm-financejs/blob/master/index.js
+const PV = (rate, nper, pmt, fv, type) => {
+  type = typeof type === "undefined" ? 0 : type;
+  fv = typeof fv === "undefined" ? 0 : fv;
+
+  if (rate === 0) {
+    return pmt * nper - fv;
+  } else {
+    let tempVar = type !== 0 ? 1 + rate : 1;
+    let tempVar2 = 1 + rate;
+    let tempVar3 = Math.pow(tempVar2, nper);
+
+    return (fv + pmt * tempVar * ((tempVar3 - 1) / rate)) / tempVar3;
+  }
+}
+/*
+  Calculate Loan Amount (DSCR)
+  Loan Amount = PV(loan interest rate, loan amortization, dscr)
+*/
+const calculateLoanAmountDSCR = () => { 
+  const loanInterestRateValue = parseFloat(loanInterestRate.value) || 0;
+  const loanAmortizationValue = parseInt(loanAmortization.value) || 0;
+  const dscrValue = parseFloat(dscr.value) || 0;
+  const netOperatingIncomeValue = parseInt(netOperatingIncome.innerText.replace(/\$|\,/g, '')) || 0;
+
+  if (loanInterestRateValue) {
+    resultantLoanInterestRate.innerText = loanInterestRateValue + '%';
+  } else {
+    resultantLoanInterestRate.innerText = '0.0%';
+  }
+
+  if (loanAmortizationValue) {
+    resultantLoanAmortization.innerText = loanAmortizationValue + '%';
+  } else {
+    resultantLoanAmortization.innerText = '0.0%';
+  }
+
+  if (dscrValue) {
+    resultantDscr.innerText = dscrValue + 'x';
+  } else {
+    resultantDscr.innerText = '0x';
+  }
+
+  const allowableDebtService = (netOperatingIncomeValue / dscrValue) / 12;
+
+  if (loanInterestRateValue && loanAmortizationValue && allowableDebtService && allowableDebtService !== Infinity) {
+    const loanAmountDSCRValue = Math.round(PV(loanInterestRateValue / 1200, loanAmortizationValue * 12, allowableDebtService));
+    loanAmountDscr.innerText = `$${numberWithCommas(loanAmountDSCRValue)}`;
+  } else {
+    loanAmountDscr.innerText = '$0';
+  }
+
+  calculateMaximumLoanAmount();
+}
+/*
+  Calculate Maximum Loan Amount
+  Maximum Loan Amount = max(loan amount (ltv), loan amount (dscr))
+*/
+const calculateMaximumLoanAmount = () => { 
+  const loanAmountLtvValue = parseInt(loanAmountLtv.innerText.replace(/\$|,/g, ''));
+  const loanAmountDscrValue = parseInt(loanAmountDscr.innerText.replace(/\$|,/g, ''));
+
+  let maxiumLoanAmountValue = Number.MAX_SAFE_INTEGER;
+
+  maxiumLoanAmountValue = Math.min(loanAmountLtvValue, maxiumLoanAmountValue);
+  maxiumLoanAmountValue = Math.min(loanAmountDscrValue, maxiumLoanAmountValue);
+
+  if (maxiumLoanAmountValue !== Number.MAX_SAFE_INTEGER) {
+    maximumLoanAmount.innerText = '$' + maxiumLoanAmountValue;
+  } else {
+    maximumLoanAmount.innerText = '$0';
+  }
+
+  calculateInitialEquity();
+  calculateMonthlyDebtService();
+}
+/*
+  Calculate Initial Equity
+  Initial Equity = Purchase Price - Maximum Loan Amount
+*/
+const calculateInitialEquity = () => { 
+  const purchasePriceValue = purchasePrice.rawValue || 0;
+  const maxiumLoanAmountValue = parseInt(maximumLoanAmount.innerText.replace(/\$|,/g, ''));
+
+  const initialEquityValue = purchasePriceValue - maxiumLoanAmountValue;
+
+  if (initialEquityValue) {
+    initialEquity.innerText = '$' + initialEquityValue;
+  } else {
+    initialEquity.innerText = '$0';
+  }
+}
+
+const PMT = (rate, nper, pv, fv, type) => {
+  type = typeof type === "undefined" ? 0 : type;
+  fv = typeof fv === "undefined" ? 0 : fv;
+  
+  if (rate === 0) {
+    return (-fv - pv) / nper;
+  } else {
+
+    var tempVar = type !== 0 ? 1 + rate : 1;
+    var tempVar2 = rate + 1;
+    var tempVar3 = Math.pow(tempVar2, nper);
+
+    return ((-fv - pv * tempVar3) / (tempVar * (tempVar3 - 1))) * rate;
+  }
+};
+/*
+  Calculate Monthly Debt Service
+  Monthly Debt Service = PMT(Loan Intrest Rate / 12, Loan Amortization * 12, -Maximum Loan Amount)
+*/
+const calculateMonthlyDebtService = () => { 
+  const loanInterestRateValue = loanInterestRate.value / 1200;
+  const loanAmortizationValue = loanAmortization.value * 12;
+  const maximuLoanAmountValue = parseInt(maximumLoanAmount.innerText.replace(/\$|,/g, ''));
+
+  const monthlyDebtServiceValue = PMT(loanInterestRateValue, loanAmortizationValue, -maximuLoanAmountValue);
+  
+  if (monthlyDebtServiceValue) {
+    monthlyDebtService.innerText = '$' + numberWithCommas(Math.round(monthlyDebtServiceValue));
+    calculateAnnualDebtService(monthlyDebtServiceValue);
+  } else {
+    monthlyDebtService.innerText = '$0';
+  }
+}
+/*
+  Calculate Annual Debt Service
+  Annual Dabt Service = Monthly Debt Service * 12
+*/
+const calculateAnnualDebtService = (monthlyDebtServiceValue) => { 
+  const annualDebtServiceValue = Math.round(monthlyDebtServiceValue * 12);
+  annualDebtService.innerText = '$' + numberWithCommas(annualDebtServiceValue);
+  debtService.innerText = '$' + numberWithCommas(annualDebtServiceValue);
+  calculateCashFlowBeforeTax();
 }
 
 // add event listners to inputs and update values on result container
-purchasePrice.domElement.addEventListener('input', () => { calculatePricePerUnit(); calculateLoanAmountLTV(); });
+purchasePrice.domElement.addEventListener('input', () => { calculatePricePerUnit(); calculateLoanAmountLTV(); calculateInitialEquity(); });
 ltv.addEventListener('input', calculateLoanAmountLTV);
+
+[loanInterestRate, loanAmortization, dscr].forEach(element => element.addEventListener('input', calculateLoanAmountDSCR));
 
 /* -----------------------------------Operating Statement ----------------------- */
 
@@ -261,6 +404,8 @@ const effectiveGrossIncome = document.getElementById('effective-gross-income');
 const totalExpenses = document.getElementById('total-expenses');
 // Operating Expenses
 const managementFee = document.getElementById('management-fee'); 
+const otherExpenses = document.getElementById('other-expenses');
+const capExReserves = document.getElementById('capex-reserves'); 
 // calculated results
 const resultantPotentialIncome = document.getElementById('resultant-potential-income');
 const totalOtherIncome = document.getElementById('total-other-income');
@@ -301,9 +446,49 @@ const calculateManagementFee = () => {
   if (managementFeeValue && effectiveGrossIncomeValue) {
     netManagementFee = (effectiveGrossIncomeValue * managementFeeValue / 100).toFixed(2);
     resultantManagementFee.innerText = "$" + numberWithCommas(Math.round(netManagementFee));
+  } else {
+    resultantManagementFee.innerText = '$0';
   }
 
   return parseFloat(netManagementFee);
+}
+/*
+  Calculate Other Expenses
+  Other Expenses = Ohter Expense Unit Per Year * Total Units
+*/
+const calculateOtherExpenses = () => { 
+  const otherExpensUnitPerYear = otherExpenses.value;
+  const totalUnitsValue = parseInt(totalUnits.innerText);
+  const resultantOtherExpense = document.getElementById('resultant-other-expenses');
+
+  const otherExpense = otherExpensUnitPerYear * totalUnitsValue;
+  
+  if (otherExpense) {
+    resultantOtherExpense.innerText = "$" + numberWithCommas(Math.round(otherExpense));
+  } else {
+    resultantOtherExpense.innerText = '$0';
+  }
+
+  return parseInt(otherExpense);
+}
+/*
+  Calculate CapEx Reserves
+  CapEx Reserves = CapEx Unit Per Year * Total Units
+*/
+const calculateCapExReserves = () => { 
+  const capExReservesValue = capExReserves.value;
+  const totalUnitsValue = parseInt(totalUnits.innerText);
+  const resultantCapExReserves = document.getElementById('resultant-capex-reserves');
+
+  const capExReserve = capExReservesValue * totalUnitsValue;
+
+  if(capExReserve) {
+    resultantCapExReserves.innerText = "$" + numberWithCommas(Math.round(capExReserve));
+  } else {
+    resultantCapExReserves.innerText = '$0';
+  }
+
+  return parseInt(capExReserve);
 }
 /*
   # Calculate Total Expenses
@@ -313,12 +498,16 @@ const calculateManagementFee = () => {
 */
 const calculateTotalExpenses = () => {
   let totalExpensesValue = calculateManagementFee();
+  totalExpensesValue += calculateOtherExpenses();
+  totalExpensesValue += calculateCapExReserves();
+
   expenses.forEach(expense => {
     let expenseValue = parseFloat(expense.value.replaceAll(',', ''));
     if (expenseValue) {
       totalExpensesValue += expenseValue;
     }
   });
+
   totalExpenses.innerText = "$" + numberWithCommas(Math.round(totalExpensesValue));
   resultantTotalExpenses.innerText = "$" + numberWithCommas(Math.round(totalExpensesValue));
 
@@ -331,7 +520,9 @@ const calculateTotalExpenses = () => {
 const calculateTotalOtherIncome = () => { 
   const totalUnitsValue = parseInt(totalUnits.innerText);
   const otherIncomeValue = parseInt(otherIncome.rawValue);
+  
   const totalOtherIncomeValue = totalUnitsValue * otherIncomeValue;
+
   if (totalOtherIncomeValue) { 
     totalOtherIncome.innerText = "$" + numberWithCommas(totalOtherIncomeValue);
   } else {
@@ -347,7 +538,9 @@ const calculateTotalOtherIncome = () => {
 const calculatePotentialGrossIncome = () => { 
   const potentialRentalIncomeValue = parseInt(resultantPotentialIncome.innerText.replace(/\$|,/g, ''));
   const totalOtherIncomeValue = parseInt(totalOtherIncome.innerText.replace(/\$|,/g, ''));
+
   const resultantPotentialGrossIncomeValue = potentialRentalIncomeValue + totalOtherIncomeValue;
+  
   if (resultantPotentialGrossIncomeValue) {
     resultantPotentialGrossIncome.innerText = "$" + numberWithCommas(resultantPotentialGrossIncomeValue);
   } else {
@@ -389,7 +582,9 @@ const calculateEffectiveGrossIncome = () => {
 const calculateNetOperatingIncome = () => { 
   const effectiveGrossIncomeValue = parseInt(effectiveGrossIncome.innerText.replace(/\$|,/g, ''));
   const totalExpensesValue = parseInt(totalExpenses.innerText.replace(/\$|,/g, ''));
+
   const netOperatingIncomeValue = effectiveGrossIncomeValue - totalExpensesValue;
+  
   if (netOperatingIncomeValue) {
     netOperatingIncome.innerText = "$" + numberWithCommas(netOperatingIncomeValue);
   } else {
@@ -397,6 +592,8 @@ const calculateNetOperatingIncome = () => {
   }
 
   calculateOperatingMargin();
+  calculateLoanAmountDSCR();
+  calculateCashFlowBeforeTax();
 }
 /*
   Calculate Operating Margin
@@ -405,11 +602,29 @@ const calculateNetOperatingIncome = () => {
 const calculateOperatingMargin = () => {
   const effectiveGrossIncomeValue = parseInt(effectiveGrossIncome.innerText.replace(/\$|,/g, ''));
   const netOperatingIncomeValue = parseInt(netOperatingIncome.innerText.replace(/\$|,/g, ''));
-  const operatingMarginValue = netOperatingIncomeValue / effectiveGrossIncomeValue;
+
+  const operatingMarginValue = netOperatingIncomeValue / effectiveGrossIncomeValue * 100;
+  
   if (operatingMarginValue) {
     operatingMargin.innerText = operatingMarginValue.toFixed(2) + '%';
   } else {
     operatingMargin.innerText = '0%';
+  }
+}
+/*
+  Calculate Cash Flow Before Tax
+  Cash FLow Before Tax = Net Operating Income - Debt Service
+*/
+const calculateCashFlowBeforeTax = () => { 
+  const netOperatingIncomeValue = parseInt(netOperatingIncome.innerText.replace(/\$|,/g, ''));
+  const debtServiceValue = parseInt(debtService.innerText.replace(/\$|,/g, ''));
+
+  const cashFlowBeforeTaxValue = netOperatingIncomeValue - debtServiceValue;
+
+  if (cashFlowBeforeTaxValue) {
+    cashFlowBeforeTax.innerText = '$' + numberWithCommas(cashFlowBeforeTaxValue);
+  } else {
+    cashFlowBeforeTax.innerText = '$0';
   }
 }
 // For all the input fileds required for expenses add event listener to trigger calculation of Total Expenses
@@ -420,7 +635,7 @@ otherIncome.domElement.addEventListener('input', calculateTotalOtherIncome);
 // add event listner for vacancy credit loss
 vacanyCreditLoss.addEventListener('input', calculateEffectiveGrossIncome);
 // add event listner for management fee
-managementFee.addEventListener('input', calculateTotalExpenses);
+[managementFee, otherExpenses, capExReserves].forEach(element => element.addEventListener('input', calculateTotalExpenses));
 
 /* -----------------------------------Sharable link----------------------------- */
 

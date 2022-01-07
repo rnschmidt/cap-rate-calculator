@@ -999,6 +999,7 @@ nav {
 .multifamily-proforma-container .operating-statement-container .card-input-gross-income, .multifamily-proforma-container .operating-statement-container .card-input-operating-expanses {
   max-width: 48rem;
   width: 100%;
+  min-height: 15rem;
   padding: 0.75rem 1rem;
   border-style: solid;
   border-width: 4px 0;
