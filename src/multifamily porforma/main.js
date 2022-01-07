@@ -1,4 +1,4 @@
-import { renderDeleteIcon, amountConfig, numberWithCommas } from "../utils/utils.js";
+import { renderDeleteIcon, amountConfig, numberWithCommas, validateAmount, insertErrorMessage, removeErrorMessage } from "../utils/utils.js";
 /* --------------------Building Data-------------------------- */
 const buildingDataInputContainer = document.querySelector('.building-data-inputs-container');
 const resultantBuildingDataContainer = document.querySelector('.resultant-building-data-container');
@@ -13,6 +13,24 @@ const copyText = document.getElementById('copy-text');
 const url = new URL(window.location.href);
 // building data input selectors
 const buildingDataInputSelectors = ['.unit-type-br', '.unit-type-ba', '.number-of-units', '.average-rent-per-month'];
+// validate br and ba values
+const validatebrba = (e) => { 
+  let value = e.target.value;
+  let inputContainer = e.target.closest(".input-container");
+  let errorMessage = document.createElement('div');
+  errorMessage.classList.add('error-label');
+  errorMessage.innerText = 'Please select a value between 0 and 10 (inclusive)';
+  let isErrorLablePresent = inputContainer.lastChild.classList ? true : false;
+  
+  if (value > 10) {
+    e.target.value = 10;
+    e.target.style.borderColor = 'red';
+    if(!isErrorLablePresent) inputContainer.appendChild(errorMessage);
+  } else {
+    e.target.style.borderColor = '';
+    if(isErrorLablePresent) inputContainer.removeChild(inputContainer.lastChild);
+  }
+}
 // remove event listeners from inputs when row is deleted
 const removeAllInputsEventListeners = (id) => { 
   const br = document.getElementById(`unit-type-br-${id}`);
@@ -70,7 +88,7 @@ const addNewRowToContainer = (id) => {
       </div>
       <div class="input-wrapper">
         <span class="rounded-left">$</span>
-        <input type="text" name="average-rent-per-month" id="average-rent-per-month-${id}" class="average-rent-per-month validate-amount rounded-right" min="0" step="1" placeholder="0" />
+        <input type="text" name="average-rent-per-month" id="average-rent-per-month-${id}" class="average-rent-per-month rounded-right" min="0" step="1" placeholder="0" />
       </div>
     </div>
   `;
@@ -83,8 +101,8 @@ const addNewRowToContainer = (id) => {
   });
 
   buildingDataInputContainer.appendChild(row);
-
   const averageRentPerMonth = new AutoNumeric(`#average-rent-per-month-${id}`, amountConfig);
+  averageRentPerMonth.domElement.addEventListener('input', validateAmount);
 }
 // add new row to result container
 const addNewRowToResultantContainer = (id) => { 
@@ -108,7 +126,7 @@ const updateTotalValues = () => {
 
   const averageRentPerMonth = document.querySelectorAll('.average-rent-per-month');
   const totalAvRentPerMonth = (Array.from(averageRentPerMonth).reduce((acc, curr, index) => acc + (parseInt(curr.value.replace(/\,/g, '')) || 0) * numberOfUnits[index].value, 0) / totalNumberOfUnits).toFixed(2);
-  totalRent.innerText = '$' + numberWithCommas(totalAvRentPerMonth);
+  totalRent.innerText = (totalAvRentPerMonth === 'NaN') ? '$0' : '$' + numberWithCommas(totalAvRentPerMonth);
 
   const resultantTotalAnnualRent = document.querySelectorAll('.total-annual-rent');
   const totalAnnualRentValue = Array.from(resultantTotalAnnualRent).reduce((acc, curr) => acc + (parseInt(curr.innerText.replace(/\,|\$/g, '')) || 0), 0);
@@ -153,7 +171,7 @@ const addEventListnersToInputs = (id) => {
   const br = document.getElementById(`unit-type-br-${id}`);
   const ba = document.getElementById(`unit-type-ba-${id}`);
 
-  [br, ba].forEach(element => element.addEventListener('input', () => handleBrBaInputs(id, br.value, ba.value)));
+  [br, ba].forEach(element => element.addEventListener('input', (e) => { handleBrBaInputs(id, br.value, ba.value); validatebrba(e) }));
 
   const numberOfUnits = document.getElementById(`number-of-units-${id}`);
   const averageRentPerMonth = document.getElementById(`average-rent-per-month-${id}`);
@@ -206,7 +224,27 @@ const annualDebtService = document.getElementById('annual-debt-service');
 
 const validateSaleMonth = (e) => { }
 
-const validateDSCR = (e) => { }
+const validateLoanAmortization = (e) => { 
+  let value = e.target.value;
+
+  if (value > 12000) {
+    e.target.value = 12000;
+    insertErrorMessage(e, 'Please select a value between 0 to 12000');
+  } else {
+    removeErrorMessage(e);
+  }
+}
+
+const validateDSCR = (e) => {
+  let value = e.target.value;
+
+  if (value > 3) {
+    e.target.value = 3;
+    insertErrorMessage(e, 'Please select a value between 0.0 to 3.0 (inclusive)');
+  } else {
+    removeErrorMessage(e);
+  }
+}
 
 const calculatePricePerUnit = () => { 
   const purchasePriceValue = parseInt(purchasePrice.rawValue) || 0;
@@ -392,6 +430,9 @@ purchasePrice.domElement.addEventListener('input', () => { calculatePricePerUnit
 ltv.addEventListener('input', calculateLoanAmountLTV);
 
 [loanInterestRate, loanAmortization, dscr].forEach(element => element.addEventListener('input', calculateLoanAmountDSCR));
+
+loanAmortization.addEventListener('input', validateLoanAmortization);
+dscr.addEventListener('input', validateDSCR);
 
 /* -----------------------------------Operating Statement ----------------------- */
 

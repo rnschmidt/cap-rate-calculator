@@ -390,6 +390,11 @@ nav {
           justify-content: center;
 }
 
+.multifamily-proforma-container .building-data-container .card-input .building-data-inputs-container .row .input-container .error-label {
+  color: tomato;
+  font-size: 0.75rem;
+}
+
 .multifamily-proforma-container .building-data-container .card-input .building-data-inputs-container .row svg {
   width: 2.5rem;
   aspect-ratio: 1;
