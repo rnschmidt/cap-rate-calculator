@@ -676,7 +676,7 @@ nav {
 .multifamily-proforma-container .investment-financing-data-container .card-input-investment, .multifamily-proforma-container .investment-financing-data-container .card-input-financing {
   max-width: 48rem;
   width: 100%;
-  min-height: 22rem;
+  min-height: 12rem;
   padding: 0.75rem 1rem;
   border-style: solid;
   border-width: 4px 0;
@@ -726,6 +726,10 @@ nav {
       -ms-flex-pack: justify;
           justify-content: space-between;
   gap: 0.5rem;
+}
+
+.multifamily-proforma-container .investment-financing-data-container .card-input-investment input {
+  width: calc(100% - 2rem);
 }
 
 .multifamily-proforma-container .investment-financing-data-container .card-input-financing {
@@ -800,6 +804,33 @@ nav {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+}
+
+.multifamily-proforma-container .investment-financing-data-container .card-result .cap-rate {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0.5rem 1rem;
+  border-top-right-radius: 1.5rem;
+  background-color: #e1eefa;
+}
+
+.multifamily-proforma-container .investment-financing-data-container .card-result .cap-rate h3 {
+  font-size: 1.25rem;
+}
+
+@media screen and (max-width: 768px) {
+  .multifamily-proforma-container .investment-financing-data-container .card-result .cap-rate h3 {
+    font-size: 1.125rem;
+  }
 }
 
 .multifamily-proforma-container .operating-statement-container {

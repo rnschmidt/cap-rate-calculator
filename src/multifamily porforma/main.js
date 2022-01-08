@@ -193,11 +193,6 @@ addNewRowButton.click();
 /*------------------------------------Investment & Financing Data---------------- */
 // investment data inputs
 const purchasePrice = new AutoNumeric('#purchase-price', amountConfig);
-const terminalCapRate = document.getElementById('terminal-cap-rate');
-const saleMonth = document.getElementById('sale-month');
-const costOfSale = document.getElementById('cost-of-sale');
-const discountRateUnlevered = document.getElementById('discount-rate-unlevered');
-const discountRateLevered = document.getElementById('discount-rate-levered');
 // financing data inputs
 const loanInterestRate = document.getElementById('loan-interest-rate');
 const loanAmortization = document.getElementById('loan-amortization');
@@ -206,11 +201,7 @@ const dscr = document.getElementById('dscr');
 // calculated result
 const resultantPurchasePrice = document.getElementById('resultant-purchase-price');
 const resultantPerUnit = document.getElementById('resultant-per-unit');
-const resultantTerminalCapRate = document.getElementById('resultant-terminal-cap-rate');
-const resultantSaleMonth = document.getElementById('resultant-sale-month');
-const resultantCostOfSale = document.getElementById('resultant-cost-of-sale');
-const resultantDiscountRateUnlevered = document.getElementById('resultant-discount-rate-unlevered');
-const resultantDiscountRateLevered = document.getElementById('resultant-discount-rate-levered');
+
 const resultantLoanInterestRate = document.getElementById('resultant-loan-interest-rate');
 const resultantLoanAmortization = document.getElementById('resultant-loan-amortization');
 const resultantLtv = document.getElementById('resultant-ltv');
@@ -221,8 +212,8 @@ const maximumLoanAmount = document.getElementById('maximum-loan-amount');
 const initialEquity = document.getElementById('initial-equity');
 const monthlyDebtService = document.getElementById('monthly-debt-service');
 const annualDebtService = document.getElementById('annual-debt-service');
-
-const validateSaleMonth = (e) => { }
+const cashOnCashReturn = document.getElementById('cash-on-cash-return');
+const investmentAndFinancingInputElements = [purchasePrice, loanInterestRate, loanAmortization, ltv, dscr];
 
 const validateLoanAmortization = (e) => { 
   let value = e.target.value;
@@ -363,6 +354,7 @@ const calculateMaximumLoanAmount = () => {
 
   calculateInitialEquity();
   calculateMonthlyDebtService();
+  shareLink.value = generateSharableLink();
 }
 /*
   Calculate Initial Equity
@@ -379,6 +371,8 @@ const calculateInitialEquity = () => {
   } else {
     initialEquity.innerText = '$0';
   }
+
+  calculateCashOnCashReturn();
 }
 
 const PMT = (rate, nper, pv, fv, type) => {
@@ -424,6 +418,22 @@ const calculateAnnualDebtService = (monthlyDebtServiceValue) => {
   debtService.innerText = '$' + numberWithCommas(annualDebtServiceValue);
   calculateCashFlowBeforeTax();
 }
+/*
+  Calculate Cash on Cash Return
+  Cash on Cash Return  = Cash Flow Before Tax / Initial Equity
+*/
+const calculateCashOnCashReturn = () => { 
+  const cashFlowBeforeTaxValue = parseInt(cashFlowBeforeTax.innerText.replace(/\$|,/g, ''));
+  const initialEquityValue = parseInt(initialEquity.innerText.replace(/\$|,/g, ''));
+
+  const cashOnCashReturnValue = cashFlowBeforeTaxValue / initialEquityValue;
+
+  if (cashOnCashReturnValue && Number.isFinite(cashOnCashReturnValue)) {
+    cashOnCashReturn.innerText = cashOnCashReturnValue.toFixed(2);
+  } else {
+    cashOnCashReturn.innerText = '0';
+  }
+}
 
 // add event listners to inputs and update values on result container
 purchasePrice.domElement.addEventListener('input', () => { calculatePricePerUnit(); calculateLoanAmountLTV(); calculateInitialEquity(); });
@@ -458,6 +468,7 @@ const netOperatingIncome = document.getElementById('net-operating-income');
 const operatingMargin = document.getElementById('operating-margin');
 const debtService = document.getElementById('debt-service');
 const cashFlowBeforeTax = document.getElementById('cash-flow-before-tax');
+const operatingStatementInputElements = [otherIncome, vacanyCreditLoss, managementFee, otherExpenses, capExReserves];
 /*
   # Update Total Expenses Property on Calculated Results
 */
@@ -646,7 +657,7 @@ const calculateOperatingMargin = () => {
 
   const operatingMarginValue = netOperatingIncomeValue / effectiveGrossIncomeValue * 100;
   
-  if (operatingMarginValue) {
+  if (operatingMarginValue && Number.isFinite(operatingMarginValue)) {
     operatingMargin.innerText = operatingMarginValue.toFixed(2) + '%';
   } else {
     operatingMargin.innerText = '0%';
@@ -667,6 +678,8 @@ const calculateCashFlowBeforeTax = () => {
   } else {
     cashFlowBeforeTax.innerText = '$0';
   }
+
+  calculateCashOnCashReturn();
 }
 // For all the input fileds required for expenses add event listener to trigger calculation of Total Expenses
 expenses.forEach(expense => new AutoNumeric(expense, amountConfig));
@@ -686,9 +699,27 @@ const generateSharableLink = () => {
   
   buildingDataInputSelectors.forEach(selector => {
     const inputs = Array.from(document.querySelectorAll(selector));
-    parameters[selector] = inputs.map(input => input.value);
+    parameters[selector] = inputs.map(input => input.value.replace(/\$|,/g, ''));
   });
-  
+
+  investmentAndFinancingInputElements.forEach(element => {
+    const id = element?.domElement ? element.domElement.id : element.id;
+    const value = element?.domElement ? '$' + element.domElement.value : element.value;
+    parameters[id] = value;
+  });
+
+  operatingStatementInputElements.forEach(element => {
+    const id = element?.domElement ? element.domElement.id : element.id;
+    const value = element?.domElement ? '$' + element.domElement.value : element.value;
+    parameters[id] = value;
+  });
+
+  expenses.forEach(expense => {
+    const id = expense.id;
+    const value = '$' + expense.value;
+    parameters[id] = value;
+  });
+
   let params = new URLSearchParams(parameters);
   
   return 'http://' + url.host + url.pathname + '?' + params.toString();
@@ -699,12 +730,15 @@ const parseUrlParameters = (link) => {
   const params = new URLSearchParams(url.search);
   const parmasMap = {};
   let rows = 0;
-
   params.forEach((value, key) => { 
-    parmasMap[key] = value.split(',');
-    rows = parmasMap[key].length;
+    if (key.includes('.')) {
+      parmasMap[key] = value.split(',');
+      rows = parmasMap[key].length;
+    } else { 
+      parmasMap[key] = value;
+    }
   });
-
+  console.log(parmasMap)
   for (let i = 1; i < rows; i++) addNewRowButton.click();
 
   let ids = [];
@@ -731,6 +765,43 @@ const parseUrlParameters = (link) => {
     handleNumberOfUnits(id, numberOfUnits.value, averageRentPerMonth.value);
     handleAverageRentPerMonth(id, numberOfUnits.value, averageRentPerMonth.value);
   });
+
+  investmentAndFinancingInputElements.forEach(element => {
+    const id = element?.domElement ? element.domElement.id : element.id;
+    const value = parmasMap[id];
+    if (value) {
+      if (value.includes('$')) {
+        AutoNumeric.set(element.domElement, value.replace(/\$|,/g, ''));
+      } else {
+        element.value = value;
+      }
+    }
+  });
+
+  calculatePricePerUnit(); calculateLoanAmountLTV(); calculateLoanAmountDSCR();
+
+  operatingStatementInputElements.forEach(element => {
+    const id = element?.domElement ? element.domElement.id : element.id;
+    const value = parmasMap[id];
+    if (value) {
+      if (value.includes('$')) {
+        AutoNumeric.set(element.domElement, value.replace(/\$|,/g, ''));
+      } else {
+        element.value = value;
+      }
+    }
+  });
+
+  expenses.forEach(expense => {
+    let value = parmasMap[expense.id];
+    let resultantId = 'resultant-' + expense.id;
+    let element = document.getElementById(resultantId);
+    element.innerText = value || '$0';
+    value && AutoNumeric.set(expense, value.replace(/\$|,/g, ''));
+  });
+
+  calculateTotalOtherIncome();
+  calculateTotalExpenses();
 }
 // On click of share button -> generate sharable link and show copy to clipboard icon
 shareResultButton.addEventListener('click', () => {
