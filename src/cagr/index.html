@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.1.0">
+    const AutoNumeric = require('autonumeric');
+  </script>
+  <title>CAGR Calculator</title>
+</head>
+<body>
+  <nav>Nav here</nav>
+  <div class="container">
+    <!--CAGR Calculator-->
+    <div class="cagr-container">
+      <div class="card">
+        <div class="card-inner">
+          <h3>Compound Annual Growth Rate</h3>
+
+          <div class="card-inner-input">
+            <div class="input-container">
+              <div class="input-label">
+                <label for="initial-investment-value">Initial Investment Value</label>
+              </div>
+              <div class="input-wrapper">
+                <span class="dollar-sign">$</span>
+                <input type="text" name="initial-investment-value" id="initial-investment-value" class="validate-amount dollar" placeholder="0" step="1">
+              </div>
+            </div>
+
+            <div class="input-container">
+              <div class="input-label">
+                <label for="ending-investment-value">Ending Investment Value</label>
+              </div>
+              <div class="input-wrapper">
+                <span class="dollar-sign">$</span>
+                <input type="text" name="ending-investment-value" id="ending-investment-value" class="validate-amount dollar" placeholder="0" step="1">
+              </div>
+            </div>
+
+            <div class="number-of-periods-container">
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="number-of-periods">Number of Periods</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="text" name="number-of-periods" id="number-of-periods" placeholder="0" step="1">
+                </div>
+              </div>
+
+              <div class="toggle-container">
+                <label for="term-period">Yearly</label>
+                <label class="switch">
+                  <input type="checkbox" name="term-period" id="term-period" value="Monthly" checked>
+                  <span class="slider round"></span>
+                </label>
+                <label for="Monthly">Monthly</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <div class="card-result">
+            <div class="cap-rate">
+              <h3>CAGR</h3>
+              <h3 id="cagr">0.0%</h3>
+            </div>
+          </div>
+      </div>
+
+      <div class="share-result-container">
+        <button id="share-result">Share Result</button>
+        <div class="link-container">
+          <input type="text" id="share-link" />
+
+          <span id="copy-text">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clipboard" class="svg-inline--fa fa-clipboard fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M384 112v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h80c0-35.29 28.71-64 64-64s64 28.71 64 64h80c26.51 0 48 21.49 48 48zM192 40c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24m96 114v-20a6 6 0 0 0-6-6H102a6 6 0 0 0-6 6v20a6 6 0 0 0 6 6h180a6 6 0 0 0 6-6z"></path></svg>
+            <div class="tooltip">Copy to clipboard</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
