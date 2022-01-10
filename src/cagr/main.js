@@ -36,7 +36,7 @@ const calculateCAGR = () => {
   const cagr = ((finalInvestment / initialInvestment) ** inverseNumberOfPeriodsValue) - 1;
 
   if (cagr) {
-    resultantCAGR.innerText = cagr.toFixed(2) + '%';
+    resultantCAGR.innerText = (cagr * 100).toFixed(2) + '%';
   } else {
     resultantCAGR.innerText = '0.0%';
   }
