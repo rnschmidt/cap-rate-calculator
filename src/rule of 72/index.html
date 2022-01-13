@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.1.0">
+    const AutoNumeric = require('autonumeric');
+  </script>
+  <title>Rule of 72</title>
+</head>
+<body>
+  <nav>Navbar here</nav>
+  <div class="container">
+    <!--Rule of 72-->
+    <div class="rule-of-72-container">
+      <div class="card">
+        <div class="card-input">
+          <h3>Rule of 72</h3>
+
+          <div class="input-container">
+            <div class="input-label">
+              <label for="calculate">Calculate</label>
+            </div>
+            <select name="calculate" id="calculate">
+              <option value="Number of Years">Number of Years</option>
+              <option value="Interest Rate">Interest Rate</option>  
+            </select>
+          </div>
+
+          <div class="input-container">
+            <div class="input-label">
+              <label for="number-of-years" id="noyl" class="hide">Number of Years</label>
+              <label for="interest-rate" id="inrl" class="">Interest Rate</label>
+            </div>
+            <div class="input-wrapper">
+              <input type="number" name="number-of-years" id="number-of-years" class="percent hide" placeholder="0" min="0" step="1">
+              <input type="number" name="interest-rate" id="interest-rate" class="percent validate-percent float-field" placeholder="0.0" min="0.0" step="0.01" >
+              <span id="yr-symbol" class="percent-sign hide">yr</span>
+              <span id="percent-symbol" class="percent-sign">%</span>
+            </div>
+          </div>
+
+          <div class="input-container">
+            <div class="input-label">
+              <label for="amount">Amount</label>
+            </div>
+            <div class="input-wrapper">
+              <span class="dollar-sign">$</span>
+              <input type="text" name="amount" id="amount" class="dollar validate-amount" placeholder="0" min="0" step="1">
+            </div>
+          </div>
+
+          <div class="row">
+            <h4 id="intermediate-result-left">Number of Years</h4>
+            <h4 id="intermediate-result-right">0</h4>
+          </div>
+        </div>
+
+        <div class="card-result">
+          <h3 class="card-result-head">Calculated Result</h3>
+          
+          <div class="card-result-inner">
+            <div class="card-result-inner-head">
+              <h4>Year</h4>
+              <h4>Interest Rate</h4>
+              <h4>Amount (EOY)</h4>
+            </div>
+            <div class="card-result-inner-container"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="share-result-container">
+        <button id="share-result">Share Result</button>
+
+        <div class="link-container">
+          <input type="text" id="share-link" />
+          
+          <span id="copy-text">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clipboard" class="svg-inline--fa fa-clipboard fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M384 112v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h80c0-35.29 28.71-64 64-64s64 28.71 64 64h80c26.51 0 48 21.49 48 48zM192 40c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24m96 114v-20a6 6 0 0 0-6-6H102a6 6 0 0 0-6 6v20a6 6 0 0 0 6 6h180a6 6 0 0 0 6-6z"></path></svg>
+            <div class="tooltip">Copy to clipboard</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
