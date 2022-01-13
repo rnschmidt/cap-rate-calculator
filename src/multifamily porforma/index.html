@@ -157,11 +157,6 @@
             </div>
 
             <div class="row">
-              <h4>Initial Equity</h4>
-              <h4 id="initial-equity">$0</h4>
-            </div>
-
-            <div class="row">
               <h4>Monthly Debt Service</h4>
               <h4 id="monthly-debt-service">$0</h4>
             </div>
@@ -173,8 +168,8 @@
           </div>
 
           <div class="cap-rate">
-            <h3>Cash on Cash Return</h3>
-            <h3 id="cash-on-cash-return">0</h3>
+            <h3>Initial Equity</h3>
+            <h3 id="initial-equity">$0</h3>
           </div>
         </div>
       </div>
@@ -251,28 +246,48 @@
                   <label for="management-fee">Management Fee</label>
                 </div>
                 <div class="input-wrapper">
-                  <input type="text" name="management-fee" id="management-fee" class="float-field validate-percent percent" placeholder="0.00" min="0.00" step="0.01">
+                  <input type="number" name="management-fee" id="management-fee" class="float-field validate-percent percent" placeholder="0.00" min="0.00" step="0.01">
                   <span class="percent-sign">%</span>
                 </div>
               </div>
 
-              <div class="input-container">
-                <div class="input-label">
-                  <label for="other-expenses">Other Expenses</label>
+              <div class="input-and-toggle-container">
+                <div class="input-container">
+                  <div class="input-label">
+                    <label for="other-expenses">Other Expenses</label>
+                  </div>
+                  <div class="input-wrapper">
+                    <span class="dollar-sign">$</span>
+                    <input type="text" name="other-expenses" id="other-expenses" class="validate-amount dollar" placeholder="0" min="0" step="1">
+                  </div>
                 </div>
-                <div class="input-wrapper">
-                  <span class="dollar-sign">$</span>
-                  <input type="text" name="other-expenses" id="other-expenses" class="validate-amount dollar" placeholder="0" min="0" step="1">
+                <div class="toggle-container">
+                  <label for="other-expenses-toggle">Total Amount</label>
+                  <label class="switch">
+                    <input type="checkbox" name="other-expenses-toggle" id="other-expenses-toggle" value="AmountPerUnit" checked>
+                    <span class="slider round"></span>
+                  </label>
+                  <label for="AmountPerUnit">Amount Per Unit</label>
                 </div>
               </div>
 
-              <div class="input-container">
-                <div class="input-label">
-                  <label for="capex-reserves">CapEx Reserves</label>
+              <div class="input-and-toggle-container">
+                <div class="input-container">
+                  <div class="input-label">
+                    <label for="capex-reserves">CapEx Reserves</label>
+                  </div>
+                  <div class="input-wrapper">
+                    <span class="dollar-sign">$</span>
+                    <input type="text" name="capex-reserves" id="capex-reserves" class="validate-amount dollar" placeholder="0" min="0" step="1">
+                  </div>
                 </div>
-                <div class="input-wrapper">
-                  <span class="dollar-sign">$</span>
-                  <input type="text" name="capex-reserves" id="capex-reserves" class="validate-amount dollar" placeholder="0" min="0" step="1">
+                <div class="toggle-container">
+                  <label for="capex-reserves-toggle">Total Amount</label>
+                  <label class="switch">
+                    <input type="checkbox" name="capex-reserves-toggle" id="capex-reserves-toggle" value="AmountPerUnit" checked>
+                    <span class="slider round"></span>
+                  </label>
+                  <label for="AmountPerUnit">Amount Per Unit</label>
                 </div>
               </div>
             </div>
@@ -362,11 +377,16 @@
               <h4>Debt Service</h4>
               <h4 id="debt-service">$0</h4>
             </div>
+
+            <div class="row">
+              <h4>Cash Flow Before Tax</h4>
+              <h4 id="cash-flow-before-tax">$0</h4>
+            </div>
           </div>
 
           <div class="cap-rate">
-            <h3>Cash Flow Before Tax</h3>
-            <h3 id="cash-flow-before-tax">$0</h3>
+            <h3>Cash on Cash Return</h3>
+            <h3 id="cash-on-cash-return">0.0</h3>
           </div> 
         </div>
       </div>

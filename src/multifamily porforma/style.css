@@ -1087,6 +1087,91 @@ nav {
   gap: 0.5rem;
 }
 
+.multifamily-proforma-container .operating-statement-container .card-input-gross-income .input-and-toggle-container, .multifamily-proforma-container .operating-statement-container .card-input-operating-expanses .input-and-toggle-container {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.multifamily-proforma-container .operating-statement-container .card-input-gross-income .input-and-toggle-container .toggle-container, .multifamily-proforma-container .operating-statement-container .card-input-operating-expanses .input-and-toggle-container .toggle-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 0.5rem;
+}
+
+.multifamily-proforma-container .operating-statement-container .card-input-gross-income .input-and-toggle-container .toggle-container .switch, .multifamily-proforma-container .operating-statement-container .card-input-operating-expanses .input-and-toggle-container .toggle-container .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.multifamily-proforma-container .operating-statement-container .card-input-gross-income .input-and-toggle-container .toggle-container .switch input, .multifamily-proforma-container .operating-statement-container .card-input-operating-expanses .input-and-toggle-container .toggle-container .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.multifamily-proforma-container .operating-statement-container .card-input-gross-income .input-and-toggle-container .toggle-container .slider, .multifamily-proforma-container .operating-statement-container .card-input-operating-expanses .input-and-toggle-container .toggle-container .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #73b1e9;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.multifamily-proforma-container .operating-statement-container .card-input-gross-income .input-and-toggle-container .toggle-container .slider::before, .multifamily-proforma-container .operating-statement-container .card-input-operating-expanses .input-and-toggle-container .toggle-container .slider::before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.multifamily-proforma-container .operating-statement-container .card-input-gross-income .input-and-toggle-container .toggle-container input:checked + .slider, .multifamily-proforma-container .operating-statement-container .card-input-operating-expanses .input-and-toggle-container .toggle-container input:checked + .slider {
+  background-color: #73b1e9;
+}
+
+.multifamily-proforma-container .operating-statement-container .card-input-gross-income .input-and-toggle-container .toggle-container input:focus + .slider, .multifamily-proforma-container .operating-statement-container .card-input-operating-expanses .input-and-toggle-container .toggle-container input:focus + .slider {
+  -webkit-box-shadow: 0 0 1px #73b1e9;
+          box-shadow: 0 0 1px #73b1e9;
+}
+
+.multifamily-proforma-container .operating-statement-container .card-input-gross-income .input-and-toggle-container .toggle-container input:checked + .slider:before, .multifamily-proforma-container .operating-statement-container .card-input-operating-expanses .input-and-toggle-container .toggle-container input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.multifamily-proforma-container .operating-statement-container .card-input-gross-income .input-and-toggle-container .toggle-container .round, .multifamily-proforma-container .operating-statement-container .card-input-operating-expanses .input-and-toggle-container .toggle-container .round {
+  border-radius: 34px;
+}
+
+.multifamily-proforma-container .operating-statement-container .card-input-gross-income .input-and-toggle-container .toggle-container .round::before, .multifamily-proforma-container .operating-statement-container .card-input-operating-expanses .input-and-toggle-container .toggle-container .round::before {
+  border-radius: 50%;
+}
+
 .multifamily-proforma-container .operating-statement-container .card-result {
   display: -webkit-box;
   display: -ms-flexbox;

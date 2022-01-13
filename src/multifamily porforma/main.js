@@ -311,9 +311,9 @@ const calculateLoanAmountDSCR = () => {
   }
 
   if (loanAmortizationValue) {
-    resultantLoanAmortization.innerText = loanAmortizationValue + '%';
+    resultantLoanAmortization.innerText = loanAmortizationValue;
   } else {
-    resultantLoanAmortization.innerText = '0.0%';
+    resultantLoanAmortization.innerText = '0';
   }
 
   if (dscrValue) {
@@ -347,7 +347,7 @@ const calculateMaximumLoanAmount = () => {
   maxiumLoanAmountValue = Math.min(loanAmountDscrValue, maxiumLoanAmountValue);
 
   if (maxiumLoanAmountValue !== Number.MAX_SAFE_INTEGER) {
-    maximumLoanAmount.innerText = '$' + maxiumLoanAmountValue;
+    maximumLoanAmount.innerText = '$' + numberWithCommas(maxiumLoanAmountValue);
   } else {
     maximumLoanAmount.innerText = '$0';
   }
@@ -367,7 +367,7 @@ const calculateInitialEquity = () => {
   const initialEquityValue = purchasePriceValue - maxiumLoanAmountValue;
 
   if (initialEquityValue) {
-    initialEquity.innerText = '$' + initialEquityValue;
+    initialEquity.innerText = '$' + numberWithCommas(initialEquityValue);
   } else {
     initialEquity.innerText = '$0';
   }
@@ -455,8 +455,10 @@ const effectiveGrossIncome = document.getElementById('effective-gross-income');
 const totalExpenses = document.getElementById('total-expenses');
 // Operating Expenses
 const managementFee = document.getElementById('management-fee'); 
-const otherExpenses = document.getElementById('other-expenses');
-const capExReserves = document.getElementById('capex-reserves'); 
+const otherExpenses = new AutoNumeric('#other-expenses', amountConfig);
+const capExReserves = new AutoNumeric('#capex-reserves', amountConfig); 
+const otherExpensesToggle = document.getElementById('other-expenses-toggle');
+const capExReservesToggle = document.getElementById('capex-reserves-toggle');
 // calculated results
 const resultantPotentialIncome = document.getElementById('resultant-potential-income');
 const totalOtherIncome = document.getElementById('total-other-income');
@@ -468,7 +470,7 @@ const netOperatingIncome = document.getElementById('net-operating-income');
 const operatingMargin = document.getElementById('operating-margin');
 const debtService = document.getElementById('debt-service');
 const cashFlowBeforeTax = document.getElementById('cash-flow-before-tax');
-const operatingStatementInputElements = [otherIncome, vacanyCreditLoss, managementFee, otherExpenses, capExReserves];
+const operatingStatementInputElements = [otherIncome, vacanyCreditLoss, managementFee, otherExpenses, capExReserves, otherExpensesToggle, capExReservesToggle];
 /*
   # Update Total Expenses Property on Calculated Results
 */
@@ -509,11 +511,16 @@ const calculateManagementFee = () => {
   Other Expenses = Ohter Expense Unit Per Year * Total Units
 */
 const calculateOtherExpenses = () => { 
-  const otherExpensUnitPerYear = otherExpenses.value;
+  const otherExpensUnitPerYear = otherExpenses.rawValue;
   const totalUnitsValue = parseInt(totalUnits.innerText);
   const resultantOtherExpense = document.getElementById('resultant-other-expenses');
+  let otherExpense = 0;
 
-  const otherExpense = otherExpensUnitPerYear * totalUnitsValue;
+  if (otherExpensesToggle.checked) {
+    otherExpense = otherExpensUnitPerYear * totalUnitsValue;
+  } else {
+    otherExpense = otherExpensUnitPerYear || 0;
+  }
   
   if (otherExpense) {
     resultantOtherExpense.innerText = "$" + numberWithCommas(Math.round(otherExpense));
@@ -528,11 +535,16 @@ const calculateOtherExpenses = () => {
   CapEx Reserves = CapEx Unit Per Year * Total Units
 */
 const calculateCapExReserves = () => { 
-  const capExReservesValue = capExReserves.value;
+  const capExReservesValue = capExReserves.rawValue;
   const totalUnitsValue = parseInt(totalUnits.innerText);
   const resultantCapExReserves = document.getElementById('resultant-capex-reserves');
+  let capExReserve = 0;
 
-  const capExReserve = capExReservesValue * totalUnitsValue;
+  if (capExReservesToggle.checked) {
+    capExReserve = capExReservesValue * totalUnitsValue;
+  } else {
+    capExReserve = capExReservesValue || 0;
+  }
 
   if(capExReserve) {
     resultantCapExReserves.innerText = "$" + numberWithCommas(Math.round(capExReserve));
@@ -688,8 +700,24 @@ expenses.forEach(expense => expense.addEventListener('input', (e) => { calculate
 otherIncome.domElement.addEventListener('input', calculateTotalOtherIncome);
 // add event listner for vacancy credit loss
 vacanyCreditLoss.addEventListener('input', calculateEffectiveGrossIncome);
-// add event listner for management fee
-[managementFee, otherExpenses, capExReserves].forEach(element => element.addEventListener('input', calculateTotalExpenses));
+// add event listner to other expenses toggle
+otherExpensesToggle.addEventListener('input', (e) => {
+  if (otherExpensesToggle.checked) {
+    otherExpensesToggle.value = 'AmountPerUnit';
+  } else {
+    otherExpensesToggle.value = 'TotalAmount';
+  }
+});
+// add event listner to capex reserves toggle
+capExReservesToggle.addEventListener('input', (e) => { 
+  if (capExReservesToggle.checked) {
+    capExReservesToggle.value = 'AmountPerUnit';
+  } else {
+    capExReservesToggle.value = 'TotalAmount';
+  }
+});
+// add event listner for management fee, other expenses and capex reserves
+[managementFee, otherExpenses.domElement, otherExpensesToggle, capExReserves.domElement, capExReservesToggle].forEach(element => element.addEventListener('input', calculateTotalExpenses));
 
 /* -----------------------------------Sharable link----------------------------- */
 
@@ -779,6 +807,26 @@ const parseUrlParameters = (link) => {
   });
 
   calculatePricePerUnit(); calculateLoanAmountLTV(); calculateLoanAmountDSCR();
+
+  if (parmasMap['other-expenses-toggle']) { 
+    let value = parmasMap['other-expenses-toggle'];
+
+    if (value === 'AmountPerUnit') { 
+      otherExpensesToggle.checked = true;
+    } else {
+      otherExpensesToggle.checked = false;
+    }
+  }
+
+  if (parmasMap['capex-reserves-toggle']) { 
+    let value = parmasMap['capex-reserves-toggle'];
+
+    if (value === 'AmountPerUnit') { 
+      capExReservesToggle.checked = true;
+    } else {
+      capExReservesToggle.checked = false;
+    }
+  }
 
   operatingStatementInputElements.forEach(element => {
     const id = element?.domElement ? element.domElement.id : element.id;
