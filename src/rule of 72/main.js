@@ -1,5 +1,5 @@
 import { amountConfig, numberWithCommas, generateSharableLink, parseFromUrl } from "../utils/utils.js";
-
+// input selectors
 const calculate = document.getElementById('calculate');
 const numberOfYearsLabel = document.getElementById('noyl');
 const numberOfYears = document.getElementById('number-of-years');
@@ -11,11 +11,12 @@ const amount = new AutoNumeric('#amount', amountConfig);
 const intermediateResultLeft = document.getElementById('intermediate-result-left');
 const intermediateResultRight = document.getElementById('intermediate-result-right');
 const cardResultInnerContainer = document.querySelector('.card-result-inner-container');
+// share link
 const shareResultButton = document.getElementById('share-result');
 const shareLink = document.getElementById('share-link');
 const copyText = document.getElementById('copy-text');
 const url = new URL(window.location.href);
-
+// show/hide input filed based on dropdown selection
 const updateDOM = (e) => {
   const value = e ? e.target.value : calculate.value;
   
@@ -41,7 +42,7 @@ const updateDOM = (e) => {
 
   calculateRuleOf72();
 };
-
+// calculate rule of 72 on change of input
 const calculateRuleOf72 = () => { 
   cardResultInnerContainer.innerHTML = '';
 
@@ -87,10 +88,10 @@ const calculateRuleOf72 = () => {
 
   shareLink.value = generateSharableLink(url, [calculate, numberOfYears, interestRate, amount]);
 }
-
+// add event listener to drown down menu to update DOM
 calculate.addEventListener('change', updateDOM);
+// add event listener to input fields to calculate rule of 72
 [numberOfYears, interestRate, amount.domElement].forEach((element) => element.addEventListener('input', calculateRuleOf72));
-
 // add event listner for share result button to generate new sharable link
 shareResultButton.addEventListener('click', () => {
   let link = generateSharableLink(url, [calculate, numberOfYears, interestRate, amount]);
@@ -99,5 +100,5 @@ shareResultButton.addEventListener('click', () => {
   shareLink.style.padding = '0.5rem';
   copyText.style.opacity = '1';
 });
-
+// parse values from url and call the updateDOM function and calculateRuleOf72 function
 parseFromUrl(url, [updateDOM, calculateRuleOf72]);
