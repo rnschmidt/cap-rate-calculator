@@ -207,6 +207,37 @@ export const renderDeleteIcon = (node) => {
   return iconSvg;
 }
 
+export const PV = (rate, nper, pmt, fv, type) => {
+  type = typeof type === "undefined" ? 0 : type;
+  fv = typeof fv === "undefined" ? 0 : fv;
+
+  if (rate === 0) {
+    return -pmt * nper - fv;
+  } else {
+    
+    var tempVar = type !== 0 ? 1 + rate : 1;
+    var tempVar2 = 1 + rate;
+    var tempVar3 = Math.pow(tempVar2, nper);
+
+    return -(fv + pmt * tempVar * ((tempVar3 - 1) / rate)) / tempVar3;
+  }
+};
+
+export const FV = (rate, nper, pmt, pv, type) => {
+  type = typeof type === "undefined" ? 0 : type;
+
+  if (rate === 0) {
+    return -pv - pmt * nper;
+  } else {
+    
+    var tempVar = type !== 0 ? 1 + rate : 1;
+    var tempVar2 = 1 + rate;
+    var tempVar3 = Math.pow(tempVar2, nper);
+
+    return -pv * tempVar3 - (pmt / rate) * tempVar * (tempVar3 - 1);
+  }
+};
+
 const InternalPV = (values, guess) => {
   guess = typeof guess === "undefined" ? 0.1 : guess;
 

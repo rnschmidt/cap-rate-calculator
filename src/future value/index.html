@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.1.0">
+    const AutoNumeric = require('autonumeric');
+  </script>
+  <title>Future Value</title>
+</head>
+<body>
+  <nav>Navbar</nav>
+  <div class="container">
+    <!--Future Value-->
+    <div class="future-value-container">
+      <div class="card">
+        <div class="card-input">
+          <h3>Future Value</h3>
+
+          <div class="input-container">
+            <div class="input-label">
+              <label for="number-of-periods">Number of Periods</label>
+            </div>
+            <div class="input-wrapper">
+              <input type="number" name="number-of-periods" id="number-of-periods" placeholder="0" min="0" step="1">
+            </div>
+          </div>
+
+          <div class="input-container">
+            <div class="input-label">
+              <label for="starting-amount">Starting Amount</label>
+            </div>
+            <div class="input-wrapper">
+              <span class="dollar-sign">$</span>
+              <input type="text" name="starting-amount" id="starting-amount" class="validate-amount dollar" placeholder="0" min="0" step="0">
+            </div>
+          </div>
+
+          <div class="input-container">
+            <div class="input-label">
+              <label for="interest-rate">Interest Rate</label>
+            </div>
+            <div class="input-wrapper">
+              <input type="number" name="interest-rate" id="interest-rate" class="float-field validate-percent percent" placeholder="0.0" min="0.00" step="0.01">
+              <span class="percent-sign">%</span>
+            </div>
+          </div>
+
+          <div class="input-container">
+            <div class="input-label">
+              <label for="periodic-deposit">Periodic Deposit</label>
+            </div>
+            <div class="input-wrapper">
+              <span class="dollar-sign">$</span>
+              <input type="text" name="periodic-deposit" id="periodic-deposit" class="validate-amount dollar" placeholder="0" min="0" step="0">
+            </div>
+          </div>
+
+          <div class="input-container-toggle">
+            <div class="input-label">
+              <label for="periodic-deposit-toggle">Periodic Deposit Made At:</label>
+            </div>
+            <div class="input-wrapper">
+              <div class="toggle-container">
+                <label for="Beginning">Beginning</label>
+                <label class="switch">
+                  <input type="checkbox" id="periodic-deposit-toggle" name="periodic-deposit-toggle" value="End" checked>
+                  <span class="slider round"></span>
+                </label>
+                <label for="End">End</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card-result">
+          <h3 class="card-result-head">Calculated Result</h3>
+
+          <div class="card-result-inner">
+            <div class="row">
+              <h4>Starting Amount</h4>
+              <h4 id="resultant-starting-amount">$0</h4>
+            </div>
+            
+            <div class="row">
+              <h4>Interest Rate</h4>
+              <h4 id="resultant-interest-rate">0.0%</h4>
+            </div>
+
+            <div class="row">
+              <h4>Number of Periods</h4>
+              <h4 id="resultant-number-of-periods">0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Periodic Deposit</h4>
+              <h4 id="resultant-periodic-deposit">$0/period</h4>
+            </div>
+
+            <div class="row">
+              <h4 style="font-weight: 700; color: #1E73BE;">Total Periodic Deposits</h4>
+              <h4 id="total-periodic-deposits" style="font-weight: 700; color: #1E73BE;">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4 style="font-weight: 700; color: #1E73BE;">Present Value</h4>
+              <h4 id="present-value" style="font-weight: 700; color: #1E73BE;">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4 style="font-weight: 700; color: #1E73BE;">Total Interest</h4>
+              <h4 id="total-interest" style="font-weight: 700; color: #1E73BE;">0.0%</h4>
+            </div>
+          </div>
+
+          <div class="cap-rate">
+            <h3>Future Value</h3>
+            <h3 id="future-value">$0</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="share-result-container">
+        <button id="share-result">Share Result</button>
+        <div class="link-container">
+          <input type="text" id="share-link" />
+
+          <span id="copy-text">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clipboard" class="svg-inline--fa fa-clipboard fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M384 112v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h80c0-35.29 28.71-64 64-64s64 28.71 64 64h80c26.51 0 48 21.49 48 48zM192 40c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24m96 114v-20a6 6 0 0 0-6-6H102a6 6 0 0 0-6 6v20a6 6 0 0 0 6 6h180a6 6 0 0 0 6-6z"></path></svg>
+            <div class="tooltip">Copy to clipboard</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
