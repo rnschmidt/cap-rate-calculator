@@ -1,4 +1,4 @@
-import { renderDeleteIcon, amountConfig, numberWithCommas, validateAmount, insertErrorMessage, removeErrorMessage } from "../utils/utils.js";
+import { renderDeleteIcon, amountConfig, numberWithCommas, validateAmount, insertErrorMessage, removeErrorMessage, insertWarningMessage, removeWarningMessage } from "../utils/utils.js";
 /* --------------------Building Data-------------------------- */
 const buildingDataInputContainer = document.querySelector('.building-data-inputs-container');
 const resultantBuildingDataContainer = document.querySelector('.resultant-building-data-container');
@@ -302,8 +302,11 @@ const calculateLoanAmountDSCR = () => {
   const loanInterestRateValue = parseFloat(loanInterestRate.value) || 0;
   const loanAmortizationValue = parseInt(loanAmortization.value) || 0;
   const dscrValue = parseFloat(dscr.value) || 0;
+  const totalAnnualRentValue = parseInt(totalAnnualRent.innerText.replace(/\$|\,/g, '')) || 0;
+  const effectiveGrossIncomeValue = parseInt(effectiveGrossIncome.innerText.replace(/\$|\,/g, '')) || 0;
   const netOperatingIncomeValue = parseInt(netOperatingIncome.innerText.replace(/\$|\,/g, '')) || 0;
-
+  
+  // verification for loan amount (dscr)
   if (loanInterestRateValue) {
     resultantLoanInterestRate.innerText = loanInterestRateValue + '%';
   } else {
@@ -318,6 +321,16 @@ const calculateLoanAmountDSCR = () => {
 
   if (dscrValue) {
     resultantDscr.innerText = dscrValue + 'x';
+    if (totalAnnualRentValue === effectiveGrossIncomeValue) {
+      removeWarningMessage(dscr);
+      insertWarningMessage(dscr, 'Operating Statement is required to calculate Loan Amount (DSCR)');
+    } else if (effectiveGrossIncomeValue === netOperatingIncomeValue) {
+      removeWarningMessage(dscr);
+      insertWarningMessage(dscr, 'Operating Expenses is required to calculate Loan Amount (DSCR)');      
+    }
+    else {
+      removeWarningMessage(dscr);
+    }
   } else {
     resultantDscr.innerText = '0x';
   }
