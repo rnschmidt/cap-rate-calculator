@@ -480,7 +480,6 @@ const resultantVacancyCreditLoss = document.getElementById('resultant-vacancy-cr
 const resultantEffectiveGrossIncome = document.getElementById('resultant-effective-gross-income');
 const resultantTotalExpenses = document.getElementById('resultant-total-expenses');
 const netOperatingIncome = document.getElementById('net-operating-income');
-const operatingMargin = document.getElementById('operating-margin');
 const debtService = document.getElementById('debt-service');
 const cashFlowBeforeTax = document.getElementById('cash-flow-before-tax');
 const operatingStatementInputElements = [otherIncome, vacanyCreditLoss, managementFee, otherExpenses, capExReserves, otherExpensesToggle, capExReservesToggle];
@@ -668,25 +667,8 @@ const calculateNetOperatingIncome = () => {
     netOperatingIncome.innerText = '$0';
   }
 
-  calculateOperatingMargin();
   calculateLoanAmountDSCR();
   calculateCashFlowBeforeTax();
-}
-/*
-  Calculate Operating Margin
-  Operating Margin = Net Operating Income / Effective Gross Income
-*/
-const calculateOperatingMargin = () => {
-  const effectiveGrossIncomeValue = parseInt(effectiveGrossIncome.innerText.replace(/\$|,/g, ''));
-  const netOperatingIncomeValue = parseInt(netOperatingIncome.innerText.replace(/\$|,/g, ''));
-
-  const operatingMarginValue = netOperatingIncomeValue / effectiveGrossIncomeValue * 100;
-  
-  if (operatingMarginValue && Number.isFinite(operatingMarginValue)) {
-    operatingMargin.innerText = operatingMarginValue.toFixed(2) + '%';
-  } else {
-    operatingMargin.innerText = '0%';
-  }
 }
 /*
   Calculate Cash Flow Before Tax
@@ -779,7 +761,7 @@ const parseUrlParameters = (link) => {
       parmasMap[key] = value;
     }
   });
-  console.log(parmasMap)
+  
   for (let i = 1; i < rows; i++) addNewRowButton.click();
 
   let ids = [];
