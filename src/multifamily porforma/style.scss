@@ -153,12 +153,12 @@
           border: none;
           border-radius: 0.5rem;
           color: white;
-          background: lighten($secondaryColor, 25%);
+          background: lighten($primaryColor, 25%);
           cursor: pointer;
-          box-shadow: 1px 1px 4px 1px lighten($secondaryColor, 15%);
+          box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.25);
 
           &:hover {
-            background: lighten($secondaryColor, 15%);
+            background: lighten($primaryColor, 15%);
           }
         }
       }
@@ -301,6 +301,15 @@
 
         &-financing {
           min-height: 18rem;
+
+          .loan-amortization-container {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-end;
+            @include toggle-switch();
+          }
         }
       }
 

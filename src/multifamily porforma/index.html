@@ -281,13 +281,23 @@
                 </div>
               </div>
 
-              <div class="input-container">
-                <div class="input-label">
-                  <label for="loan-amortization">Loan Amortization (Years)</label>
+              <div class="loan-amortization-container">
+                <div class="input-container">
+                  <div class="input-label">
+                    <label for="loan-amortization">Loan Amortization</label>
+                  </div>
+                  <div class="input-wrapper">
+                    <input type="number" name="loan-amortization" id="loan-amortization" placeholder="0" step="1">
+                  </div>
                 </div>
-                <div class="input-wrapper">
-                  <input type="number" name="loan-amortization" id="loan-amortization" class="percent" placeholder="0" step="1">
-                  <span class="percent-sign">yr</span>
+              
+                <div class="toggle-container">
+                  <label for="Annual">Yearly</label>
+                  <label class="switch">
+                    <input type="checkbox" id="loan-term-period" value="Monthly" checked>
+                    <span class="slider round"></span>
+                  </label>
+                  <label for="Monthly">Monthly</label>
                 </div>
               </div>
 

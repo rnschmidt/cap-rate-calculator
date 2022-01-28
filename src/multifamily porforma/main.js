@@ -196,6 +196,7 @@ const purchasePrice = new AutoNumeric('#purchase-price', amountConfig);
 // financing data inputs
 const loanInterestRate = document.getElementById('loan-interest-rate');
 const loanAmortization = document.getElementById('loan-amortization');
+const loanTermPeriod = document.getElementById('loan-term-period');
 const ltv = document.getElementById('ltv');
 const dscr = document.getElementById('dscr');
 // calculated result
@@ -213,7 +214,7 @@ const initialEquity = document.getElementById('initial-equity');
 const monthlyDebtService = document.getElementById('monthly-debt-service');
 const annualDebtService = document.getElementById('annual-debt-service');
 const cashOnCashReturn = document.getElementById('cash-on-cash-return');
-const investmentAndFinancingInputElements = [purchasePrice, loanInterestRate, loanAmortization, ltv, dscr];
+const investmentAndFinancingInputElements = [purchasePrice, loanInterestRate, loanAmortization, loanTermPeriod, ltv, dscr];
 
 const validateLoanAmortization = (e) => { 
   let value = e.target.value;
@@ -300,7 +301,7 @@ const PV = (rate, nper, pmt, fv, type) => {
 */
 const calculateLoanAmountDSCR = () => { 
   const loanInterestRateValue = parseFloat(loanInterestRate.value) || 0;
-  const loanAmortizationValue = parseInt(loanAmortization.value) || 0;
+  let loanAmortizationValue = parseInt(loanAmortization.value) || 0;
   const dscrValue = parseFloat(dscr.value) || 0;
   const totalAnnualRentValue = parseInt(totalAnnualRent.innerText.replace(/\$|\,/g, '')) || 0;
   const effectiveGrossIncomeValue = parseInt(effectiveGrossIncome.innerText.replace(/\$|\,/g, '')) || 0;
@@ -311,6 +312,10 @@ const calculateLoanAmountDSCR = () => {
     resultantLoanInterestRate.innerText = loanInterestRateValue + '%';
   } else {
     resultantLoanInterestRate.innerText = '0.0%';
+  }
+
+  if (!loanTermPeriod.checked) { 
+    loanAmortizationValue = loanAmortizationValue * 12;
   }
 
   if (loanAmortizationValue) {
@@ -409,7 +414,7 @@ const PMT = (rate, nper, pv, fv, type) => {
 */
 const calculateMonthlyDebtService = () => { 
   const loanInterestRateValue = loanInterestRate.value / 1200;
-  const loanAmortizationValue = loanAmortization.value * 12;
+  const loanAmortizationValue = loanTermPeriod.checked ? loanAmortization.value : loanAmortization.value * 12;
   const maximuLoanAmountValue = parseInt(maximumLoanAmount.innerText.replace(/\$|,/g, ''));
 
   const monthlyDebtServiceValue = PMT(loanInterestRateValue, loanAmortizationValue, -maximuLoanAmountValue);
@@ -442,9 +447,9 @@ const calculateCashOnCashReturn = () => {
   const cashOnCashReturnValue = cashFlowBeforeTaxValue / initialEquityValue;
 
   if (cashOnCashReturnValue && Number.isFinite(cashOnCashReturnValue)) {
-    cashOnCashReturn.innerText = cashOnCashReturnValue.toFixed(2);
+    cashOnCashReturn.innerText = cashOnCashReturnValue.toFixed(2) + '%';
   } else {
-    cashOnCashReturn.innerText = '0';
+    cashOnCashReturn.innerText = '0.0%';
   }
 }
 
@@ -452,7 +457,7 @@ const calculateCashOnCashReturn = () => {
 purchasePrice.domElement.addEventListener('input', () => { calculatePricePerUnit(); calculateLoanAmountLTV(); calculateInitialEquity(); });
 ltv.addEventListener('input', calculateLoanAmountLTV);
 
-[loanInterestRate, loanAmortization, dscr].forEach(element => element.addEventListener('input', calculateLoanAmountDSCR));
+[loanInterestRate, loanAmortization, loanTermPeriod, dscr].forEach(element => element.addEventListener('input', calculateLoanAmountDSCR));
 
 loanAmortization.addEventListener('input', validateLoanAmortization);
 dscr.addEventListener('input', validateDSCR);
@@ -594,10 +599,9 @@ const calculateTotalExpenses = () => {
   Total Other Income = Other Income * Total Units
 */
 const calculateTotalOtherIncome = () => { 
-  const totalUnitsValue = parseInt(totalUnits.innerText);
   const otherIncomeValue = parseInt(otherIncome.rawValue);
   
-  const totalOtherIncomeValue = totalUnitsValue * otherIncomeValue;
+  const totalOtherIncomeValue = otherIncomeValue;
 
   if (totalOtherIncomeValue) { 
     totalOtherIncome.innerText = "$" + numberWithCommas(totalOtherIncomeValue);
@@ -788,6 +792,16 @@ const parseUrlParameters = (link) => {
     handleNumberOfUnits(id, numberOfUnits.value, averageRentPerMonth.value);
     handleAverageRentPerMonth(id, numberOfUnits.value, averageRentPerMonth.value);
   });
+
+  if (params.has('loan-term-period')) {
+    let value = params.get('loan-term-period');
+    
+    if (value === 'Monthly') {
+      loanTermPeriod.checked = true;
+    } else {
+      loanTermPeriod.checked = false;
+    }
+  }
 
   investmentAndFinancingInputElements.forEach(element => {
     const id = element?.domElement ? element.domElement.id : element.id;
