@@ -30,7 +30,7 @@ const calculateCAGR = () => {
   const initialInvestment = parseInt(intialInvestmentValue.rawValue);
   const finalInvestment = parseInt(finalInvestmentValue.rawValue);
   let numberOfPeriodsValue = parseInt(numberOfPeriods.value);
-  numberOfPeriodsValue = termPeriod.checked ? numberOfPeriodsValue : numberOfPeriodsValue * 12;
+  numberOfPeriodsValue = termPeriod.checked ? numberOfPeriodsValue / 12 : numberOfPeriodsValue;
   const inverseNumberOfPeriodsValue = 1 / numberOfPeriodsValue;
 
   const cagr = ((finalInvestment / initialInvestment) ** inverseNumberOfPeriodsValue) - 1;
