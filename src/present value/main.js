@@ -14,7 +14,6 @@ const resultantPeriodicDeposit = document.getElementById('resultant-periodic-dep
 const totalPeriodicDeposits = document.getElementById('total-periodic-deposits');
 const presentValue = document.getElementById('present-value');
 const totalInterest = document.getElementById('total-interest');
-const futureValue = document.getElementById('future-value');
 // submit button
 const shareResultButton = document.getElementById('share-result');
 const shareLink = document.getElementById('share-link');
@@ -88,12 +87,9 @@ const calculatePresentValue = () => {
 */
 const calculateFutureValue = (rate, nper, pmt, pv) => { 
   const fv = FV(rate / 100, nper, pmt, pv);
-  // console.log(rate, nper, pmt, pv, fv);
+
   if (fv) {
-    futureValue.innerText = '$' + numberWithCommas(-fv.toFixed(2));
     calculateTotalInterest(nper, pmt, pv, -fv.toFixed(2));
-  } else {
-    futureValue.innerText = '$0';
   }
 }
 /*
