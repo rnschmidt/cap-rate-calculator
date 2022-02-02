@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.1.0">
+    const AutoNumeric = require('autonumeric');
+  </script>
+  <title>Rental Property</title>
+</head>
+<body>
+  <nav>Navbar</nav>
+  <div class="container">
+    <!--Rental Property Calculator-->
+    <div class="rental-property-container">
+      <div class="operating-statement-container">
+        <div class="card-input">
+          <div class="card-input-operating-statement">
+            <h3>Operating Statement</h3>
+            
+            <div class="input-flex-wrap">
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="montly-rent">Monthly Rent</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="monthly-rent" id="monthly-rent" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="other-income">Other Income</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="other-income" id="other-income" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="vacancy-rate">Vacancy Rate</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="vacany-credit-loss" id="vacany-credit-loss" class="float-field validate-percent percent" placeholder="0.0" min="0.00" step="0.01">
+                  <span class="percent-sign">%</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <h4>Effective Gross Income</h4>
+              <h4 id="effective-gross-income">$0</h4>
+            </div>
+          </div>
+
+          <div class="card-input-operating-expenses">
+            <h3>Operating Expenses</h3>
+
+            <div class="input-flex-wrap">
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="property-taxes">Property Taxes</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="property-taxes" id="property-taxes" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="insurance">Insurance</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="insurance" id="insurance" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="maintenance">Maintenance</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="maintenance" id="maintenance" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="management-fee">Management Fee</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="management-fee" id="management-fee" class="float-field validate-percent percent" placeholder="0.00" min="0.00" step="0.01">
+                  <span class="percent-sign">%</span>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="hoa-fee">HOA Fee</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="hoa-fee" id="hoa-fee" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="other-expenses">Other Expenses</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="other-expenses" id="other-expenses" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <h4>Total Expenses</h4>
+              <h4 id="total-expenses">$0</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-result">
+          <h3 class="head">Calculated Results</h3>
+
+          <div class="card-result-inner">
+            <div class="row">
+              <h4>Monthly Rent</h4>
+              <h4 id="resultant-monthly-rent">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Other Income</h4>
+              <h4 id="resultant-other-income">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Vacancy Rate</h4>
+              <h4 id="resultant-vacancy-rate">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4 style="font-weight: 700; color: #1E73BE;">Effective Gross Income</h4>
+              <h4 id="resultant-effective-gross-income" style="font-weight: 700; color: #1E73BE;">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Property Taxes</h4>
+              <h4 id="resultant-property-taxes">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Insurance</h4>
+              <h4 id="resultant-insurance">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Maintenance</h4>
+              <h4 id="resultant-maintenance">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Management Fee</h4>
+              <h4 id="resultant-management-fee">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Other Expenses</h4>
+              <h4 id="resultant-other-expenses">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4 style="font-weight: 700; color: #1E73BE;">Total Expenses</h4>
+              <h4 id="resultant-total-expenses" style="font-weight: 700; color: #1E73BE;">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4 style="font-weight: 700; color: #1E73BE;">Net Operating Income</h4>
+              <h4 id="net-operating-income" style="font-weight: 700; color: #1E73BE;">$0</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="investment-financing-data-container">
+        <div class="card-input">
+          <div class="card-input-investment">
+            <h3>Investment Data</h3>
+
+            <div class="input-flex-wrap">
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="purchase-price">Purchase Price</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="purchase-price" id="purchase-price" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="down-payment">Down Payment</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="down-payment" id="down-payment" class="float-field validate-percent percent" placeholder="0.00" min="0.00" step="0.01">
+                  <span class="percent-sign">%</span>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="interest-rate">Interest Rate</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="interest-rate" id="interest-rate" class="float-field validate-percent percent" placeholder="0.00" min="0.00" step="0.01">
+                  <span class="percent-sign">%</span>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="loan-term">Loan Term</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="loan-term" id="loan-term" class="percent" placeholder="0" min="0" step="1">
+                  <span class="percent-sign">yr</span>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="closing-cost">Closing Cost</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="closing-cost" id="closing-cost" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-input-financing">
+            <h3>Financing Data</h3>
+
+            <div class="input-flex-wrap">
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="value-appreciation">Value Appreciation</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="value-appreciation" id="value-appreciation" class="float-field validate-percent percent" placeholder="0.00" min="0.00" step="0.01">
+                  <span class="percent-sign">%</span>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="holding-length">Holding Length</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="holding-length" id="holding-length" class="percent" placeholder="0" min="0" step="1">
+                  <span class="percent-sign">yr</span>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="cost-to-sell">Cost to sell</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="cost-to-sell" id="cost-to-sell" class="float-field validate-percent percent" placeholder="0.00" min="0.00" step="0.01">
+                  <span class="percent-sign">%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-result">
+          <h3 class="head">Calculated Result</h3>
+
+          <div class="card-result-inner">
+            <div class="row">
+              <h4>Purchase Price</h4>
+              <h4 id="resultant-purchase-price">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Return (IRR)</h4>
+              <h4 id="return-irr">0.0%</h4>
+            </div>
+
+            <div class="row">
+              <h4>Total Profilt When Sold</h4>
+              <h4 id="total-profit-when-sold">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Cash on Cash Return</h4>
+              <h4 id="cash-on-cash-return">0.0%</h4>
+            </div>
+
+            <div class="row">
+              <h4>Capitalization Rate</h4>
+              <h4 id="capitalization-rate">0.0%</h4>
+            </div>
+
+            <div class="row">
+              <h4>Total Rental Income</h4>
+              <h4 id="total-rental-income">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Total Mortgage Payment</h4>
+              <h4 id="total-mortgage-payment">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Total Expenses</h4>
+              <h4 id="total-expenses">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Total Net Operating Income</h4>
+              <h4 id="total-net-operating-income">$0</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
