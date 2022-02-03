@@ -46,7 +46,7 @@
                   <label for="vacancy-rate">Vacancy Rate</label>
                 </div>
                 <div class="input-wrapper">
-                  <input type="number" name="vacany-credit-loss" id="vacany-credit-loss" class="float-field validate-percent percent" placeholder="0.0" min="0.00" step="0.01">
+                  <input type="number" name="vacancy-rate" id="vacancy-rate" class="float-field validate-percent percent" placeholder="0.0" min="0.00" step="0.01">
                   <span class="percent-sign">%</span>
                 </div>
               </div>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="input-wrapper">
                   <span class="dollar-sign">$</span>
-                  <input type="text" name="property-taxes" id="property-taxes" class="validate-amount dollar" placeholder="0" step="1">
+                  <input type="text" name="property-taxes" id="property-taxes" class="expenses validate-amount dollar" placeholder="0" step="1">
                 </div>
               </div>
 
@@ -78,7 +78,7 @@
                 </div>
                 <div class="input-wrapper">
                   <span class="dollar-sign">$</span>
-                  <input type="text" name="insurance" id="insurance" class="validate-amount dollar" placeholder="0" step="1">
+                  <input type="text" name="insurance" id="insurance" class="expenses validate-amount dollar" placeholder="0" step="1">
                 </div>
               </div>
 
@@ -88,7 +88,7 @@
                 </div>
                 <div class="input-wrapper">
                   <span class="dollar-sign">$</span>
-                  <input type="text" name="maintenance" id="maintenance" class="validate-amount dollar" placeholder="0" step="1">
+                  <input type="text" name="maintenance" id="maintenance" class="expenses validate-amount dollar" placeholder="0" step="1">
                 </div>
               </div>
 
@@ -108,7 +108,7 @@
                 </div>
                 <div class="input-wrapper">
                   <span class="dollar-sign">$</span>
-                  <input type="text" name="hoa-fee" id="hoa-fee" class="validate-amount dollar" placeholder="0" step="1">
+                  <input type="text" name="hoa-fee" id="hoa-fee" class="expenses validate-amount dollar" placeholder="0" step="1">
                 </div>
               </div>
 
@@ -118,7 +118,7 @@
                 </div>
                 <div class="input-wrapper">
                   <span class="dollar-sign">$</span>
-                  <input type="text" name="other-expenses" id="other-expenses" class="validate-amount dollar" placeholder="0" step="1">
+                  <input type="text" name="other-expenses" id="other-expenses" class="expenses validate-amount dollar" placeholder="0" step="1">
                 </div>
               </div>
             </div>
@@ -175,6 +175,11 @@
             </div>
 
             <div class="row">
+              <h4>HOA Fee</h4>
+              <h4 id="resultant-hoa-fee">$0</h4>
+            </div>
+
+            <div class="row">
               <h4>Other Expenses</h4>
               <h4 id="resultant-other-expenses">$0</h4>
             </div>
@@ -210,36 +215,6 @@
 
               <div class="input-container">
                 <div class="input-label">
-                  <label for="down-payment">Down Payment</label>
-                </div>
-                <div class="input-wrapper">
-                  <input type="number" name="down-payment" id="down-payment" class="float-field validate-percent percent" placeholder="0.00" min="0.00" step="0.01">
-                  <span class="percent-sign">%</span>
-                </div>
-              </div>
-
-              <div class="input-container">
-                <div class="input-label">
-                  <label for="interest-rate">Interest Rate</label>
-                </div>
-                <div class="input-wrapper">
-                  <input type="number" name="interest-rate" id="interest-rate" class="float-field validate-percent percent" placeholder="0.00" min="0.00" step="0.01">
-                  <span class="percent-sign">%</span>
-                </div>
-              </div>
-
-              <div class="input-container">
-                <div class="input-label">
-                  <label for="loan-term">Loan Term</label>
-                </div>
-                <div class="input-wrapper">
-                  <input type="number" name="loan-term" id="loan-term" class="percent" placeholder="0" min="0" step="1">
-                  <span class="percent-sign">yr</span>
-                </div>
-              </div>
-
-              <div class="input-container">
-                <div class="input-label">
                   <label for="closing-cost">Closing Cost</label>
                 </div>
                 <div class="input-wrapper">
@@ -256,30 +231,30 @@
             <div class="input-flex-wrap">
               <div class="input-container">
                 <div class="input-label">
-                  <label for="value-appreciation">Value Appreciation</label>
+                  <label for="loan-interest-rate">Loan Interest Rate</label>
                 </div>
                 <div class="input-wrapper">
-                  <input type="number" name="value-appreciation" id="value-appreciation" class="float-field validate-percent percent" placeholder="0.00" min="0.00" step="0.01">
+                  <input type="number" name="loan-interest-rate" id="loan-interest-rate" class="float-field validate-percent percent" placeholder="0.00" min="0.00" step="0.01">
                   <span class="percent-sign">%</span>
                 </div>
               </div>
 
               <div class="input-container">
                 <div class="input-label">
-                  <label for="holding-length">Holding Length</label>
+                  <label for="loan-amortization">Loan Amortization</label>
                 </div>
                 <div class="input-wrapper">
-                  <input type="number" name="holding-length" id="holding-length" class="percent" placeholder="0" min="0" step="1">
+                  <input type="number" name="loan-amortization" id="loan-amortization" class="percent" placeholder="0" min="0" step="1">
                   <span class="percent-sign">yr</span>
                 </div>
               </div>
 
               <div class="input-container">
                 <div class="input-label">
-                  <label for="cost-to-sell">Cost to sell</label>
+                  <label for="down-payment">Down Payment</label>
                 </div>
                 <div class="input-wrapper">
-                  <input type="number" name="cost-to-sell" id="cost-to-sell" class="float-field validate-percent percent" placeholder="0.00" min="0.00" step="0.01">
+                  <input type="number" name="down-payment" id="down-payment" class="float-field validate-percent percent" placeholder="0.00" min="0.00" step="0.01">
                   <span class="percent-sign">%</span>
                 </div>
               </div>
@@ -338,7 +313,22 @@
           </div>
         </div>
       </div>
+
+      <!--Share Result-->
+      <div class="share-result-container">
+        <button id="share-result">Share Result</button>
+
+        <div class="link-container">
+          <input type="text" id="share-link" />
+          
+          <span id="copy-text">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clipboard" class="svg-inline--fa fa-clipboard fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M384 112v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h80c0-35.29 28.71-64 64-64s64 28.71 64 64h80c26.51 0 48 21.49 48 48zM192 40c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24m96 114v-20a6 6 0 0 0-6-6H102a6 6 0 0 0-6 6v20a6 6 0 0 0 6 6h180a6 6 0 0 0 6-6z"></path></svg>
+            <div class="tooltip">Copy to clipboard</div>
+          </span>
+        </div>
+      </div>
     </div>
   </div>
+  <script type="module" src="./main.js"></script>
 </body>
 </html>
