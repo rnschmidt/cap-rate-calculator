@@ -47,8 +47,10 @@ export const removeWarningMessage = (element) => {
 export const insertErrorMessage = (e, message) => {
   const inputContainer = e.target.parentElement.parentElement;
   const inputContainerChlidren = inputContainer.childNodes;
-  const isErrorMessageExist = Array.from(inputContainerChlidren).some(child => child.classList && child.classList.contains('error-label'));
-  console.log(isErrorMessageExist)
+  const isErrorMessageExist = Array.from(inputContainerChlidren).some(child => child.classList &&
+  
+  child.classList.contains('error-label'));
+
   if (!isErrorMessageExist) {
     e.target.style.borderColor = 'red';
     const errorMessage = document.createElement('div');
@@ -483,3 +485,19 @@ export const MIRR = (values, financeRate, reinvestRate) => {
   const denom = Math.abs(npv(values.map(x => x < 0 ? x : 0), financeRate));
   return (numer / denom) ** (1 / (values.length - 1)) * (1 + reinvestRate) - 1;
 }
+
+export const PMT = (rate, nper, pv, fv, type) => {
+  type = typeof type === "undefined" ? 0 : type;
+  fv = typeof fv === "undefined" ? 0 : fv;
+  
+  if (rate === 0) {
+    return (-fv - pv) / nper;
+  } else {
+
+    var tempVar = type !== 0 ? 1 + rate : 1;
+    var tempVar2 = rate + 1;
+    var tempVar3 = Math.pow(tempVar2, nper);
+
+    return ((-fv - pv * tempVar3) / (tempVar * (tempVar3 - 1))) * rate;
+  }
+};

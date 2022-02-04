@@ -1,4 +1,4 @@
-import { amountConfig, numberWithCommas } from "../utils/utils.js";
+import { amountConfig, numberWithCommas, PMT } from "../utils/utils.js";
 
 // Operating Statement Inputs
 const monthlyRent = new AutoNumeric('#monthly-rent', amountConfig);
@@ -16,6 +16,23 @@ const resultantVacancyRate = document.getElementById('resultant-vacancy-rate');
 const resultantEffectiveGrossIncome = document.getElementById('resultant-effective-gross-income');
 const resultantTotalExpenses = document.getElementById('resultant-total-expenses');
 const netOperatingIncome = document.getElementById('net-operating-income');
+// Investment Data Inputs
+const purchasePrice = new AutoNumeric("#purchase-price", amountConfig);
+const closingCost = new AutoNumeric("#closing-cost", amountConfig);
+// Financing Data Inputs
+const downPayment = new AutoNumeric('#down-payment', amountConfig);
+const loanInterestRate = document.getElementById('loan-interest-rate');
+const loanAmortization = document.getElementById('loan-amortization');
+// Calculated Results
+const resultantPurchasePrice = document.getElementById('resultant-purchase-price');
+const resultantClosingCost = document.getElementById('resultant-closing-cost');
+const resultantDownPayment = document.getElementById('resultant-down-payment');
+const initialEquity = document.getElementById('initial-equity');
+const loanAmount = document.getElementById('loan-amount');
+const debtService = document.getElementById('debt-service');
+const cashFlowBeforeTax = document.getElementById('cash-flow-before-tax');
+const cashOnCashReturn = document.getElementById('cash-on-cash-return');
+const goingInCapRate = document.getElementById('going-in-cap-rate');
 // share link
 const shareResultButton = document.getElementById('share-result');
 const shareLink = document.getElementById('share-link');
@@ -132,9 +149,153 @@ const calculateNetOperatingIncome = () => {
   } else {
     netOperatingIncome.innerText = '$0';
   }
+
+  calculateCashFlowBeforeTax();
+  calculateGoingInCapRate();
+}
+/*
+  Calculate Initial Equity
+  Initial Equity = Purchase Price + Closing Costs - Down Payment
+*/
+const calculateInitialEquity = () => { 
+  const purchasePriceValue = parseInt(purchasePrice.rawValue);
+  const closingCostValue = parseInt(closingCost.rawValue);
+  const downPaymentValue = parseInt(downPayment.rawValue);
+
+  if (purchasePriceValue) { 
+    resultantPurchasePrice.innerText = "$" + numberWithCommas(purchasePriceValue);
+  } else {
+    resultantPurchasePrice.innerText = '$0';
+  }
+
+  if (closingCostValue) { 
+    resultantClosingCost.innerText = "$" + numberWithCommas(closingCostValue);
+  } else {
+    resultantClosingCost.innerText = '$0';
+  }
+
+  if (downPaymentValue) { 
+    resultantDownPayment.innerText = "$" + numberWithCommas(downPaymentValue);
+  } else {
+    resultantDownPayment.innerText = '$0';
+  }
+
+  const initialEquityValue = purchasePriceValue + closingCostValue - downPaymentValue;
+
+  if (initialEquityValue) {
+    initialEquity.innerText = "$" + numberWithCommas(initialEquityValue);
+  } else {
+    initialEquity.innerText = '$0';
+  }
+}
+/*
+  Calculate Loan Amount
+  Loan Amount = Purchase Price - Down Payment
+*/
+const calculateLoanAmount = () => { 
+  const purchasePriceValue = parseInt(purchasePrice.rawValue);
+  const downPaymentValue = parseInt(downPayment.rawValue);
+
+  if (purchasePriceValue) { 
+    resultantPurchasePrice.innerText = "$" + numberWithCommas(purchasePriceValue);
+  } else {
+    resultantPurchasePrice.innerText = '$0';
+  }
+
+  if (downPaymentValue) { 
+    resultantDownPayment.innerText = "$" + numberWithCommas(downPaymentValue);
+  } else {
+    resultantDownPayment.innerText = '$0';
+  }
+
+  const loanAmountValue = purchasePriceValue - downPaymentValue;
+
+  if (loanAmountValue) {
+    loanAmount.innerText = "$" + numberWithCommas(loanAmountValue);
+  } else {
+    loanAmount.innerText = '$0';
+  }
+
+  calculateDebtService();
+}
+/*
+  Calculate Debt Service
+  Debt Service = PMT(Loan Intrest Rate / 12, Loan Amortization * 12, -Loan Amount)
+*/
+const calculateDebtService = () => { 
+  const loanInterestRateValue = parseFloat(loanInterestRate.value);
+  const loanAmortizationValue = parseInt(loanAmortization.value);
+  const loanAmountValue = parseInt(loanAmount.innerText.replace(/\$|,/g, ''));
+  const debtServiceValue = Math.round(PMT(loanInterestRateValue / 12, loanAmortizationValue * 12, -loanAmountValue));
+
+  if (debtServiceValue) {
+    debtService.innerText = "$" + numberWithCommas(debtServiceValue);
+  } else { 
+    debtService.innerText = '$0';
+  }
+
+  calculateCashFlowBeforeTax();
+}
+/*
+  Calculate Cash Flow Before Tax
+  Cash Flow Before Tax = Net Operating Income - Debt Service
+*/
+const calculateCashFlowBeforeTax = () => { 
+  const netOperatingIncomeValue = parseInt(netOperatingIncome.innerText.replace(/\$|,/g, ''));
+  const debtServiceValue = parseInt(debtService.innerText.replace(/\$|,/g, ''));
+
+  const cashFlowBeforeTaxValue = netOperatingIncomeValue - debtServiceValue;
+
+  if (cashFlowBeforeTaxValue) {
+    cashFlowBeforeTax.innerText = "$" + numberWithCommas(cashFlowBeforeTaxValue);
+  } else {
+    cashFlowBeforeTax.innerText = '$0';
+  }
+
+  calculateCashOnCashReturn();
+}
+/*
+  Calculate Cash on Cash Return
+  Cash on Cash Return = (Cash Flow Before Tax / Initial Equity) * 100
+*/
+const calculateCashOnCashReturn = () => { 
+  const cashFlowBeforeTaxValue = parseInt(cashFlowBeforeTax.innerText.replace(/\$|,/g, ''));
+  const initialEquityValue = parseInt(initialEquity.innerText.replace(/\$|,/g, ''));
+
+  const cashOnCashReturnValue = (cashFlowBeforeTaxValue / initialEquityValue) * 100;
+
+  if (cashOnCashReturnValue) {
+    cashOnCashReturn.innerText = cashOnCashReturnValue.toFixed(2) + '%';
+  } else {
+    cashOnCashReturn.innerText = '0%';
+  }
+}
+/*
+  Calculate Going-in Cap Rate
+  Going-in Cap Rate = (Net Operating Income / Purchase Price) * 100
+*/
+const calculateGoingInCapRate = () => { 
+  const netOperatingIncomeValue = parseInt(netOperatingIncome.innerText.replace(/\$|,/g, ''));
+  const purchasePriceValue = parseInt(purchasePrice.rawValue);
+
+  const goingInCapRateValue = (netOperatingIncomeValue / purchasePriceValue) * 100;
+
+  if (goingInCapRateValue) {
+    goingInCapRate.innerText = goingInCapRateValue.toFixed(2) + '%';
+  } else {
+    goingInCapRate.innerText = '0%';
+  }
 }
 // For all the input fileds required for expenses add event listener to trigger calculation of Total Expenses
 expenses.forEach(expense => new AutoNumeric(expense, amountConfig));
 expenses.forEach(expense => expense.addEventListener('input', (e) => { calculateTotalExpenses(); updateResultantTotalExpenses(e); }));
 // add eventlistners to calculate Effective Gross Income
 [monthlyRent.domElement, otherIncome.domElement, vacanyRate].forEach(element => element.addEventListener('input', calculateEffectiveGrossIncome));
+// add eventlistners to calculate Initial Equity
+[purchasePrice.domElement, closingCost.domElement, downPayment.domElement].forEach(element => element.addEventListener('input', calculateInitialEquity));
+// add eventlistners to calculate Loan Amount
+[purchasePrice.domElement, downPayment.domElement].forEach(element => element.addEventListener('input', calculateLoanAmount));
+// add eventlistners to calculate Debt Service
+[loanInterestRate, loanAmortization].forEach(element => element.addEventListener('input', calculateDebtService));
+// add evenlistner to calculate Going-in Cap Rate
+purchasePrice.domElement.addEventListener('input', calculateGoingInCapRate);

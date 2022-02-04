@@ -1,4 +1,4 @@
-import { renderDeleteIcon, amountConfig, numberWithCommas, validateAmount, insertErrorMessage, removeErrorMessage, insertWarningMessage, removeWarningMessage } from "../utils/utils.js";
+import { renderDeleteIcon, amountConfig, numberWithCommas, validateAmount, insertErrorMessage, removeErrorMessage, insertWarningMessage, removeWarningMessage, PMT } from "../utils/utils.js";
 /* --------------------Building Data-------------------------- */
 const buildingDataInputContainer = document.querySelector('.building-data-inputs-container');
 const resultantBuildingDataContainer = document.querySelector('.resultant-building-data-container');
@@ -392,22 +392,6 @@ const calculateInitialEquity = () => {
 
   calculateCashOnCashReturn();
 }
-
-const PMT = (rate, nper, pv, fv, type) => {
-  type = typeof type === "undefined" ? 0 : type;
-  fv = typeof fv === "undefined" ? 0 : fv;
-  
-  if (rate === 0) {
-    return (-fv - pv) / nper;
-  } else {
-
-    var tempVar = type !== 0 ? 1 + rate : 1;
-    var tempVar2 = rate + 1;
-    var tempVar3 = Math.pow(tempVar2, nper);
-
-    return ((-fv - pv * tempVar3) / (tempVar * (tempVar3 - 1))) * rate;
-  }
-};
 /*
   Calculate Monthly Debt Service
   Monthly Debt Service = PMT(Loan Intrest Rate / 12, Loan Amortization * 12, -Maximum Loan Amount)
