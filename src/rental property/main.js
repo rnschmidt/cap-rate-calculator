@@ -104,25 +104,28 @@ const calculateEffectiveGrossIncome = () => {
   const vacancyRateValue = parseFloat(vacanyRate.value);
   const vacancyRateValueInDollars = (monthlyRentValue + otherIncomeValue) * vacancyRateValue / 100;
 
+  let effectiveGrossIncomeValue = 0;
+
   if (monthlyRentValue) {
+    effectiveGrossIncomeValue += monthlyRentValue;
     resultantMonthlyRent.innerText = "$" + numberWithCommas(monthlyRentValue);
   } else { 
     resultantMonthlyRent.innerText = '$0';
   }
 
   if (otherIncomeValue) {
+    effectiveGrossIncomeValue += otherIncomeValue;
     resultantOtherIncome.innerText = "$" + numberWithCommas(otherIncomeValue);
   } else { 
     resultantOtherIncome.innerText = '$0';
   }
 
   if (vacancyRateValueInDollars) {
+    effectiveGrossIncomeValue -= Math.round(vacancyRateValueInDollars);
     resultantVacancyRate.innerText = "$" + numberWithCommas(Math.round(vacancyRateValueInDollars));
   } else { 
     resultantVacancyRate.innerText = '$0';
   }
-
-  const effectiveGrossIncomeValue = monthlyRentValue + otherIncomeValue - Math.round(vacancyRateValueInDollars);
 
   if (effectiveGrossIncomeValue) {
     effectiveGrossIncome.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
