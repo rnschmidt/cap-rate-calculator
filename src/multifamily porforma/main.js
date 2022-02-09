@@ -428,7 +428,7 @@ const calculateCashOnCashReturn = () => {
   const cashFlowBeforeTaxValue = parseInt(cashFlowBeforeTax.innerText.replace(/\$|,/g, ''));
   const initialEquityValue = parseInt(initialEquity.innerText.replace(/\$|,/g, ''));
 
-  const cashOnCashReturnValue = cashFlowBeforeTaxValue / initialEquityValue;
+  const cashOnCashReturnValue = (cashFlowBeforeTaxValue / initialEquityValue) * 100;
 
   if (cashOnCashReturnValue && Number.isFinite(cashOnCashReturnValue)) {
     cashOnCashReturn.innerText = cashOnCashReturnValue.toFixed(2) + '%';
