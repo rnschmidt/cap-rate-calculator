@@ -96,7 +96,7 @@ const calculateTotalExpenses = () => {
 }
 /*
   Calculate Effective Gross Income
-  Effective Gross Income = Potential Gross Income - Vacancy & Credit Loss
+  Effective Gross Income = Monthly Rent + Other Income - Vacancy & Credit Loss
 */
 const calculateEffectiveGrossIncome = () => { 
   const monthlyRentValue = parseInt(monthlyRent.rawValue);
