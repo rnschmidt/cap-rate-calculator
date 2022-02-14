@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.1.0">
+    const AutoNumeric = require('autonumeric');
+  </script>
+  <title>BOTE Development Model</title>
+</head>
+<body>
+  <nav>Navbar</nav>
+  <div class="container">
+    <!--BOTE Development Model-->
+    <div class="bote-development-model-container">
+      <div class="stabilized-unit-economics-container">
+        <div class="card-input">
+          <h3>Stabilized Unit Economics</h3>
+          <div class="stabilized-unit-inputs-container"></div>
+          <button id="add-new-row" class="add-row">Add New Row</button>
+        </div>
+
+        <div class="card-result">
+          <h3 class="card-result-head">Calculated Result</h3>
+
+          <div class="resultant-stabilized-unit">
+            <div class="resultant-stabilized-unit-head">
+              <h4>Unit Type</h4>
+              <h4>Number of units</h4>
+              <h4>Average Rent per Month</h4>
+              <h4>Total Annual Rent</h4>
+            </div>
+            <div class="resultant-stabilized-unit-container"></div>
+            <div class="resultant-stabilized-unit-total">
+              <h4>Total</h4>
+              <h4 class="total" id="total-units">0</h4>
+              <h4 class="total" id="total-rent">$0</h4>
+              <h4 class="total" id="total-annual-rent">$0</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Operating Statement-->
+      <div class="operating-statement-container">
+        <div class="card-input">
+          <div class="card-input-operating-statement">
+            <h3>Operating Statement</h3>
+
+            <div class="input-container">
+              <div class="input-label">
+                <label for="vacany-credit-loss">Vacancy & Credit Loss</label>
+              </div>
+              <div class="input-wrapper">
+                <input type="number" name="vacany-credit-loss" id="vacany-credit-loss" class="float-field validate-percent percent" placeholder="0.0" min="0.00" step="0.01">
+                <span class="percent-sign">%</span>
+              </div>
+            </div>
+
+            <div class="input-and-toggle-container">
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="other-income">Other Income</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" id="other-income" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+
+              <div class="toggle-container">
+                <label for="other-income-toggle">Total Amount</label>
+                <label class="switch">
+                  <input type="checkbox" name="other-income-toggle" id="other-income-toggle" value="AmountPerUnit" checked>
+                  <span class="slider round"></span>
+                </label>
+                <label for="AmountPerUnit">Amount Per Unit</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <h4>Gross Operating Income</h4>
+              <h4 id="gross-operating-income">$0</h4>
+            </div>
+          </div>
+
+          <div class="card-input-operating-expenses">
+            <h3>Operating Expenses</h3>
+
+            <div class="input-and-toggle-container">
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="taxes-and-insurance">RE Taxes & Insurance</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" id="taxes-and-insurance" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+
+              <div class="toggle-container">
+                <label for="taxes-and-insurance-toggle">Total Amount</label>
+                <label class="switch">
+                  <input type="checkbox" name="taxes-and-insurance-toggle" id="taxes-and-insurance-toggle" value="AmountPerUnit" checked>
+                  <span class="slider round"></span>
+                </label>
+                <label for="AmountPerUnit">Amount Per Unit</label>
+              </div>
+            </div>
+
+            <div class="input-and-toggle-container">
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="operating-expenses">Operating Expenses</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" id="operating-expenses" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+
+              <div class="toggle-container">
+                <label for="operating-expenses-toggle">Total Amount</label>
+                <label class="switch">
+                  <input type="checkbox" name="operating-expenses-toggle" id="operating-expenses-toggle" value="AmountPerUnit" checked>
+                  <span class="slider round"></span>
+                </label>
+                <label for="AmountPerUnit">Amount Per Unit</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <h4>Total Expenses</h4>
+              <h4 id="total-expenses">$0</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-result">
+          <h3 class="head">Stabilized Annual Operating Statement</h3>
+
+          <div class="card-result-inner">
+            <div class="row">
+              <h4>Potential Rental Income</h4>
+              <h4 id="resultant-potential-income">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Vacancy & Credit Loss</h4>
+              <h4 id="resultant-vacancy-credit-loss">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4 style="font-weight: 700; color: #1E73BE">Effective Rental Income</h4>
+              <h4 id="resultant-effective-rental-income" style="font-weight: 700; color: #1E73BE">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Other Income</h4>
+              <h4 id="resultant-other-income">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4 style="font-weight: 700; color: #1E73BE">Gross Operating Income</h4>
+              <h4 id="resultant-gross-operating-income" style="font-weight: 700; color: #1E73BE">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>RE Taxes & Insurance</h4>
+              <h4 id="resultant-taxes-and-insurance">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Operating Expenses</h4>
+              <h4 id="resultant-operating-expenses">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4 style="font-weight: 700; color: #1E73BE">Total Expenses</h4>
+              <h4 id="resultant-total-expenses" style="font-weight: 700; color: #1E73BE">$0</h4>
+            </div>
+          </div>
+
+          <div class="cap-rate">
+            <h3>Net Operating Income</h3>
+            <h3 id="net-operating-income">$0</h3>
+          </div> 
+        </div>
+      </div>
+      <!--Project Timeline & Development Sources-->
+      <div class="project-timeline-and-development-sources-container">
+        <div class="card-input">
+          <div class="card-input-project-timeline">
+            <h3>Project Timeline</h3>
+
+            <div class="input-flex-wrap">
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="pre-contruction">Pre Construction</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="pre-construction" id="pre-construction" class="percent" placeholder="0" step="1">
+                  <span class="percent-sign">mnt</span>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="pre-contruction">Construction</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="construction" id="construction" class="percent" placeholder="0" step="1">
+                  <span class="percent-sign">mnt</span>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="lease-up-to-stabilization">Lease-Up to Stabilization</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="lease-up-to-stabilization" id="lease-up-to-stabilization" class=" percent" placeholder="0" step="1">
+                  <span class="percent-sign">u/m</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <h4>Total Timeline</h4>
+              <h4 id="total-timeline">$0</h4>
+            </div>
+          </div>
+          
+          <div class="card-input-development-sources">
+            <h3>Development Sources & Uses of Funds</h3>
+
+            <div class="input-flex-wrap">
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="land-cost">Land Cost</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="land-cost" id="land-cost" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="hard-costs">Hard Costs</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="hard-costs" id="hard-costs" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="hard-costs-contingency">Hard Costs Contingency (% of HC)</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="hard-costs-contingency" id="hard-costs-contingency" class="validate-percent percent float-field" placeholder="0.00" step="0.01">
+                  <span class="percent-sign">%</span>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="soft-costs">Soft Costs (% of HC)</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="soft-costs" id="soft-costs" class="validate-percent percent float-field" placeholder="0.00" step="0.01">
+                  <span class="percent-sign">%</span>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="soft-costs-contingency">Soft Costs Contingency (% of SC)</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="soft-costs-contingency" id="soft-costs-contingency" class="validate-percent percent float-field" placeholder="0.00" step="0.01">
+                  <span class="percent-sign">%</span>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="senior-construction-loan-ltc">Senior Construction Loan LTC</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="senior-construction-loan-ltc" id="senior-construction-loan-ltc" class="validate-percent percent float-field" placeholder="0.00" step="0.01">
+                  <span class="percent-sign">%</span>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="construction-loan-interest">Construction Loan Interest</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="construction-loan-interest" id="construction-loan-interest" class="validate-percent percent float-field" placeholder="0.00" step="0.01">
+                  <span class="percent-sign">%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-result">
+          <h3 class="head">Calculated Results</h3>
+
+          <div class="card-result-inner">
+            <div class="card-result-inner-head">
+              <h4>Uses of Funds</h4>
+              <h4>Input Value</h4>
+              <h4>Percentage of TPC</h4>
+              <h4>Amount</h4>
+            </div>
+            <div class="card-result-inner-container">
+              <div class="card-result-inner-container-row">
+                <h4>Land Cost</h4>
+                <h4></h4>
+                <h4 id="percent-of-tpc-land-cost">0%</h4>
+                <h4 id="land-cost-amount">$0</h4>
+              </div>
+
+              <div class="card-result-inner-container-row">
+                <h4>Hard Cost</h4>
+                <h4 id="resultant-hard-cost">$0/unit</h4>
+                <h4 id="percent-of-tpc-hard-cost">0%</h4>
+                <h4 id="hard-cost-amount">$0</h4>
+              </div>
+
+              <div class="card-result-inner-container-row">
+                <h4>Hard Costs Contingency (% of HC)</h4>
+                <h4 id="resultant-hard-costs-contingency">0%</h4>
+                <h4 id="percent-of-tpc-hard-costs-contingency">0%</h4>
+                <h4 id="hard-costs-contingency-amount">$0</h4>
+              </div>
+              
+              <div class="card-result-inner-container-row">
+                <h4>Soft Costs (% of HC)</h4>
+                <h4 id="resultant-soft-costs">0%</h4>
+                <h4 id="percent-of-tpc-soft-costs">0%</h4>
+                <h4 id="soft-costs-amount">$0</h4>
+              </div>
+              
+              <div class="card-result-inner-container-row">
+                <h4>Soft Costs Contingency (% of SC)</h4>
+                <h4 id="resultant-soft-costs-contingency">0%</h4>
+                <h4 id="percent-of-tpc-soft-costs-contingency">0%</h4>
+                <h4 id="soft-costs-contingency-amount">$0</h4>
+              </div>
+              
+              <div class="card-result-inner-container-row">
+                <h4>Construction Loan Interest</h4>
+                <h4 id="resultant-construction-loan-interest">0%</h4>
+                <h4 id="percent-of-tpc-construction-loan-interest">0%</h4>
+                <h4 id="construction-loan-interest-amount">$0</h4>
+              </div>
+              
+              <div class="card-result-inner-container-row">
+                <h4>Operating Deficit</h4>
+                <h4></h4>
+                <h4 id="percent-of-tpc-operating-deficit">0%</h4>
+                <h4 id="operating-deficit-amount">$0</h4>
+              </div>
+            </div>
+            
+            <div class="card-result-inner-total">
+              <h4>Total Project Cost</h4>
+              <h4></h4>
+              <h4 id="total-percent-of-tpc">0%</h4>
+              <h4 id="total-amount">$0</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Share Result-->
+      <div class="share-result-container">
+        <button id="share-result">Share Result</button>
+
+        <div class="link-container">
+          <input type="text" id="share-link" />
+          
+          <span id="copy-text">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clipboard" class="svg-inline--fa fa-clipboard fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M384 112v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h80c0-35.29 28.71-64 64-64s64 28.71 64 64h80c26.51 0 48 21.49 48 48zM192 40c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24m96 114v-20a6 6 0 0 0-6-6H102a6 6 0 0 0-6 6v20a6 6 0 0 0 6 6h180a6 6 0 0 0 6-6z"></path></svg>
+            <div class="tooltip">Copy to clipboard</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
