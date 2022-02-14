@@ -26,7 +26,10 @@ export const validateInteger = (e) => {
 // Limit input to accept only upto 2 decimal places
 export const validateFloating = (e) => {
   const t = e.target.value;
-  e.target.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 3)) : t;
+
+  if (t.indexOf(".") >= 0) {
+    e.target.value = t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 3);
+  }
 }
 // Add HTML element to the DOM to show warning
 export const insertWarningMessage = (element, message, color = 'orange') => { 
