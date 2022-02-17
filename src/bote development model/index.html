@@ -50,10 +50,10 @@
 
             <div class="input-container">
               <div class="input-label">
-                <label for="vacany-credit-loss">Vacancy & Credit Loss</label>
+                <label for="vacancy-credit-loss">Vacancy & Credit Loss</label>
               </div>
               <div class="input-wrapper">
-                <input type="number" name="vacany-credit-loss" id="vacany-credit-loss" class="float-field validate-percent percent" placeholder="0.0" min="0.00" step="0.01">
+                <input type="number" name="vacancy-credit-loss" id="vacancy-credit-loss" class="float-field validate-percent percent" placeholder="0.0" min="0.00" step="0.01">
                 <span class="percent-sign">%</span>
               </div>
             </div>
@@ -228,7 +228,7 @@
 
             <div class="row">
               <h4>Total Timeline</h4>
-              <h4 id="total-timeline">$0</h4>
+              <h4 id="total-timeline">0 month</h4>
             </div>
           </div>
           
@@ -306,6 +306,11 @@
                 </div>
               </div>
             </div>
+
+            <div class="row">
+              <h4>Total Project Cost</h4>
+              <h4 id="total-project-cost">$0</h4>
+            </div>
           </div>
         </div>
 
@@ -313,68 +318,133 @@
           <h3 class="head">Calculated Results</h3>
 
           <div class="card-result-inner">
-            <div class="card-result-inner-head">
-              <h4>Uses of Funds</h4>
-              <h4>Input Value</h4>
-              <h4>Percentage of TPC</h4>
-              <h4>Amount</h4>
-            </div>
-            <div class="card-result-inner-container">
-              <div class="card-result-inner-container-row">
-                <h4>Land Cost</h4>
-                <h4></h4>
-                <h4 id="percent-of-tpc-land-cost">0%</h4>
-                <h4 id="land-cost-amount">$0</h4>
+            <div class="one-third-table">
+              <div class="card-result-inner-head">
+                <h4>Project Timeline</h4>
+                <h4>Percentage of TPC</h4>
+                <h4>Duration</h4>
+              </div>
+              
+              <div class="card-result-inner-container">
+                <div class="card-result-inner-container-row">
+                    <h4>Pre Construction</h4>
+                    <h4 id="pre-construction-percent">0%</h4>
+                    <h4 id="pre-construction-duration">0 month</h4>
+                </div>
+               
+                <div class="card-result-inner-container-row">
+                    <h4>Construction</h4>
+                    <h4 id="construction-percent">0%</h4>
+                    <h4 id="construction-duration">0 month</h4>
+                </div>
+               
+                <div class="card-result-inner-container-row">
+                    <h4>Lease-Up to Stabilization</h4>
+                    <h4 id="lease-up-to-stabilization-percent">0%</h4>
+                    <h4 id="lease-up-to-stabilization-duration">0 month</h4>
+                </div>
               </div>
 
-              <div class="card-result-inner-container-row">
-                <h4>Hard Cost</h4>
-                <h4 id="resultant-hard-cost">$0/unit</h4>
-                <h4 id="percent-of-tpc-hard-cost">0%</h4>
-                <h4 id="hard-cost-amount">$0</h4>
-              </div>
-
-              <div class="card-result-inner-container-row">
-                <h4>Hard Costs Contingency (% of HC)</h4>
-                <h4 id="resultant-hard-costs-contingency">0%</h4>
-                <h4 id="percent-of-tpc-hard-costs-contingency">0%</h4>
-                <h4 id="hard-costs-contingency-amount">$0</h4>
-              </div>
-              
-              <div class="card-result-inner-container-row">
-                <h4>Soft Costs (% of HC)</h4>
-                <h4 id="resultant-soft-costs">0%</h4>
-                <h4 id="percent-of-tpc-soft-costs">0%</h4>
-                <h4 id="soft-costs-amount">$0</h4>
-              </div>
-              
-              <div class="card-result-inner-container-row">
-                <h4>Soft Costs Contingency (% of SC)</h4>
-                <h4 id="resultant-soft-costs-contingency">0%</h4>
-                <h4 id="percent-of-tpc-soft-costs-contingency">0%</h4>
-                <h4 id="soft-costs-contingency-amount">$0</h4>
-              </div>
-              
-              <div class="card-result-inner-container-row">
-                <h4>Construction Loan Interest</h4>
-                <h4 id="resultant-construction-loan-interest">0%</h4>
-                <h4 id="percent-of-tpc-construction-loan-interest">0%</h4>
-                <h4 id="construction-loan-interest-amount">$0</h4>
-              </div>
-              
-              <div class="card-result-inner-container-row">
-                <h4>Operating Deficit</h4>
-                <h4></h4>
-                <h4 id="percent-of-tpc-operating-deficit">0%</h4>
-                <h4 id="operating-deficit-amount">$0</h4>
+              <div class="card-result-inner-total">
+                <h4>Total Timeline</h4>
+                <h4 id="total-percent-of-duration">0%</h4>
+                <h4 id="total-duration">0 month</h4>
               </div>
             </div>
-            
-            <div class="card-result-inner-total">
-              <h4>Total Project Cost</h4>
-              <h4></h4>
-              <h4 id="total-percent-of-tpc">0%</h4>
-              <h4 id="total-amount">$0</h4>
+
+            <div class="one-fourth-table">
+              <div class="card-result-inner-head">
+                <h4>Uses of Funds</h4>
+                <h4>Input Value</h4>
+                <h4>Percentage of TPC</h4>
+                <h4>Amount</h4>
+              </div>
+
+              <div class="card-result-inner-container">
+                <div class="card-result-inner-container-row">
+                  <h4>Land Cost</h4>
+                  <h4></h4>
+                  <h4 id="percent-of-tpc-land-cost">0%</h4>
+                  <h4 id="land-cost-amount">$0</h4>
+                </div>
+
+                <div class="card-result-inner-container-row">
+                  <h4>Hard Cost</h4>
+                  <h4 id="resultant-hard-cost">$0/unit</h4>
+                  <h4 id="percent-of-tpc-hard-cost">0%</h4>
+                  <h4 id="hard-cost-amount">$0</h4>
+                </div>
+
+                <div class="card-result-inner-container-row">
+                  <h4>Hard Costs Contingency (% of HC)</h4>
+                  <h4 id="resultant-hard-costs-contingency">0%</h4>
+                  <h4 id="percent-of-tpc-hard-costs-contingency">0%</h4>
+                  <h4 id="hard-costs-contingency-amount">$0</h4>
+                </div>
+                
+                <div class="card-result-inner-container-row">
+                  <h4>Soft Costs (% of HC)</h4>
+                  <h4 id="resultant-soft-costs">0%</h4>
+                  <h4 id="percent-of-tpc-soft-costs">0%</h4>
+                  <h4 id="soft-costs-amount">$0</h4>
+                </div>
+                
+                <div class="card-result-inner-container-row">
+                  <h4>Soft Costs Contingency (% of SC)</h4>
+                  <h4 id="resultant-soft-costs-contingency">0%</h4>
+                  <h4 id="percent-of-tpc-soft-costs-contingency">0%</h4>
+                  <h4 id="soft-costs-contingency-amount">$0</h4>
+                </div>
+                
+                <div class="card-result-inner-container-row">
+                  <h4>Construction Loan Interest</h4>
+                  <h4 id="resultant-construction-loan-interest">0%</h4>
+                  <h4 id="percent-of-tpc-construction-loan-interest">0%</h4>
+                  <h4 id="construction-loan-interest-amount">$0</h4>
+                </div>
+                
+                <div class="card-result-inner-container-row">
+                  <h4>Operating Deficit</h4>
+                  <h4></h4>
+                  <h4 id="percent-of-tpc-operating-deficit">0%</h4>
+                  <h4 id="operating-deficit-amount">$0</h4>
+                </div>
+              </div>
+              
+              <div class="card-result-inner-total">
+                <h4>Total Project Cost</h4>
+                <h4></h4>
+                <h4 id="total-percent-of-tpc">0%</h4>
+                <h4 id="total-amount">$0</h4>
+              </div>
+            </div>
+
+            <div class="one-third-table">
+              <div class="card-result-inner-head">
+                <h4>Source of Funds</h4>
+                <h4>Percentage of TPC</h4>
+                <h4>Amount</h4>
+              </div>
+              
+              <div class="card-result-inner-container">
+                <div class="card-result-inner-container-row">
+                    <h4>Senior Construction Loan</h4>
+                    <h4 id="senior-construction-loan-percent">0%</h4>
+                    <h4 id="senior-construction-loan-amount">$0</h4>
+                </div>
+               
+                <div class="card-result-inner-container-row">
+                    <h4>Required Equity Amount</h4>
+                    <h4 id="required-equity-percent">0%</h4>
+                    <h4 id="required-equity-amount">$0</h4>
+                </div>
+              </div>
+
+              <div class="card-result-inner-total">
+                <h4>Total Sources</h4>
+                <h4 id="total-sources-percent">0%</h4>
+                <h4 id="total-sources-amount">$0</h4>
+              </div>
             </div>
           </div>
         </div>

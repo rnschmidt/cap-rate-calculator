@@ -1267,6 +1267,15 @@ nav {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  gap: 2rem;
+}
+
+.bote-development-model-container .project-timeline-and-development-sources-container .card-result-inner .one-third-table h4 {
+  width: 33.33%;
+}
+
+.bote-development-model-container .project-timeline-and-development-sources-container .card-result-inner .one-fourth-table h4 {
+  width: 25%;
 }
 
 .bote-development-model-container .project-timeline-and-development-sources-container .card-result-inner-head, .bote-development-model-container .project-timeline-and-development-sources-container .card-result-inner-container-row, .bote-development-model-container .project-timeline-and-development-sources-container .card-result-inner-total {
@@ -1279,7 +1288,6 @@ nav {
 }
 
 .bote-development-model-container .project-timeline-and-development-sources-container .card-result-inner-head h4, .bote-development-model-container .project-timeline-and-development-sources-container .card-result-inner-container-row h4, .bote-development-model-container .project-timeline-and-development-sources-container .card-result-inner-total h4 {
-  width: 25%;
   border: 1px solid #cbe2f7;
   padding: 0.5rem;
   overflow: auto;
