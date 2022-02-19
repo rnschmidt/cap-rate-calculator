@@ -1,4 +1,4 @@
-import { amountConfig, numberWithCommas, PMT } from "../utils/utils.js";
+import { amountConfig, numberWithCommas, PMT, generateSharableLink, parseFromUrl } from "../utils/utils.js";
 
 // Operating Statement Inputs
 const monthlyRent = new AutoNumeric('#monthly-rent', amountConfig);
@@ -99,7 +99,7 @@ const calculateTotalExpenses = () => {
   Effective Gross Income = Monthly Rent + Other Income - Vacancy & Credit Loss
 */
 const calculateEffectiveGrossIncome = () => { 
-  const monthlyRentValue = parseInt(monthlyRent.rawValue);
+  const monthlyRentValue = parseInt(monthlyRent.rawValue) * 12;
   const otherIncomeValue = parseInt(otherIncome.rawValue);
   const vacancyRateValue = parseFloat(vacanyRate.value);
   const vacancyRateValueInDollars = (monthlyRentValue + otherIncomeValue) * vacancyRateValue / 100;
@@ -135,7 +135,7 @@ const calculateEffectiveGrossIncome = () => {
     resultantEffectiveGrossIncome.innerText = '$0';
   }
 
-  calculateNetOperatingIncome();
+  calculateTotalExpenses();
 }
 /*
   Calculate Net Operating Income
@@ -161,15 +161,8 @@ const calculateNetOperatingIncome = () => {
   Initial Equity = Purchase Price + Closing Costs - Down Payment
 */
 const calculateInitialEquity = () => { 
-  const purchasePriceValue = parseInt(purchasePrice.rawValue);
   const closingCostValue = parseInt(closingCost.rawValue);
   const downPaymentValue = parseInt(downPayment.rawValue);
-
-  if (purchasePriceValue) { 
-    resultantPurchasePrice.innerText = "$" + numberWithCommas(purchasePriceValue);
-  } else {
-    resultantPurchasePrice.innerText = '$0';
-  }
 
   if (closingCostValue) { 
     resultantClosingCost.innerText = "$" + numberWithCommas(closingCostValue);
@@ -183,7 +176,7 @@ const calculateInitialEquity = () => {
     resultantDownPayment.innerText = '$0';
   }
 
-  const initialEquityValue = purchasePriceValue + closingCostValue - downPaymentValue;
+  const initialEquityValue = closingCostValue + downPaymentValue;
 
   if (initialEquityValue) {
     initialEquity.innerText = "$" + numberWithCommas(initialEquityValue);
@@ -272,6 +265,8 @@ const calculateCashOnCashReturn = () => {
   } else {
     cashOnCashReturn.innerText = '0%';
   }
+
+  shareLink.value = generateSharableLink(url, [monthlyRent, otherIncome, vacanyRate, managementFee, ...expenses, purchasePrice, closingCost, downPayment, loanInterestRate, loanAmortization]);
 }
 /*
   Calculate Going-in Cap Rate
@@ -295,10 +290,21 @@ expenses.forEach(expense => expense.addEventListener('input', (e) => { calculate
 // add eventlistners to calculate Effective Gross Income
 [monthlyRent.domElement, otherIncome.domElement, vacanyRate].forEach(element => element.addEventListener('input', calculateEffectiveGrossIncome));
 // add eventlistners to calculate Initial Equity
-[purchasePrice.domElement, closingCost.domElement, downPayment.domElement].forEach(element => element.addEventListener('input', calculateInitialEquity));
+[closingCost.domElement, downPayment.domElement].forEach(element => element.addEventListener('input', calculateInitialEquity));
 // add eventlistners to calculate Loan Amount
 [purchasePrice.domElement, downPayment.domElement].forEach(element => element.addEventListener('input', calculateLoanAmount));
 // add eventlistners to calculate Debt Service
 [loanInterestRate, loanAmortization].forEach(element => element.addEventListener('input', calculateDebtService));
 // add evenlistner to calculate Going-in Cap Rate
 purchasePrice.domElement.addEventListener('input', calculateGoingInCapRate);
+// Event Listners for generating sharable link and copy link to clipboard
+shareResultButton.addEventListener('click', () => {
+  let link = generateSharableLink(url, [monthlyRent, otherIncome, vacanyRate, managementFee, ...expenses, purchasePrice, closingCost, downPayment, loanInterestRate, loanAmortization]);
+  shareLink.value = link;
+  shareLink.style.width = 'calc(100% - 3.5rem)';
+  shareLink.style.padding = '0.5rem';
+  copyText.style.opacity = '1';
+});
+
+parseFromUrl(window.location.href, [calculateEffectiveGrossIncome, calculateInitialEquity, calculateLoanAmount]);
+expenses.forEach(expense => updateResultantTotalExpenses(expense));
