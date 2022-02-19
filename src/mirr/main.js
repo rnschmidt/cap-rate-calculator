@@ -193,7 +193,7 @@ const calculateMIRR = () => {
   let financeRateValue = parseFloat(financeRate.value) / 100;
   let reinvestmentRateValue = parseFloat(reinvestmentRate.value) / 100;
   
-  if (financeRateValue) {
+  if (financeRateValue >= 0) {
     resultantFinanceRate.innerText = financeRateValue * 100 + '%';
     removeWarningMessage(financeRate);
   } else {
