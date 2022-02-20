@@ -6,13 +6,13 @@ const addNewRowButton = document.getElementById('add-new-row');
 const totalUnits = document.getElementById('total-units');
 const totalRent = document.getElementById('total-rent');
 const totalAnnualRent = document.getElementById('total-annual-rent');
+// stabilized unit input selectors
+const stabilizedUnitInputSelectors = ['.unit-type-br', '.unit-type-ba', '.number-of-units', '.average-rent-per-month'];
 // share link
 const shareResultButton = document.getElementById('share-result');
 const shareLink = document.getElementById('share-link');
 const copyText = document.getElementById('copy-text');
 const url = new URL(window.location.href);
-// building data input selectors
-const stabilizedUnitInputSelectors = ['.unit-type-br', '.unit-type-ba', '.number-of-units', '.average-rent-per-month'];
 // validate br and ba values
 const validatebrba = (e) => { 
   let value = e.target.value;
@@ -146,13 +146,13 @@ const calculateTotalAnnualRent = (id, numberOfUnits, averageRentPerMonth) => {
   const totalAnnualRentValue = numberOfUnits * averageRentPerMonth * 12; 
   totalAnnualRent.innerText = `$${numberWithCommas(totalAnnualRentValue)}`;
   updateTotalValues();
-  // shareLink.value = generateSharableLink();
+  shareLink.value = generateSharableLink();
 }
 
 const handleBrBaInputs = (id, brValue, baValue) => { 
   const resultantUnitType = document.getElementById(`resultant-unit-type-${id}`);
   resultantUnitType.innerText = `${brValue}br / ${baValue}ba`;
-  // shareLink.value = generateSharableLink();
+  shareLink.value = generateSharableLink();
 }
 
 const handleNumberOfUnits = (id, numberOfUnitsValue, averageRentPerMonthValue) => { 
@@ -212,6 +212,8 @@ const netOperatingIncome = document.getElementById('net-operating-income');
 const otherIncomeToggle = document.getElementById('other-income-toggle');
 const taxesAndInsuranceToggle = document.getElementById('taxes-and-insurance-toggle');
 const operatingExpensesToggle = document.getElementById('operating-expenses-toggle');
+// Operating Statement & Operating Expenses Input Selectors
+const operatingStatementInputElements = [vacanyCreditLoss, otherIncome, reTaxesAndInsurance, operatingExpenses, otherIncomeToggle, taxesAndInsuranceToggle, operatingExpensesToggle];
 /*
   Calculate Vacany And Credit Loss
   Vacancy Credit Loss = Vacancy Credit Loss % * Total Annual Rent
@@ -251,8 +253,10 @@ const calculateOtherIncome = () => {
   let otherIncomeAmount = 0;
 
   if (otherIncomeToggle.checked) { 
+    otherIncomeToggle.value = 'AmountPerUnit';
     otherIncomeAmount = Math.round(otherIncomeValue * totalUnitsValue);
   } else {
+    otherIncomeToggle.value = 'TotalAmount';
     otherIncomeAmount = otherIncomeValue;
   }
 
@@ -289,8 +293,10 @@ const calculateTaxesAndInsurance = () => {
   let taxesAndInsuranceAmount = 0;
 
   if (taxesAndInsuranceToggle.checked) {
+    taxesAndInsuranceToggle.value = 'AmountPerUnit';
     taxesAndInsuranceAmount = Math.round(reTaxesAndInsuranceValue * totalUnitsValue);
   } else {
+    taxesAndInsuranceToggle.value = 'TotalAmount';
     taxesAndInsuranceAmount = reTaxesAndInsuranceValue;
   }
 
@@ -309,8 +315,10 @@ const calculateOperatingExpenses = () => {
   let operatingExpensesAmount = 0;
 
   if (operatingExpensesToggle.checked) {
+    operatingExpensesToggle.value = 'AmountPerUnit';
     operatingExpensesAmount = Math.round(operatingExpensesValue * totalUnitsValue);
   } else {
+    operatingExpensesToggle.value = 'TotalAmount';
     operatingExpensesAmount = operatingExpensesValue;
   }
 
@@ -342,6 +350,8 @@ const calculateNetOperatingIncome = () => {
   const netOperatingIncomeValue = grossOperatingIncomeValue - totalExpensesValue;
 
   netOperatingIncome.innerText = `$${numberWithCommas(netOperatingIncomeValue)}`;
+
+  shareLink.value = generateSharableLink();
 }
 // add event listeners to inputs and update values on result container
 vacanyCreditLoss.addEventListener('input', calculateVacancyCreditLoss);
@@ -365,6 +375,8 @@ const leaseUpToStabilizationPercent = document.getElementById('lease-up-to-stabi
 const leaseUpToStabilaizationDuration = document.getElementById('lease-up-to-stabilization-duration');
 const totalPercent = document.getElementById('total-percent-of-duration');
 const totalDuration = document.getElementById('total-duration');
+// project timeline input elements
+const projectTimeLineInputElements = [preConstruction, construction, leaseUpToStabilization];
 /*
   Calculate Total Timeline
   Total Timeline = Pre-Construction + Construction + Lease Up To Stabilization
@@ -390,9 +402,9 @@ const calculateTotalTimeline = () => {
   totalTimeline.innerText = `${totalDurationValue} months`;
   totalDuration.innerText = `${totalDurationValue} months`;
 
-  const preConstructionPercentValue = (preConstructionDurationValue / totalDurationValue * 100).toFixed(1) || 0;
-  const constructionPercentValue = (constructionDurationValue / totalDurationValue * 100).toFixed(1) || 0;
-  const leaseUpToStabilizationPercentValue = (leaseUpToStabilizationDurationValue / totalDurationValue * 100).toFixed(1) || 0;
+  const preConstructionPercentValue = ((preConstructionDurationValue / totalDurationValue * 100) || 0).toFixed(1);
+  const constructionPercentValue = ((constructionDurationValue / totalDurationValue * 100) || 0).toFixed(1);
+  const leaseUpToStabilizationPercentValue = ((leaseUpToStabilizationDurationValue / totalDurationValue * 100) || 0).toFixed(1);
 
   preConstructionPercent.innerText = `${preConstructionPercentValue}%`;
   constructionPercent.innerText = `${constructionPercentValue}%`;
@@ -401,6 +413,8 @@ const calculateTotalTimeline = () => {
   const totalPercentValue = Math.round(parseFloat(preConstructionPercentValue) + parseFloat(constructionPercentValue) + parseFloat(leaseUpToStabilizationPercentValue));
 
   totalPercent.innerText = `${totalPercentValue}%`;
+
+  shareLink.value = generateSharableLink();
 }
 
 [preConstruction, construction, leaseUpToStabilization].forEach(element => element.addEventListener('input', calculateTotalTimeline));
@@ -438,6 +452,8 @@ const operatingDeficitPercent = document.getElementById('percent-of-tpc-operatin
 const operatingDeficitAmount = document.getElementById('operating-deficit-amount');
 const totalPercentOfTPC = document.getElementById('total-percent-of-tpc');
 const totalAmount = document.getElementById('total-amount');
+// Development source & uses of funds input elements
+const developmentSourcesInputElements = [landCost, hardCosts, hardCostsContingency, softCosts, softCostsContingency, seniorConstructionLoanLTC, constructionLoanInterest];
 /*
   Calculate Total Project Cost
 */
@@ -475,27 +491,36 @@ const calculateTotalProjectCost = () => {
   const constructionLoanInterestAmountValue = Math.round((constructionLoanInterestValue / 100) * (totalTimelineValue / 12 / 2) * (seniorConstructionLoanLTCValue / 100) * totalProjectCostValue);
   constructionLoanInterestAmount.innerText = `$${numberWithCommas(constructionLoanInterestAmountValue)}`;
   resultantConstructionLoanInterest.innerText = `${constructionLoanInterestValue}%`;
+  // operating deficit amount
+  const totalExpensesValue = parseInt(totalExpenses.innerText.replace(/\,|\$/g, '')) || 0;
+  const leaseUpToStabilaizationDurationValue = parseInt(leaseUpToStabilaizationDuration.innerText.replace(/months/g, '')) || 0;
+  const operatingDeficitValue = totalExpensesValue / 12 * leaseUpToStabilaizationDurationValue;
+  operatingDeficitAmount.innerText = `$${numberWithCommas(operatingDeficitValue)}`;
+  totalProjectCostValue += operatingDeficitValue;
   // total project cost
   totalProjectCost.innerText = `$${numberWithCommas(totalProjectCostValue)}`;
   totalAmount.innerText = `$${numberWithCommas(totalProjectCostValue)}`;
   // land cost percent
-  const landCostPercentValue = (landCostValue / totalProjectCostValue * 100).toFixed(1);
+  const landCostPercentValue = Math.round(landCostValue / totalProjectCostValue * 100) || 0;
   landCostPercent.innerText = `${landCostPercentValue}%`
   // hard costs percent
-  const hardCostsPercentValue = (hardCostsAmountValue / totalProjectCostValue * 100).toFixed(1);
+  const hardCostsPercentValue = Math.round(hardCostsAmountValue / totalProjectCostValue * 100) || 0;
   hardCostPercent.innerText = `${hardCostsPercentValue}%`;
   // hard costs contingency percent
-  const hardCostsContingencyPercentValue = (hardCostsContingencyAmountValue / totalProjectCostValue * 100).toFixed(1);
+  const hardCostsContingencyPercentValue = Math.round(hardCostsContingencyAmountValue / totalProjectCostValue * 100) || 0;
   hardCostsContingencyPercent.innerText = `${hardCostsContingencyPercentValue}%`;
   // soft costs percent
-  const softCostsPercentValue = (softCostsAmountValue / totalProjectCostValue * 100).toFixed(1);
+  const softCostsPercentValue = Math.round(softCostsAmountValue / totalProjectCostValue * 100) || 0;
   softCostsPercent.innerText = `${softCostsPercentValue}%`;
   // soft costs contingency percent
-  const softCostsContingencyPercentValue = (softCostsContingencyAmountValue / totalProjectCostValue * 100).toFixed(1);
+  const softCostsContingencyPercentValue = Math.round(softCostsContingencyAmountValue / totalProjectCostValue * 100) || 0;
   softCostsContingencyPercent.innerText = `${softCostsContingencyPercentValue}%`;
   // construction loan interest percent
-  const constructionLoanInterestPercentValue = (constructionLoanInterestAmountValue / totalProjectCostValue * 100).toFixed(1);
+  const constructionLoanInterestPercentValue = Math.round(constructionLoanInterestAmountValue / totalProjectCostValue * 100) || 0;
   constructionLoanInterestPercent.innerText = `${constructionLoanInterestPercentValue}%`;
+  // operating deficit percent
+  const operatingDeficitPercentValue = Math.round(operatingDeficitValue / totalProjectCostValue * 100) || 0;
+  operatingDeficitPercent.innerText = `${operatingDeficitPercentValue}%`;
   // total percent of tpc
   const totalPercentOfTPCValue = Math.round(parseFloat(landCostPercentValue) + parseFloat(hardCostsPercentValue) + parseFloat(hardCostsContingencyPercentValue) + parseFloat(softCostsPercentValue) + parseFloat(softCostsContingencyPercentValue) + parseFloat(constructionLoanInterestPercentValue));
   totalPercentOfTPC.innerText = `${totalPercentOfTPCValue}%`;
@@ -527,12 +552,172 @@ const calculateTotalSourcesOfFunds = () => {
   const totalSourcesAmountValue = seniorConstructionLoanAmountValue + requiredEquityAmountValue;
   totalSourcesAmount.innerText = `$${numberWithCommas(totalSourcesAmountValue)}`;
 
-  const seniorConstructionLoanPercentValue = (seniorConstructionLoanAmountValue / totalSourcesAmountValue * 100).toFixed(1);
+  const seniorConstructionLoanPercentValue = ((seniorConstructionLoanAmountValue / totalSourcesAmountValue * 100) || 0).toFixed(1);
   seniorConstructionLoanPercent.innerText = `${seniorConstructionLoanPercentValue}%`;
 
-  const requiredEquityPercentValue = (requiredEquityAmountValue / totalSourcesAmountValue * 100).toFixed(1);
+  const requiredEquityPercentValue = ((requiredEquityAmountValue / totalSourcesAmountValue * 100) || 0).toFixed(1);
   requiredEquityPercent.innerText = `${requiredEquityPercentValue}%`;
 
   const totalSourcesPercentValue = Math.round(parseFloat(seniorConstructionLoanPercentValue) + parseFloat(requiredEquityPercentValue));
   totalSourcesPercent.innerText = `${totalSourcesPercentValue}%`;
+
+  shareLink.value = generateSharableLink();
 }
+
+/* -----------------------------------Sharable link----------------------------- */
+// generate sharable link for building data
+const generateSharableLink = () => {
+  let parameters = {};
+  // generate sharable link for stabilized unit inputs
+  stabilizedUnitInputSelectors.forEach(selector => {
+    const inputs = Array.from(document.querySelectorAll(selector));
+    parameters[selector] = inputs.map(input => input.value.replace(/\$|,/g, ''));
+  });
+  // generate sharable link for operating statement and operating expenses inputs
+  operatingStatementInputElements.forEach(element => {
+    const id = element?.domElement ? element.domElement.id : element.id;
+    const value = element?.domElement ? '$' + element.domElement.value : element.value;
+    parameters[id] = value;
+  });
+  // generate shareable link for project timeline
+  projectTimeLineInputElements.forEach(element => {
+    const id = element.id;
+    const value = element.value;
+    parameters[id] = value;
+  });
+  // generate sharable link for development sources and uses of funds input
+  developmentSourcesInputElements.forEach(element => {
+    const id = element?.domElement ? element.domElement.id : element.id;
+    const value = element?.domElement ? '$' + element.domElement.value : element.value;
+    parameters[id] = value;
+  });
+  // get url parameters
+  let params = new URLSearchParams(parameters);
+  
+  return 'http://' + url.host + url.pathname + '?' + params.toString();
+}
+// parse parameter from url and pre-populate all the inputs and perform all the calculations
+const parseUrlParameters = (link) => {
+  const url = new URL(link);
+  const params = new URLSearchParams(url.search);
+  const parmasMap = {};
+  // parse url and populate stabilized unit inputs
+  let rows = 0;
+  // add keys and values to paramsMap
+  params.forEach((value, key) => {
+    if (key.includes('.')) {
+      parmasMap[key] = value.split(',');
+      rows = parmasMap[key].length;
+    } else {
+      parmasMap[key] = value;
+    }
+  });
+  // add rows to stabilized Unit Container
+  for (let i = 1; i < rows; i++) addNewRowButton.click();
+
+  let ids = [];
+  // get all id's of stabilized unit inputs and store it in ids array
+  stabilizedUnitInputSelectors.forEach(selector => {
+    const inputs = Array.from(document.querySelectorAll(selector));
+    inputs.forEach((input, index) => {
+      if (parmasMap[selector]) {
+        input.value = parmasMap[selector][index];
+        let className = input.classList[0];
+        let id = input.id.replace(className + '-', '');
+        if (!ids.includes(id)) ids.push(id);
+      }
+    });
+  });
+  // for all the ids in ids array, get the corresponding input and set the value
+  ids.forEach(id => {
+    const br = document.getElementById(`unit-type-br-${id}`);
+    const ba = document.getElementById(`unit-type-ba-${id}`);
+    handleBrBaInputs(id, br.value, ba.value);
+
+    const numberOfUnits = document.getElementById(`number-of-units-${id}`);
+    const averageRentPerMonth = document.getElementById(`average-rent-per-month-${id}`);
+    handleNumberOfUnits(id, numberOfUnits.value, averageRentPerMonth.value);
+    handleAverageRentPerMonth(id, numberOfUnits.value, averageRentPerMonth.value);
+  });
+  // set all toggle for operating statement and operating expenses inputs
+  if (params.has('other-income-toggle')) {
+    let value = params.get('other-income-toggle');
+    
+    if (value === 'AmountPerUnit') {
+      otherIncomeToggle.checked = true;
+    } else {
+      otherIncomeToggle.checked = false;
+    }
+  }
+
+  if (params.has('taxes-and-insurance-toggle')) {
+    let value = params.get('taxes-and-insurance-toggle');
+    
+    if (value === 'AmountPerUnit') {
+      taxesAndInsuranceToggle.checked = true;
+    } else {
+      taxesAndInsuranceToggle.checked = false;
+    }
+  }
+
+  if (params.has('operating-expenses-toggle')) {
+    let value = params.get('operating-expenses-toggle');
+    
+    if (value === 'AmountPerUnit') {
+      operatingExpensesToggle.checked = true;
+    } else {
+      operatingExpensesToggle.checked = false;
+    }
+  }
+  // parse url and populate operating statement and operating expenses
+  operatingStatementInputElements.forEach(element => {
+    const id = element?.domElement ? element.domElement.id : element.id;
+    const value = parmasMap[id];
+    if (value) {
+      if (value.includes('$')) {
+        AutoNumeric.set(element.domElement, value.replace(/\$|,/g, ''));
+      } else {
+        element.value = value;
+      }
+    }
+  });
+  // call the calculate functions
+  calculateVacancyCreditLoss();
+  calculateOtherIncome();
+  calculateTaxesAndInsurance();
+  calculateOperatingExpenses();
+  // parse url and populate project timeline
+  projectTimeLineInputElements.forEach(element => {
+    const id = element?.domElement ? element.domElement.id : element.id;
+    const value = parmasMap[id];
+    if (value) {
+      element.value = value;
+    }
+  });
+  // call the calulate function for total timeline
+  calculateTotalTimeline();
+  // parse url and populate development sources and uses of funds
+  developmentSourcesInputElements.forEach(element => { 
+    const id = element?.domElement ? element.domElement.id : element.id;
+    const value = parmasMap[id];
+    if (value) {
+      if (value.includes('$')) {
+        AutoNumeric.set(element.domElement, value.replace(/\$|,/g, ''));   
+      } else {
+        element.value = value;
+      }
+    }
+  });
+  // call the calculate function for TotalProjectCost
+  calculateTotalProjectCost();
+}
+// On click of share button -> generate sharable link and show copy to clipboard icon
+shareResultButton.addEventListener('click', () => {
+  let link = generateSharableLink();
+  shareLink.value = link;
+  shareLink.style.width = 'calc(100% - 3.5rem)';
+  shareLink.style.padding = '0.5rem';
+  copyText.style.opacity = '1';
+});
+
+parseUrlParameters(window.location.href);
