@@ -1,4 +1,4 @@
-import { renderDeleteIcon, amountConfig, numberWithCommas, validateAmount, insertErrorMessage, removeErrorMessage, insertWarningMessage, removeWarningMessage, PMT } from "../utils/utils.js";
+import { renderDeleteIcon, amountConfig, numberWithCommas, validateAmount } from "../utils/utils.js";
 /* --------------------Building Data-------------------------- */
 const stabilizedUnitInputContainer = document.querySelector('.stabilized-unit-inputs-container');
 const resultantStabilizedUnitContainer = document.querySelector('.resultant-stabilized-unit-container');
@@ -135,6 +135,9 @@ const updateTotalValues = () => {
 
   calculateVacancyCreditLoss();
   calculateOtherIncome();
+  calculateTaxesAndInsurance();
+  calculateOperatingExpenses();
+  calculateTotalProjectCost();
 }
 /*
   Calculate and update `total annual rent` on result container
@@ -415,6 +418,8 @@ const calculateTotalTimeline = () => {
   totalPercent.innerText = `${totalPercentValue}%`;
 
   shareLink.value = generateSharableLink();
+
+  calculateTotalProjectCost();
 }
 
 [preConstruction, construction, leaseUpToStabilization].forEach(element => element.addEventListener('input', calculateTotalTimeline));
@@ -470,17 +475,17 @@ const calculateTotalProjectCost = () => {
   resultantHardCost.innerText = `$${numberWithCommas(hardCostsValue)}/unit`;
   // hard costs contingency amount
   const hardCostsContingencyValue = parseFloat(hardCostsContingency.value) || 0;
-  const hardCostsContingencyAmountValue = hardCostsContingencyValue / 100 * hardCostsAmountValue;
+  const hardCostsContingencyAmountValue = Math.round(hardCostsContingencyValue / 100 * hardCostsAmountValue);
   hardCostsContingencyAmount.innerText = `$${numberWithCommas(hardCostsContingencyAmountValue)}`;
   resultantHardCostsContingency.innerText = `${hardCostsContingencyValue}%`;
   // soft costs amount
   const softCostsValue = parseFloat(softCosts.value) || 0;
-  const softCostsAmountValue = softCostsValue / 100 * hardCostsAmountValue;
+  const softCostsAmountValue = Math.round(softCostsValue / 100 * hardCostsAmountValue);
   softCostsAmount.innerText = `$${numberWithCommas(softCostsAmountValue)}`;
   resultantSoftCosts.innerText = `${softCostsValue}%`;
   // soft costs contingency amount
   const softCostsContingencyValue = parseFloat(softCostsContingency.value) || 0;
-  const softCostsContingencyAmountValue = softCostsContingencyValue / 100 * softCostsAmountValue;
+  const softCostsContingencyAmountValue = Math.round(softCostsContingencyValue / 100 * softCostsAmountValue);
   softCostsContingencyAmount.innerText = `$${numberWithCommas(softCostsContingencyAmountValue)}`;
   resultantSoftCostsContingency.innerText = `${softCostsContingencyValue}%`;
   // construction loan interest amount
@@ -494,7 +499,7 @@ const calculateTotalProjectCost = () => {
   // operating deficit amount
   const totalExpensesValue = parseInt(totalExpenses.innerText.replace(/\,|\$/g, '')) || 0;
   const leaseUpToStabilaizationDurationValue = parseInt(leaseUpToStabilaizationDuration.innerText.replace(/months/g, '')) || 0;
-  const operatingDeficitValue = totalExpensesValue / 12 * leaseUpToStabilaizationDurationValue;
+  const operatingDeficitValue = Math.round(totalExpensesValue / 12 * leaseUpToStabilaizationDurationValue);
   operatingDeficitAmount.innerText = `$${numberWithCommas(operatingDeficitValue)}`;
   totalProjectCostValue += operatingDeficitValue;
   // total project cost
