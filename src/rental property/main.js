@@ -1,4 +1,4 @@
-import { amountConfig, numberWithCommas, PMT, generateSharableLink, parseFromUrl } from "../utils/utils.js";
+import { amountConfig, numberWithCommas, PMT, generateSharableLink, parseFromUrl, insertErrorMessage, removeErrorMessage } from "../utils/utils.js";
 
 // Operating Statement Inputs
 const monthlyRent = new AutoNumeric('#monthly-rent', amountConfig);
@@ -19,6 +19,7 @@ const netOperatingIncome = document.getElementById('net-operating-income');
 // Investment Data Inputs
 const purchasePrice = new AutoNumeric("#purchase-price", amountConfig);
 const closingCost = new AutoNumeric("#closing-cost", amountConfig);
+const renovationCost = new AutoNumeric('#renovation-cost', amountConfig);
 // Financing Data Inputs
 const downPayment = new AutoNumeric('#down-payment', amountConfig);
 const loanInterestRate = document.getElementById('loan-interest-rate');
@@ -26,6 +27,7 @@ const loanAmortization = document.getElementById('loan-amortization');
 // Calculated Results
 const resultantPurchasePrice = document.getElementById('resultant-purchase-price');
 const resultantClosingCost = document.getElementById('resultant-closing-cost');
+const resultantRenovationCost = document.getElementById('resultant-renovation-cost');
 const resultantDownPayment = document.getElementById('resultant-down-payment');
 const initialEquity = document.getElementById('initial-equity');
 const loanAmount = document.getElementById('loan-amount');
@@ -33,11 +35,26 @@ const debtService = document.getElementById('debt-service');
 const cashFlowBeforeTax = document.getElementById('cash-flow-before-tax');
 const cashOnCashReturn = document.getElementById('cash-on-cash-return');
 const goingInCapRate = document.getElementById('going-in-cap-rate');
+const unleveredYieldOnCost = document.getElementById('unlevered-yield-on-cost');
 // share link
 const shareResultButton = document.getElementById('share-result');
 const shareLink = document.getElementById('share-link');
 const copyText = document.getElementById('copy-text');
 const url = new URL(window.location.href);
+/*
+  Validate Loan Amortization
+  Loan Amortization must be a number between 0 and 12000
+*/
+const validateLoanAmortization = (e) => { 
+  let value = e.target.value;
+
+  if (value > 12000) {
+    e.target.value = 12000;
+    insertErrorMessage(e, 'Please select a value between 0 to 12000');
+  } else {
+    removeErrorMessage(e);
+  }
+}
 /*
   # Update Total Expenses Property on Calculated Results
 */
@@ -59,11 +76,11 @@ const updateResultantTotalExpenses = (element) => {
   # If `managementFee` is filled in and, `grossPotentialIncome` is valid, calculate Management Fee in dollars
 */
 const calculateManagementFee = () => {
-  const managementFeeValue = parseFloat(managementFee.value);
+  const managementFeeValue = parseFloat(managementFee.value) || 0;
   const effectiveGrossIncomeValue = parseFloat(effectiveGrossIncome.innerText.replace(/\$|,/g, ''));
   const resultantManagementFee = document.getElementById('resultant-management-fee');
   let netManagementFee = 0;
-
+  
   if (managementFeeValue && effectiveGrossIncomeValue) {
     netManagementFee = (effectiveGrossIncomeValue * managementFeeValue / 100).toFixed(2);
     resultantManagementFee.innerText = "$" + numberWithCommas(Math.round(netManagementFee));
@@ -99,9 +116,9 @@ const calculateTotalExpenses = () => {
   Effective Gross Income = Monthly Rent + Other Income - Vacancy & Credit Loss
 */
 const calculateEffectiveGrossIncome = () => { 
-  const monthlyRentValue = parseInt(monthlyRent.rawValue) * 12;
-  const otherIncomeValue = parseInt(otherIncome.rawValue);
-  const vacancyRateValue = parseFloat(vacanyRate.value);
+  const monthlyRentValue = parseInt(monthlyRent.rawValue) * 12 || 0;
+  const otherIncomeValue = parseInt(otherIncome.rawValue) || 0;
+  const vacancyRateValue = parseFloat(vacanyRate.value) || 0;
   const vacancyRateValueInDollars = (monthlyRentValue + otherIncomeValue) * vacancyRateValue / 100;
 
   let effectiveGrossIncomeValue = 0;
@@ -155,14 +172,15 @@ const calculateNetOperatingIncome = () => {
 
   calculateCashFlowBeforeTax();
   calculateGoingInCapRate();
+  calculateUnleveredYieldOnCost();
 }
 /*
   Calculate Initial Equity
   Initial Equity = Purchase Price + Closing Costs - Down Payment
 */
 const calculateInitialEquity = () => { 
-  const closingCostValue = parseInt(closingCost.rawValue);
-  const downPaymentValue = parseInt(downPayment.rawValue);
+  const closingCostValue = parseInt(closingCost.rawValue) || 0;
+  const downPaymentValue = parseInt(downPayment.rawValue) || 0;
 
   if (closingCostValue) { 
     resultantClosingCost.innerText = "$" + numberWithCommas(closingCostValue);
@@ -189,13 +207,27 @@ const calculateInitialEquity = () => {
   Loan Amount = Purchase Price - Down Payment
 */
 const calculateLoanAmount = () => { 
-  const purchasePriceValue = parseInt(purchasePrice.rawValue);
-  const downPaymentValue = parseInt(downPayment.rawValue);
+  const purchasePriceValue = parseInt(purchasePrice.rawValue) || 0;
+  const closingCostValue = parseInt(closingCost.rawValue) || 0;
+  const renovationCostValue = parseInt(renovationCost.rawValue) || 0;
+  const downPaymentValue = parseInt(downPayment.rawValue) || 0;
 
   if (purchasePriceValue) { 
     resultantPurchasePrice.innerText = "$" + numberWithCommas(purchasePriceValue);
   } else {
     resultantPurchasePrice.innerText = '$0';
+  }
+
+  if (closingCostValue) { 
+    resultantClosingCost.innerText = "$" + numberWithCommas(closingCostValue);
+  } else {
+    resultantClosingCost.innerText = '$0';
+  }
+
+  if (renovationCostValue) { 
+    resultantRenovationCost.innerText = "$" + numberWithCommas(renovationCostValue);
+  } else {
+    resultantRenovationCost.innerText = '$0';
   }
 
   if (downPaymentValue) { 
@@ -204,7 +236,7 @@ const calculateLoanAmount = () => {
     resultantDownPayment.innerText = '$0';
   }
 
-  const loanAmountValue = purchasePriceValue - downPaymentValue;
+  const loanAmountValue = purchasePriceValue + closingCostValue + renovationCostValue - downPaymentValue;
 
   if (loanAmountValue) {
     loanAmount.innerText = "$" + numberWithCommas(loanAmountValue);
@@ -219,12 +251,12 @@ const calculateLoanAmount = () => {
   Debt Service = PMT(Loan Intrest Rate / 12, Loan Amortization * 12, -Loan Amount)
 */
 const calculateDebtService = () => { 
-  const loanInterestRateValue = parseFloat(loanInterestRate.value);
-  const loanAmortizationValue = parseInt(loanAmortization.value);
+  const loanInterestRateValue = parseFloat(loanInterestRate.value) || 0;
+  const loanAmortizationValue = parseInt(loanAmortization.value) || 0;
   const loanAmountValue = parseInt(loanAmount.innerText.replace(/\$|,/g, ''));
-  const debtServiceValue = Math.round(PMT(loanInterestRateValue / 12, loanAmortizationValue * 12, -loanAmountValue));
-
-  if (debtServiceValue) {
+  const debtServiceValue = Math.round(PMT(loanInterestRateValue / 1200, loanAmortizationValue * 12, -loanAmountValue));
+  
+  if (debtServiceValue && Number.isFinite(debtServiceValue)) {
     debtService.innerText = "$" + numberWithCommas(debtServiceValue);
   } else { 
     debtService.innerText = '$0';
@@ -260,7 +292,7 @@ const calculateCashOnCashReturn = () => {
 
   const cashOnCashReturnValue = (cashFlowBeforeTaxValue / initialEquityValue) * 100;
 
-  if (cashOnCashReturnValue) {
+  if (cashOnCashReturnValue && Number.isFinite(cashOnCashReturnValue)) {
     cashOnCashReturn.innerText = cashOnCashReturnValue.toFixed(2) + '%';
   } else {
     cashOnCashReturn.innerText = '0%';
@@ -284,17 +316,39 @@ const calculateGoingInCapRate = () => {
     goingInCapRate.innerText = '0%';
   }
 }
+/*
+  Calculate Unlevered Yield on Cost
+  Unlevered Yield on Cost = (Net Operating Income / (Purchase Price + Closing Cost + Renovation Cost)) * 100
+*/
+const calculateUnleveredYieldOnCost = () => { 
+  const netOperatingIncomeValue = parseInt(netOperatingIncome.innerText.replace(/\$|,/g, ''));
+  const purchasePriceValue = parseInt(purchasePrice.rawValue) || 0;
+  const closingCostValue = parseInt(closingCost.rawValue) || 0;
+  const renovationCostValue = parseInt(renovationCost.rawValue) || 0;
+
+  const unleveredYieldOnCostValue = (netOperatingIncomeValue / (purchasePriceValue + closingCostValue + renovationCostValue)) * 100;
+  
+  if (unleveredYieldOnCostValue && Number.isFinite(unleveredYieldOnCostValue)) {
+    unleveredYieldOnCost.innerText = unleveredYieldOnCostValue.toFixed(2) + '%';
+  } else {
+    unleveredYieldOnCost.innerText = '0%';
+  }
+}
 // For all the input fileds required for expenses add event listener to trigger calculation of Total Expenses
 expenses.forEach(expense => new AutoNumeric(expense, amountConfig));
 expenses.forEach(expense => expense.addEventListener('input', (e) => { calculateTotalExpenses(); updateResultantTotalExpenses(e); }));
 // add eventlistners to calculate Effective Gross Income
-[monthlyRent.domElement, otherIncome.domElement, vacanyRate].forEach(element => element.addEventListener('input', calculateEffectiveGrossIncome));
+[monthlyRent.domElement, otherIncome.domElement, vacanyRate, managementFee].forEach(element => element.addEventListener('input', calculateEffectiveGrossIncome));
 // add eventlistners to calculate Initial Equity
 [closingCost.domElement, downPayment.domElement].forEach(element => element.addEventListener('input', calculateInitialEquity));
 // add eventlistners to calculate Loan Amount
-[purchasePrice.domElement, downPayment.domElement].forEach(element => element.addEventListener('input', calculateLoanAmount));
+[purchasePrice.domElement, closingCost.domElement, renovationCost.domElement, downPayment.domElement].forEach(element => element.addEventListener('input', calculateLoanAmount));
+// add eventlistners to calculate Unlevered Yield on Cost
+[purchasePrice.domElement, closingCost.domElement, renovationCost.domElement].forEach(element => element.addEventListener('input', calculateUnleveredYieldOnCost));
 // add eventlistners to calculate Debt Service
 [loanInterestRate, loanAmortization].forEach(element => element.addEventListener('input', calculateDebtService));
+// validate Loan Amortization
+loanAmortization.addEventListener('input', validateLoanAmortization);
 // add evenlistner to calculate Going-in Cap Rate
 purchasePrice.domElement.addEventListener('input', calculateGoingInCapRate);
 // Event Listners for generating sharable link and copy link to clipboard

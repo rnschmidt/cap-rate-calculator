@@ -232,6 +232,16 @@
                   <input type="text" name="closing-cost" id="closing-cost" class="validate-amount dollar" placeholder="0" step="1">
                 </div>
               </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="renovation-cost">Renovation Costs</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="renovation-cost" id="renovation-cost" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
             </div>
           </div>
 
@@ -287,6 +297,11 @@
             </div>
 
             <div class="row">
+              <h4>Renovation Cost</h4>
+              <h4 id="resultant-renovation-cost">$0</h4>
+            </div>
+
+            <div class="row">
               <h4>Down Payment</h4>
               <h4 id="resultant-down-payment">$0</h4>
             </div>
@@ -304,6 +319,11 @@
             <div class="row">
               <h4>Going-in Cap Rate</h4>
               <h4 id="going-in-cap-rate">0.0%</h4>
+            </div>
+
+            <div class="row">
+              <h4>Unlevered Yield on Cost</h4>
+              <h4 id="unlevered-yield-on-cost">0.0%</h4>
             </div>
           </div>
 
