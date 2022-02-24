@@ -326,6 +326,16 @@ const calculateLoanAmountDSCR = () => {
 
   if (dscrValue) {
     resultantDscr.innerText = dscrValue + 'x';
+    if (totalAnnualRentValue === effectiveGrossIncomeValue) {
+      removeWarningMessage(dscr);
+      insertWarningMessage(dscr, 'Operating Statement is required to calculate Loan Amount (DSCR)');
+    } else if (effectiveGrossIncomeValue === netOperatingIncomeValue) {
+      removeWarningMessage(dscr);
+      insertWarningMessage(dscr, 'Operating Expenses is required to calculate Loan Amount (DSCR)');      
+    }
+    else {
+      removeWarningMessage(dscr);
+    }
   } else {
     resultantDscr.innerText = '0x';
   }
