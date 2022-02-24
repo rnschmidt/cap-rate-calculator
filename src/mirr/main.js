@@ -1,6 +1,6 @@
 // Dynamic MIRR Calculator
 
-import { insertErrorMessage, removeErrorMessage, insertWarningMessage, removeWarningMessage,numberWithCommas, generateSharableLink, renderCopyDownIcon, IRR, MIRR } from "../utils/utils.js";
+import { insertErrorMessage, removeErrorMessage, numberWithCommas, generateSharableLink, renderCopyDownIcon, IRR, MIRR } from "../utils/utils.js";
 // input fields
 const financeRate = document.getElementById('finance-rate');
 const reinvestmentRate = document.getElementById('reinvestment-rate');
@@ -195,18 +195,14 @@ const calculateMIRR = () => {
   
   if (financeRateValue >= 0) {
     resultantFinanceRate.innerText = financeRateValue * 100 + '%';
-    removeWarningMessage(financeRate);
   } else {
     resultantFinanceRate.innerText = '0.0%';
-    insertWarningMessage(financeRate, 'Finance rate is required to calculate MIRR');
   }
 
   if (reinvestmentRateValue) {
     resultantReinvestmentRate.innerText = reinvestmentRateValue * 100 + '%';
-    removeWarningMessage(reinvestmentRate);
   } else {
     resultantReinvestmentRate.innerText = '0.0%';
-    insertWarningMessage(reinvestmentRate, 'Reinvestment rate is required to calculate MIRR');
   }
 
   let mirr = MIRR(cashFlows.slice(0, n), financeRateValue, reinvestmentRateValue);
