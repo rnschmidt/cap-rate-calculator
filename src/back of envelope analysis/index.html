@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.1.0">
+    const AutoNumeric = require('autonumeric');
+  </script>
+  <title>Back of Envelope Analysis</title>
+</head>
+<body>
+  <nav>Navbar</nav>
+  <div class="container">
+    <!--Back of Envelope Analysis-->
+    <div class="back-of-envelope-analysis-container">
+      <div class="stabilized-unit-economics-container">
+        <div class="card-input">
+          <h3>Stabilized Unit Economics</h3>
+          <div class="stabilized-unit-inputs-container"></div>
+          <button id="add-new-row" class="add-row">Add New Row</button>
+        </div>
+
+        <div class="card-result">
+          <h3 class="card-result-head">Calculated Result</h3>
+
+          <div class="resultant-stabilized-unit">
+            <div class="resultant-stabilized-unit-head">
+              <h4>Unit Type</h4>
+              <h4>Number of units</h4>
+              <h4>Average Rent per Month</h4>
+              <h4>Total Annual Rent</h4>
+            </div>
+            <div class="resultant-stabilized-unit-container"></div>
+            <div class="resultant-stabilized-unit-total">
+              <h4>Total</h4>
+              <h4 class="total" id="total-units">0</h4>
+              <h4 class="total" id="total-rent">$0</h4>
+              <h4 class="total" id="total-annual-rent">$0</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Operating Statement-->
+      <div class="operating-statement-container">
+        <div class="card-input">
+          <div class="card-input-operating-statement">
+            <h3>Operating Statement</h3>
+
+            <div class="input-container">
+              <div class="input-label">
+                <label for="vacancy-credit-loss">Vacancy & Credit Loss</label>
+              </div>
+              <div class="input-wrapper">
+                <input type="number" name="vacancy-credit-loss" id="vacancy-credit-loss" class="float-field validate-percent percent" placeholder="0.0" min="0.00" step="0.01">
+                <span class="percent-sign">%</span>
+              </div>
+            </div>
+
+            <div class="input-and-toggle-container">
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="other-income">Other Income</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" id="other-income" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+
+              <div class="toggle-container">
+                <label for="other-income-toggle">Total Amount</label>
+                <label class="switch">
+                  <input type="checkbox" name="other-income-toggle" id="other-income-toggle" value="AmountPerUnit" checked>
+                  <span class="slider round"></span>
+                </label>
+                <label for="AmountPerUnit">Amount Per Unit</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <h4>Gross Operating Income</h4>
+              <h4 id="gross-operating-income">$0</h4>
+            </div>
+          </div>
+
+          <div class="card-input-operating-expenses">
+            <h3>Operating Expenses</h3>
+
+            <div class="input-and-toggle-container">
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="taxes-and-insurance">RE Taxes & Insurance</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" id="taxes-and-insurance" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+
+              <div class="toggle-container">
+                <label for="taxes-and-insurance-toggle">Total Amount</label>
+                <label class="switch">
+                  <input type="checkbox" name="taxes-and-insurance-toggle" id="taxes-and-insurance-toggle" value="AmountPerUnit" checked>
+                  <span class="slider round"></span>
+                </label>
+                <label for="AmountPerUnit">Amount Per Unit</label>
+              </div>
+            </div>
+
+            <div class="input-and-toggle-container">
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="operating-expenses">Operating Expenses</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" id="operating-expenses" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+
+              <div class="toggle-container">
+                <label for="operating-expenses-toggle">Total Amount</label>
+                <label class="switch">
+                  <input type="checkbox" name="operating-expenses-toggle" id="operating-expenses-toggle" value="AmountPerUnit" checked>
+                  <span class="slider round"></span>
+                </label>
+                <label for="AmountPerUnit">Amount Per Unit</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <h4>Total Expenses</h4>
+              <h4 id="total-expenses">$0</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-result">
+          <h3 class="head">Stabilized Annual Operating Statement</h3>
+
+          <div class="card-result-inner">
+            <div class="row">
+              <h4>Potential Rental Income</h4>
+              <h4 id="resultant-potential-income">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Vacancy & Credit Loss</h4>
+              <h4 id="resultant-vacancy-credit-loss">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4 style="font-weight: 700; color: #1E73BE">Effective Rental Income</h4>
+              <h4 id="resultant-effective-rental-income" style="font-weight: 700; color: #1E73BE">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Other Income</h4>
+              <h4 id="resultant-other-income">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4 style="font-weight: 700; color: #1E73BE">Gross Operating Income</h4>
+              <h4 id="resultant-gross-operating-income" style="font-weight: 700; color: #1E73BE">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>RE Taxes & Insurance</h4>
+              <h4 id="resultant-taxes-and-insurance">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Operating Expenses</h4>
+              <h4 id="resultant-operating-expenses">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4 style="font-weight: 700; color: #1E73BE">Total Expenses</h4>
+              <h4 id="resultant-total-expenses" style="font-weight: 700; color: #1E73BE">$0</h4>
+            </div>
+          </div>
+
+          <div class="cap-rate">
+            <h3>Net Operating Income</h3>
+            <h3 id="net-operating-income">$0</h3>
+          </div> 
+        </div>
+      </div>
+      <!--Project Timeline & Development Sources-->
+      <div class="project-timeline-and-development-sources-container">
+        <div class="card-input">
+          <div class="card-input-project-timeline">
+            <h3>Project Timeline</h3>
+
+            <div class="input-flex-wrap">
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="pre-contruction">Pre Construction</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="pre-construction" id="pre-construction" class="percent" placeholder="0" step="1">
+                  <span class="percent-sign">mnt</span>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="pre-contruction">Construction</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="construction" id="construction" class="percent" placeholder="0" step="1">
+                  <span class="percent-sign">mnt</span>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="lease-up-to-stabilization">Lease-Up to Stabilization</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="lease-up-to-stabilization" id="lease-up-to-stabilization" class=" percent" placeholder="0" step="1">
+                  <span class="percent-sign">u/m</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <h4>Total Timeline</h4>
+              <h4 id="total-timeline">0 month</h4>
+            </div>
+          </div>
+          
+          <div class="card-input-development-sources">
+            <h3>Development Sources & Uses of Funds</h3>
+
+            <div class="input-flex-wrap">
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="land-cost">Land Cost</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="land-cost" id="land-cost" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="hard-costs">Hard Costs</label>
+                </div>
+                <div class="input-wrapper">
+                  <span class="dollar-sign">$</span>
+                  <input type="text" name="hard-costs" id="hard-costs" class="validate-amount dollar" placeholder="0" step="1">
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="hard-costs-contingency">Hard Costs Contingency (% of HC)</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="hard-costs-contingency" id="hard-costs-contingency" class="validate-percent percent float-field" placeholder="0.00" step="0.01">
+                  <span class="percent-sign">%</span>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="soft-costs">Soft Costs (% of HC)</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="soft-costs" id="soft-costs" class="validate-percent percent float-field" placeholder="0.00" step="0.01">
+                  <span class="percent-sign">%</span>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="soft-costs-contingency">Soft Costs Contingency (% of SC)</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="soft-costs-contingency" id="soft-costs-contingency" class="validate-percent percent float-field" placeholder="0.00" step="0.01">
+                  <span class="percent-sign">%</span>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="senior-construction-loan-ltc">Senior Construction Loan LTC</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="senior-construction-loan-ltc" id="senior-construction-loan-ltc" class="validate-percent percent float-field" placeholder="0.00" step="0.01">
+                  <span class="percent-sign">%</span>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="construction-loan-interest">Construction Loan Interest</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="number" name="construction-loan-interest" id="construction-loan-interest" class="validate-percent percent float-field" placeholder="0.00" step="0.01">
+                  <span class="percent-sign">%</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <h4>Total Project Cost</h4>
+              <h4 id="total-project-cost">$0</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-result">
+          <h3 class="head">Calculated Results</h3>
+
+          <div class="card-result-inner">
+            <div class="one-third-table">
+              <div class="card-result-inner-head">
+                <h4>Project Timeline</h4>
+                <h4>Percentage of TPC</h4>
+                <h4>Duration</h4>
+              </div>
+              
+              <div class="card-result-inner-container">
+                <div class="card-result-inner-container-row">
+                    <h4>Pre Construction</h4>
+                    <h4 id="pre-construction-percent">0%</h4>
+                    <h4 id="pre-construction-duration">0 month</h4>
+                </div>
+               
+                <div class="card-result-inner-container-row">
+                    <h4>Construction</h4>
+                    <h4 id="construction-percent">0%</h4>
+                    <h4 id="construction-duration">0 month</h4>
+                </div>
+               
+                <div class="card-result-inner-container-row">
+                    <h4>Lease-Up to Stabilization</h4>
+                    <h4 id="lease-up-to-stabilization-percent">0%</h4>
+                    <h4 id="lease-up-to-stabilization-duration">0 month</h4>
+                </div>
+              </div>
+
+              <div class="card-result-inner-total">
+                <h4>Total Timeline</h4>
+                <h4 id="total-percent-of-duration">0%</h4>
+                <h4 id="total-duration">0 month</h4>
+              </div>
+            </div>
+
+            <div class="one-fourth-table">
+              <div class="card-result-inner-head">
+                <h4>Uses of Funds</h4>
+                <h4>Input Value</h4>
+                <h4>Percentage of TPC</h4>
+                <h4>Amount</h4>
+              </div>
+
+              <div class="card-result-inner-container">
+                <div class="card-result-inner-container-row">
+                  <h4>Land Cost</h4>
+                  <h4></h4>
+                  <h4 id="percent-of-tpc-land-cost">0%</h4>
+                  <h4 id="land-cost-amount">$0</h4>
+                </div>
+
+                <div class="card-result-inner-container-row">
+                  <h4>Hard Cost</h4>
+                  <h4 id="resultant-hard-cost">$0/unit</h4>
+                  <h4 id="percent-of-tpc-hard-cost">0%</h4>
+                  <h4 id="hard-cost-amount">$0</h4>
+                </div>
+
+                <div class="card-result-inner-container-row">
+                  <h4>Hard Costs Contingency (% of HC)</h4>
+                  <h4 id="resultant-hard-costs-contingency">0%</h4>
+                  <h4 id="percent-of-tpc-hard-costs-contingency">0%</h4>
+                  <h4 id="hard-costs-contingency-amount">$0</h4>
+                </div>
+                
+                <div class="card-result-inner-container-row">
+                  <h4>Soft Costs (% of HC)</h4>
+                  <h4 id="resultant-soft-costs">0%</h4>
+                  <h4 id="percent-of-tpc-soft-costs">0%</h4>
+                  <h4 id="soft-costs-amount">$0</h4>
+                </div>
+                
+                <div class="card-result-inner-container-row">
+                  <h4>Soft Costs Contingency (% of SC)</h4>
+                  <h4 id="resultant-soft-costs-contingency">0%</h4>
+                  <h4 id="percent-of-tpc-soft-costs-contingency">0%</h4>
+                  <h4 id="soft-costs-contingency-amount">$0</h4>
+                </div>
+                
+                <div class="card-result-inner-container-row">
+                  <h4>Construction Loan Interest</h4>
+                  <h4 id="resultant-construction-loan-interest">0%</h4>
+                  <h4 id="percent-of-tpc-construction-loan-interest">0%</h4>
+                  <h4 id="construction-loan-interest-amount">$0</h4>
+                </div>
+                
+                <div class="card-result-inner-container-row">
+                  <h4>Operating Deficit</h4>
+                  <h4></h4>
+                  <h4 id="percent-of-tpc-operating-deficit">0%</h4>
+                  <h4 id="operating-deficit-amount">$0</h4>
+                </div>
+              </div>
+              
+              <div class="card-result-inner-total">
+                <h4>Total Project Cost</h4>
+                <h4></h4>
+                <h4 id="total-percent-of-tpc">0%</h4>
+                <h4 id="total-amount">$0</h4>
+              </div>
+            </div>
+
+            <div class="one-third-table">
+              <div class="card-result-inner-head">
+                <h4>Source of Funds</h4>
+                <h4>Percentage of TPC</h4>
+                <h4>Amount</h4>
+              </div>
+              
+              <div class="card-result-inner-container">
+                <div class="card-result-inner-container-row">
+                    <h4>Senior Construction Loan</h4>
+                    <h4 id="senior-construction-loan-percent">0%</h4>
+                    <h4 id="senior-construction-loan-amount">$0</h4>
+                </div>
+               
+                <div class="card-result-inner-container-row">
+                    <h4>Required Equity Amount</h4>
+                    <h4 id="required-equity-percent">0%</h4>
+                    <h4 id="required-equity-amount">$0</h4>
+                </div>
+              </div>
+
+              <div class="card-result-inner-total">
+                <h4>Total Sources</h4>
+                <h4 id="total-sources-percent">0%</h4>
+                <h4 id="total-sources-amount">$0</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Disposition & Projected Return-->
+      <div class="disposition-projected-return-container">
+        <div class="card-input">
+          <h3>Disposition</h3>
+
+          <div class="input-flex-wrap">
+            <div class="input-container">
+              <div class="input-label">
+                <label for="exit-month">Exit Month</label>
+              </div>
+              <div class="input-wrapper">
+                <input type="number" name="exit-month" id="exit-month" class="percent" placeholder="0" step="1">
+                <span class="percent-sign">mnt</span>
+              </div>
+            </div>
+
+            <div class="input-container">
+              <div class="input-label">
+                <label for="annual-noi-growth-rate">Annual NOI Growth Rate</label>
+              </div>
+              <div class="input-wrapper">
+                <input type="number" name="annual-noi-growth-rate" id="annual-noi-growth-rate" class="validate-percent percent float-field" placeholder="0.00" step="0.01">
+                <span class="percent-sign">%</span>
+              </div>
+            </div>
+
+            <div class="input-container">
+              <div class="input-label">
+                <label for="cap-rate-on-sale">Cap Rate on Sale</label>
+              </div>
+              <div class="input-wrapper">
+                <input type="number" name="cap-rate-on-sale" id="cap-rate-on-sale" class="validate-percent percent float-field" placeholder="0.00" step="0.01">
+                <span class="percent-sign">%</span>
+              </div>
+            </div>
+
+            <div class="input-container">
+              <div class="input-label">
+                <label for="selling-cost">Selling Cost</label>
+              </div>
+              <div class="input-wrapper">
+                <input type="number" name="selling-cost" id="selling-cost" class="validate-percent percent float-field" placeholder="0.00" step="0.01">
+                <span class="percent-sign">%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <h4>Net Sales Proceeds</h4>
+            <h4 id="net-sales-proceeds">$0</h4>
+          </div>
+        </div>
+        
+        <div class="card-result">
+          <h3 style="font-weight: 700; color: #1E73BE" class="head">Disposition</h3>
+          
+          <div class="card-result-inner">
+            <div class="row">
+              <h4>Untrended NOI</h4>
+              <h4 id="resultant-untrended-noi">$0</h4>
+            </div>
+  
+            <div class="row">
+              <h4>Exit Month</h4>
+              <h4 id="resultant-exit-month">0 months</h4>
+            </div>
+  
+            <div class="row">
+              <h4>Annual NOI Growth</h4>
+              <h4 id="resultant-annual-noi-growth">0.0%</h4>
+            </div>
+  
+            <div class="row">
+              <h4>NOI Upon Exit</h4>
+              <h4 id="resultant-noi-upon-exit">$0</h4>
+            </div>
+  
+            <div class="row">
+              <h4>Cap Rate on Sales</h4>
+              <h4 id="resultant-cap-rate-on-sales">0.0%</h4>
+            </div>
+  
+            <div class="row">
+              <h4>Gross Sales Price</h4>
+              <h4 id="resultant-gross-sales-price">$0</h4>
+            </div>
+  
+            <div class="row">
+              <h4>Selling Cost</h4>
+              <h4 id="resultant-selling-cost">$0</h4>
+            </div>
+  
+            <div class="row">
+              <h4 style="font-weight: 700; color: #1E73BE">Net Sales Proceeds</h4>
+              <h4 id="resultant-net-sales-proceeds" style="font-weight: 700; color: #1E73BE">$0</h4>
+            </div>
+          </div>
+
+          <h3 style="font-weight: 700; color: #1E73BE; margin-left: 1rem;">Projected Returns</h3>
+
+          <div class="card-result-inner">
+            <div class="row">
+              <h4>Net Profit (exc. Cash Flows)</h4>
+              <h4 id="resultant-net-profit">$0</h4>
+            </div>
+  
+            <div class="row">
+              <h4>Equity Multiple (exe. Cash Flows)</h4>
+              <h4 id="resultant-equity-multiple">0x</h4>
+            </div>
+  
+            <div class="row">
+              <h4>Development Yield (Untrended)</h4>
+              <h4 id="resultant-development-yield-untrended">0.0%</h4>
+            </div>
+  
+            <div class="row">
+              <h4>Development Yield (Trended at Exit)</h4>
+              <h4 id="resultant-development-yield-trended">0.0%</h4>
+            </div>
+  
+            <div class="row">
+              <h4>Development Spread (Upon Exit)</h4>
+              <h4 id="resultant-development-spread">0.0%</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Share Result-->
+      <div class="share-result-container">
+        <button id="share-result">Share Result</button>
+
+        <div class="link-container">
+          <input type="text" id="share-link" />
+          
+          <span id="copy-text">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clipboard" class="svg-inline--fa fa-clipboard fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M384 112v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h80c0-35.29 28.71-64 64-64s64 28.71 64 64h80c26.51 0 48 21.49 48 48zM192 40c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24m96 114v-20a6 6 0 0 0-6-6H102a6 6 0 0 0-6 6v20a6 6 0 0 0 6 6h180a6 6 0 0 0 6-6z"></path></svg>
+            <div class="tooltip">Copy to clipboard</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
