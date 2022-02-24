@@ -326,16 +326,6 @@ const calculateLoanAmountDSCR = () => {
 
   if (dscrValue) {
     resultantDscr.innerText = dscrValue + 'x';
-    if (totalAnnualRentValue === effectiveGrossIncomeValue) {
-      removeWarningMessage(dscr);
-      insertWarningMessage(dscr, 'Operating Statement is required to calculate Loan Amount (DSCR)');
-    } else if (effectiveGrossIncomeValue === netOperatingIncomeValue) {
-      removeWarningMessage(dscr);
-      insertWarningMessage(dscr, 'Operating Expenses is required to calculate Loan Amount (DSCR)');      
-    }
-    else {
-      removeWarningMessage(dscr);
-    }
   } else {
     resultantDscr.innerText = '0x';
   }
@@ -733,7 +723,7 @@ const generateSharableLink = () => {
 
   let params = new URLSearchParams(parameters);
   
-  return 'http://' + url.host + url.pathname + '?' + params.toString();
+  return 'https://' + url.host + url.pathname + '?' + params.toString();
 }
 // parse parameter from url and pre-populate building data container inputs and resultant-building data container
 const parseUrlParameters = (link) => { 

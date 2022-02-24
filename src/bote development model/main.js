@@ -599,7 +599,7 @@ const generateSharableLink = () => {
   // get url parameters
   let params = new URLSearchParams(parameters);
   
-  return 'http://' + url.host + url.pathname + '?' + params.toString();
+  return 'https://' + url.host + url.pathname + '?' + params.toString();
 }
 // parse parameter from url and pre-populate all the inputs and perform all the calculations
 const parseUrlParameters = (link) => {
