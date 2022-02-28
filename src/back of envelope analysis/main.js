@@ -125,7 +125,7 @@ const updateTotalValues = () => {
   totalUnits.innerText = numberWithCommas(totalNumberOfUnits);
 
   const averageRentPerMonth = document.querySelectorAll('.average-rent-per-month');
-  const totalAvRentPerMonth = (Array.from(averageRentPerMonth).reduce((acc, curr, index) => acc + (parseInt(curr.value.replace(/\,/g, '')) || 0) * numberOfUnits[index].value, 0));
+  const totalAvRentPerMonth = Math.round((Array.from(averageRentPerMonth).reduce((acc, curr, index) => acc + (parseInt(curr.value.replace(/\,/g, '')) || 0) * numberOfUnits[index].value, 0)) / totalNumberOfUnits);
   totalRent.innerText = (totalAvRentPerMonth === 'NaN') ? '$0' : '$' + numberWithCommas(totalAvRentPerMonth);
 
   const resultantTotalAnnualRent = document.querySelectorAll('.total-annual-rent');
@@ -133,8 +133,8 @@ const updateTotalValues = () => {
   totalAnnualRent.innerText = '$' + numberWithCommas(totalAnnualRentValue);
   resultantPotentialIncome.innerText = '$' + numberWithCommas(totalAnnualRentValue);
 
-  calculateVacancyCreditLoss();
   calculateOtherIncome();
+  calculateVacancyCreditLoss();
   calculateTaxesAndInsurance();
   calculateOperatingExpenses();
   calculateTotalProjectCost();
@@ -199,14 +199,14 @@ const otherIncome = new AutoNumeric('#other-income', amountConfig);
 const reTaxesAndInsurance = new AutoNumeric('#taxes-and-insurance', amountConfig);
 const operatingExpenses = new AutoNumeric('#operating-expenses', amountConfig);
 // Stabilized Annual Operating Income Intermediate Results
-const grossOperatingIncome = document.getElementById('gross-operating-income');
+const effectiveGrossIncome = document.getElementById('effective-gross-income');
 const totalExpenses = document.getElementById('total-expenses');
 // Stabilized Annual Operating Income Resultant Result
 const resultantPotentialIncome = document.getElementById('resultant-potential-income');
-const resultantVacancyCreditLoss = document.getElementById('resultant-vacancy-credit-loss');
-const resultantEffectiveRentalIncome = document.getElementById('resultant-effective-rental-income');
 const resultantOtherIncome = document.getElementById('resultant-other-income');
-const resultantGrossOperatingIncome = document.getElementById('resultant-gross-operating-income');
+const resultantPotentialGrossIncome = document.getElementById('resultant-potential-gross-income');
+const resultantVacancyCreditLoss = document.getElementById('resultant-vacancy-credit-loss');
+const resultantEffectiveGrossIncome = document.getElementById('resultant-effective-gross-income');
 const resultantTaxesAndInsurance = document.getElementById('resultant-taxes-and-insurance');
 const resultantOperatingExpenses = document.getElementById('resultant-operating-expenses');
 const resultantTotalExpenses = document.getElementById('resultant-total-expenses');
@@ -223,27 +223,42 @@ const operatingStatementInputElements = [vacanyCreditLoss, otherIncome, reTaxesA
 */
 const calculateVacancyCreditLoss = () => { 
   const vacanyCreditLossValue = parseFloat(vacanyCreditLoss.value) || 0;
-  const totalAnnualRentValue = parseInt(totalAnnualRent.innerText.replace(/\,|\$/g, '')) || 0;
-  const vacancyCreditLossAmount = Math.round(vacanyCreditLossValue / 100 * totalAnnualRentValue);
+  const potentialGrossIncomeValue = parseInt(resultantPotentialGrossIncome.innerText.replace(/\,|\$/g, '')) || 0;
+  const vacancyCreditLossAmount = Math.round(vacanyCreditLossValue / 100 * potentialGrossIncomeValue);
   
   resultantVacancyCreditLoss.innerText = `$${numberWithCommas(vacancyCreditLossAmount)}`;
 
-  calculateEffectiveRentalIncome(totalAnnualRentValue, vacancyCreditLossAmount);
+  calculateEffectiveGrossIncome(potentialGrossIncomeValue, vacancyCreditLossAmount);
 }
 /*
   Calculate Effective Rental Income
   Effective Rental Income = Total Annual Rent - Vacancy Credit Loss
 */
-const calculateEffectiveRentalIncome = (totalAnuualRent, vacancyCreditLoss) => { 
-  const effectiveGrossIncomeValue = totalAnuualRent - vacancyCreditLoss;
+const calculateEffectiveGrossIncome = (potentialGrossIncomeValue, vacancyCreditLoss) => { 
+  const effectiveGrossIncomeValue = potentialGrossIncomeValue - vacancyCreditLoss;
 
   if (effectiveGrossIncomeValue) {
-    resultantEffectiveRentalIncome.innerText = `$${numberWithCommas(effectiveGrossIncomeValue)}`;
+    effectiveGrossIncome.innerText = `$${numberWithCommas(effectiveGrossIncomeValue)}`;
+    resultantEffectiveGrossIncome.innerText = `$${numberWithCommas(effectiveGrossIncomeValue)}`;
   } else {
-    resultantEffectiveRentalIncome.innerText = '$0';
+    effectiveGrossIncome.innerText = `$0`;
+    resultantEffectiveGrossIncome.innerText = '$0';
   }
 
-  calculateGrossOperatingIncome();
+  calculateNetOperatingIncome();
+}
+/*
+  Calculate Potential Gross Income
+  Potential Gross Income = Potential Rental Income + Other Income
+*/
+const calculatePotentialGrossIncome = () => { 
+  const potentialRentalIncomeValue = parseInt(resultantPotentialIncome.innerText.replace(/\,|\$/g, '')) || 0;
+  const otherIncomeValue = parseInt(resultantOtherIncome.innerText.replace(/\,|\$/g, '')) || 0;
+  const potentialGrossIncomeValue = potentialRentalIncomeValue + otherIncomeValue;
+
+  resultantPotentialGrossIncome.innerText = `$${numberWithCommas(potentialGrossIncomeValue)}`;
+
+  calculateVacancyCreditLoss();
 }
 /*
   Calculate Other Income
@@ -269,21 +284,7 @@ const calculateOtherIncome = () => {
     resultantOtherIncome.innerText = '$0';
   }
 
-  calculateGrossOperatingIncome();
-}
-/*
-  Calculate Gross Operating Income
-  Gross Operating Income = Effective Rental Income + Other Income
-*/
-const calculateGrossOperatingIncome = () => { 
-  const effectiveRentalIncomeValue = parseInt(resultantEffectiveRentalIncome.innerText.replace(/\,|\$/g, '')) || 0;
-  const otherIncomeValue = parseInt(resultantOtherIncome.innerText.replace(/\,|\$/g, '')) || 0;
-  const grossOperatingIncomeValue = effectiveRentalIncomeValue + otherIncomeValue;
-
-  grossOperatingIncome.innerText = `$${numberWithCommas(grossOperatingIncomeValue)}`;
-  resultantGrossOperatingIncome.innerText = `$${numberWithCommas(grossOperatingIncomeValue)}`;
-
-  calculateNetOperatingIncome();
+  calculatePotentialGrossIncome();
 }
 /*
   Calculate Taxes and Insurance
@@ -348,13 +349,14 @@ const calculateTotalExpenses = () => {
   Net Operating Income = Gross Operating Income - Total Expenses
 */
 const calculateNetOperatingIncome = () => { 
-  const grossOperatingIncomeValue = parseInt(resultantGrossOperatingIncome.innerText.replace(/\,|\$/g, '')) || 0;
+  const effectiveGrossIncomeValue = parseInt(resultantEffectiveGrossIncome.innerText.replace(/\,|\$/g, '')) || 0;
   const totalExpensesValue = parseInt(resultantTotalExpenses.innerText.replace(/\,|\$/g, '')) || 0;
-  const netOperatingIncomeValue = grossOperatingIncomeValue - totalExpensesValue;
+  const netOperatingIncomeValue = effectiveGrossIncomeValue - totalExpensesValue;
 
   netOperatingIncome.innerText = `$${numberWithCommas(netOperatingIncomeValue)}`;
   resultantUntrendedNOI.innerText = `$${numberWithCommas(netOperatingIncomeValue)}`;
 
+  calculateProjectedReturns();
   shareLink.value = generateSharableLink();
 }
 // add event listeners to inputs and update values on result container
@@ -499,7 +501,7 @@ const calculateTotalProjectCost = () => {
   resultantConstructionLoanInterest.innerText = `${constructionLoanInterestValue}%`;
   // operating deficit amount
   const totalExpensesValue = parseInt(totalExpenses.innerText.replace(/\,|\$/g, '')) || 0;
-  const leaseUpToStabilaizationDurationValue = parseInt(leaseUpToStabilaizationDuration.innerText.replace(/months/g, '')) || 0;
+  const leaseUpToStabilaizationDurationValue = parseFloat(leaseUpToStabilaizationDuration.innerText.replace(/months/g, '')) || 0;
   const operatingDeficitValue = Math.round(totalExpensesValue / 12 * leaseUpToStabilaizationDurationValue);
   operatingDeficitAmount.innerText = `$${numberWithCommas(operatingDeficitValue)}`;
   totalProjectCostValue += operatingDeficitValue;
@@ -567,6 +569,7 @@ const calculateTotalSourcesOfFunds = () => {
   const totalSourcesPercentValue = Math.round(parseFloat(seniorConstructionLoanPercentValue) + parseFloat(requiredEquityPercentValue));
   totalSourcesPercent.innerText = `${totalSourcesPercentValue}%`;
 
+  calculateProjectedReturns();
   shareLink.value = generateSharableLink();
 }
 /*
@@ -593,6 +596,8 @@ const resultantEquityMultiple = document.getElementById('resultant-equity-multip
 const resultantDevelopmentYieldUntrended = document.getElementById('resultant-development-yield-untrended');
 const resultantDevelopmentYieldTrended = document.getElementById('resultant-development-yield-trended');
 const resultantDevelopmentSpread = document.getElementById('resultant-development-spread');
+// disposition and projected input elements
+const dispositionInputElements = [exitMonth, annualNoiGrowthRate, capRateOnSale, sellingCost];
 /*
   Calculate Net Sales Proceeds
 */
@@ -646,13 +651,53 @@ const calculateNetSalesProceeds = () => {
     resultantSellingCost.innerText = `$0`;
   }
 
-  const netSalesProceedsValue = grossSalesPriceValue + sellingCostAmountValue;
+  const netSalesProceedsValue = (grossSalesPriceValue + sellingCostAmountValue) || 0;
 
   netSalesProceeds.innerText = `$${numberWithCommas(netSalesProceedsValue)}`;
   resultantNetSalesProceeds.innerText = `$${numberWithCommas(netSalesProceedsValue)}`;
+
+  calculateProjectedReturns();
+}
+// calculate Projected Returns
+const calculateProjectedReturns = () => { 
+  // calculate Net Profit (exc Cash Flow)
+  const netSalesProceedsValue = parseInt(netSalesProceeds.innerText.replace(/\,|\$/g, '')) || 0;
+  const totalProjectCostValue = parseInt(totalProjectCost.innerText.replace(/\,|\$/g, '')) || 0;
+  const netProfitValue = netSalesProceedsValue - totalProjectCostValue;
+
+  resultantNetProfit.innerText = `$${numberWithCommas(netProfitValue)}`;
+
+  // calculate Equity Multiple
+  const seniorConstructionLoanAmountValue = parseInt(seniorConstructionLoanAmount.innerText.replace(/\,|\$/g, '')) || 0;
+  const requiredEquityAmountValue = parseInt(requiredEquityAmount.innerText.replace(/\,|\$/g, '')) || 0;
+  const equityMultipleValue = (netSalesProceedsValue - seniorConstructionLoanAmountValue) / requiredEquityAmountValue || 0;
+
+  resultantEquityMultiple.innerText = `${equityMultipleValue ? equityMultipleValue.toFixed(2) : 0}x`;
+
+  // calculate Development Yield (Untrended)
+  const netOperatinIncomeValue = netOperatingIncome.innerText.replace(/\,|\$/g, '') || 0;
+  const developmentYieldUntrendedValue = ((netOperatinIncomeValue / totalProjectCostValue) * 100);
+
+  resultantDevelopmentYieldUntrended.innerText = `${(developmentYieldUntrendedValue && Number.isFinite(developmentYieldUntrendedValue)) ? developmentYieldUntrendedValue.toFixed(2) : 0.0}%`;
+
+  // calculate Development Yield (Trended)
+  const noiUponExitValue = resultantNoiUponExit.innerText.replace(/\,|\$/g, '') || 0;
+  const developmentYieldTrendedValue = (noiUponExitValue / totalProjectCostValue) * 100;
+
+  resultantDevelopmentYieldTrended.innerText = `${developmentYieldTrendedValue ? developmentYieldTrendedValue.toFixed(2) : 0.0}%`;
+
+  // calculate Development Spread
+  const capRateOnSaleValue = parseFloat(capRateOnSale.value) || 0;
+  const developmentSpreadValue = developmentYieldTrendedValue - capRateOnSaleValue;
+
+  resultantDevelopmentSpread.innerText = `${developmentSpreadValue ? developmentSpreadValue.toFixed(2) : 0.0}%`;
+
+  shareLink.value = generateSharableLink();
 }
 // add event listner to calculate net sales proceeds
 [exitMonth, annualNoiGrowthRate, capRateOnSale, sellingCost].forEach(input => input.addEventListener('input', calculateNetSalesProceeds));
+// add event listner to calculate projected returns
+capRateOnSale.addEventListener('input', calculateProjectedReturns);
 /* -----------------------------------Sharable link----------------------------- */
 // generate sharable link for building data
 const generateSharableLink = () => {
@@ -678,6 +723,12 @@ const generateSharableLink = () => {
   developmentSourcesInputElements.forEach(element => {
     const id = element?.domElement ? element.domElement.id : element.id;
     const value = element?.domElement ? '$' + element.domElement.value : element.value;
+    parameters[id] = value;
+  });
+  // generate sharable link for disposition and projected returns
+  dispositionInputElements.forEach(element => {
+    const id = element.id;
+    const value = element.value;
     parameters[id] = value;
   });
   // get url parameters
@@ -771,8 +822,8 @@ const parseUrlParameters = (link) => {
     }
   });
   // call the calculate functions
-  calculateVacancyCreditLoss();
   calculateOtherIncome();
+  calculateVacancyCreditLoss();
   calculateTaxesAndInsurance();
   calculateOperatingExpenses();
   // parse url and populate project timeline
@@ -799,6 +850,16 @@ const parseUrlParameters = (link) => {
   });
   // call the calculate function for TotalProjectCost
   calculateTotalProjectCost();
+  // parse url and populate disposition and projected returns
+  dispositionInputElements.forEach(element => {
+    const id = element?.domElement ? element.domElement.id : element.id;
+    const value = parmasMap[id];
+    if (value) {
+      element.value = value;
+    }
+  });
+  // call the calculate function for Disposition and Projected Returns
+  calculateNetSalesProceeds();
 }
 // On click of share button -> generate sharable link and show copy to clipboard icon
 shareResultButton.addEventListener('click', () => {
