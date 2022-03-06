@@ -471,11 +471,9 @@ const calculateTotalProjectCost = () => {
   const landCostValue = parseInt(landCost.rawValue) || 0;
   landCostAmount.innerText = `$${numberWithCommas(landCostValue)}`;
   // hard costs amount
-  const hardCostsValue = parseInt(hardCosts.rawValue) || 0;
-  const totalUnitsValue = parseInt(totalUnits.innerText.replace(/\,|\$/g, '')) || 0;
-  const hardCostsAmountValue = hardCostsValue * totalUnitsValue;
+  const hardCostsAmountValue = parseInt(hardCosts.rawValue) || 0;
   hardCostAmount.innerText = `$${numberWithCommas(hardCostsAmountValue)}`;
-  resultantHardCost.innerText = `$${numberWithCommas(hardCostsValue)}/unit`;
+  resultantHardCost.innerText = `$${numberWithCommas(hardCostsAmountValue)}/unit`;
   // hard costs contingency amount
   const hardCostsContingencyValue = parseFloat(hardCostsContingency.value) || 0;
   const hardCostsContingencyAmountValue = Math.round(hardCostsContingencyValue / 100 * hardCostsAmountValue);

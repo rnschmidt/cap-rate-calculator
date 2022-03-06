@@ -233,7 +233,7 @@ nav {
           align-items: center;
 }
 
-.maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .dollar-sign, .maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .percent-sign {
+.maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .dollar-sign, .maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .percent-sign, .maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .months {
   padding: 0.5rem 1rem;
   font-size: 1rem;
   font-weight: 400;
@@ -255,11 +255,15 @@ nav {
           justify-content: center;
 }
 
+.maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .months {
+  width: 20px;
+}
+
 .maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .dollar-sign, .maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .percent {
   border-radius: 0.5rem 0 0 0.5rem;
 }
 
-.maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .percent-sign, .maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .dollar {
+.maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .percent-sign, .maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .dollar, .maximum-supportable-loan-amount-container .cards .card-input .input-container .input-wrapper .months {
   border-radius: 0 0.5rem 0.5rem 0;
 }
 

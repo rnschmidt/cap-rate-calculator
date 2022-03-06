@@ -109,7 +109,7 @@ $textSize: 1rem;
       display: flex;
       align-items: center;
 
-      .dollar-sign, .percent-sign {
+      .dollar-sign, .percent-sign, .months {
         padding: 0.5rem 1rem;
         font-size: 1rem;
         font-weight: 400;
@@ -124,12 +124,16 @@ $textSize: 1rem;
         align-items: center;
         justify-content: center;
       }
+
+      .months {
+        width: 62px;
+      }
       
       .dollar-sign, .percent {
         border-radius: 0.5rem 0 0 0.5rem;
       }
 
-      .percent-sign, .dollar {
+      .percent-sign, .dollar, .months {
         border-radius: 0 0.5rem 0.5rem 0;
       }
     }

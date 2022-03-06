@@ -232,7 +232,7 @@ nav {
           align-items: center;
 }
 
-.present-value-container .card-input .input-container .input-wrapper .dollar-sign, .present-value-container .card-input .input-container .input-wrapper .percent-sign {
+.present-value-container .card-input .input-container .input-wrapper .dollar-sign, .present-value-container .card-input .input-container .input-wrapper .percent-sign, .present-value-container .card-input .input-container .input-wrapper .months {
   padding: 0.5rem 1rem;
   font-size: 1rem;
   font-weight: 400;
@@ -254,11 +254,15 @@ nav {
           justify-content: center;
 }
 
+.present-value-container .card-input .input-container .input-wrapper .months {
+  width: 20px;
+}
+
 .present-value-container .card-input .input-container .input-wrapper .dollar-sign, .present-value-container .card-input .input-container .input-wrapper .percent {
   border-radius: 0.5rem 0 0 0.5rem;
 }
 
-.present-value-container .card-input .input-container .input-wrapper .percent-sign, .present-value-container .card-input .input-container .input-wrapper .dollar {
+.present-value-container .card-input .input-container .input-wrapper .percent-sign, .present-value-container .card-input .input-container .input-wrapper .dollar, .present-value-container .card-input .input-container .input-wrapper .months {
   border-radius: 0 0.5rem 0.5rem 0;
 }
 

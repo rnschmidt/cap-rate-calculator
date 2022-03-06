@@ -336,7 +336,7 @@ nav {
           align-items: center;
 }
 
-.rental-property-container .operating-statement-container .card-input .input-container .input-wrapper .dollar-sign, .rental-property-container .operating-statement-container .card-input .input-container .input-wrapper .percent-sign {
+.rental-property-container .operating-statement-container .card-input .input-container .input-wrapper .dollar-sign, .rental-property-container .operating-statement-container .card-input .input-container .input-wrapper .percent-sign, .rental-property-container .operating-statement-container .card-input .input-container .input-wrapper .months {
   padding: 0.5rem 1rem;
   font-size: 1rem;
   font-weight: 400;
@@ -358,11 +358,15 @@ nav {
           justify-content: center;
 }
 
+.rental-property-container .operating-statement-container .card-input .input-container .input-wrapper .months {
+  width: 20px;
+}
+
 .rental-property-container .operating-statement-container .card-input .input-container .input-wrapper .dollar-sign, .rental-property-container .operating-statement-container .card-input .input-container .input-wrapper .percent {
   border-radius: 0.5rem 0 0 0.5rem;
 }
 
-.rental-property-container .operating-statement-container .card-input .input-container .input-wrapper .percent-sign, .rental-property-container .operating-statement-container .card-input .input-container .input-wrapper .dollar {
+.rental-property-container .operating-statement-container .card-input .input-container .input-wrapper .percent-sign, .rental-property-container .operating-statement-container .card-input .input-container .input-wrapper .dollar, .rental-property-container .operating-statement-container .card-input .input-container .input-wrapper .months {
   border-radius: 0 0.5rem 0.5rem 0;
 }
 
@@ -687,7 +691,7 @@ nav {
           align-items: center;
 }
 
-.rental-property-container .investment-financing-data-container .card-input .input-container .input-wrapper .dollar-sign, .rental-property-container .investment-financing-data-container .card-input .input-container .input-wrapper .percent-sign {
+.rental-property-container .investment-financing-data-container .card-input .input-container .input-wrapper .dollar-sign, .rental-property-container .investment-financing-data-container .card-input .input-container .input-wrapper .percent-sign, .rental-property-container .investment-financing-data-container .card-input .input-container .input-wrapper .months {
   padding: 0.5rem 1rem;
   font-size: 1rem;
   font-weight: 400;
@@ -709,11 +713,15 @@ nav {
           justify-content: center;
 }
 
+.rental-property-container .investment-financing-data-container .card-input .input-container .input-wrapper .months {
+  width: 20px;
+}
+
 .rental-property-container .investment-financing-data-container .card-input .input-container .input-wrapper .dollar-sign, .rental-property-container .investment-financing-data-container .card-input .input-container .input-wrapper .percent {
   border-radius: 0.5rem 0 0 0.5rem;
 }
 
-.rental-property-container .investment-financing-data-container .card-input .input-container .input-wrapper .percent-sign, .rental-property-container .investment-financing-data-container .card-input .input-container .input-wrapper .dollar {
+.rental-property-container .investment-financing-data-container .card-input .input-container .input-wrapper .percent-sign, .rental-property-container .investment-financing-data-container .card-input .input-container .input-wrapper .dollar, .rental-property-container .investment-financing-data-container .card-input .input-container .input-wrapper .months {
   border-radius: 0 0.5rem 0.5rem 0;
 }
 

@@ -230,7 +230,7 @@ nav {
           align-items: center;
 }
 
-.dynamic-pv-and-npv-container .cards .card-input .input-container .input-wrapper .dollar-sign, .dynamic-pv-and-npv-container .cards .card-input .input-container .input-wrapper .percent-sign {
+.dynamic-pv-and-npv-container .cards .card-input .input-container .input-wrapper .dollar-sign, .dynamic-pv-and-npv-container .cards .card-input .input-container .input-wrapper .percent-sign, .dynamic-pv-and-npv-container .cards .card-input .input-container .input-wrapper .months {
   padding: 0.5rem 1rem;
   font-size: 1rem;
   font-weight: 400;
@@ -252,11 +252,15 @@ nav {
           justify-content: center;
 }
 
+.dynamic-pv-and-npv-container .cards .card-input .input-container .input-wrapper .months {
+  width: 20px;
+}
+
 .dynamic-pv-and-npv-container .cards .card-input .input-container .input-wrapper .dollar-sign, .dynamic-pv-and-npv-container .cards .card-input .input-container .input-wrapper .percent {
   border-radius: 0.5rem 0 0 0.5rem;
 }
 
-.dynamic-pv-and-npv-container .cards .card-input .input-container .input-wrapper .percent-sign, .dynamic-pv-and-npv-container .cards .card-input .input-container .input-wrapper .dollar {
+.dynamic-pv-and-npv-container .cards .card-input .input-container .input-wrapper .percent-sign, .dynamic-pv-and-npv-container .cards .card-input .input-container .input-wrapper .dollar, .dynamic-pv-and-npv-container .cards .card-input .input-container .input-wrapper .months {
   border-radius: 0 0.5rem 0.5rem 0;
 }
 
