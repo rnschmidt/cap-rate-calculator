@@ -1,6 +1,6 @@
 @import "../style.scss";
 
-.rule-of-72-container {
+.finance-calculator {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -116,7 +116,7 @@
 
         &-container {
           overflow-y: scroll;
-          max-height: 15rem;
+          max-height: 23rem;
         }
       }
 
@@ -125,5 +125,6 @@
     }
   }
   
+
   @include share-result();
 }

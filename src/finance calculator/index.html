@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.1.0">
+    const AutoNumeric = require('autonumeric');
+  </script>
+  <title>Finance Calculator</title>
+</head>
+<body>
+  <nav>Navbar</nav>
+  <div class="container">
+    <!--Finance Calculator-->
+    <div class="finance-calculator">
+      <div class="card">
+        <div class="card-input">
+          <h3>Finance Calculator</h3>
+    
+          <div class="input-container">
+            <div class="input-label">
+              <label for="calculate">Calculate</label>
+            </div>
+            <select name="calculate" id="calculate">
+              <option value="PV">Present Value (PV)</option>
+              <option value="FV">Future Value (FV)</option>
+              <option value="N">Number of Compounding Periods (N)</option>
+              <option value="PMT">Periodic Payment (PMT)</option>
+              <option value="IY">Interest Rate (I/Y)</option>
+            </select>
+          </div>
+    
+          <div class="input-container">
+            <div class="input-label">
+              <label for="N">Number of Compunding Periods (N)</label>
+            </div>
+            <div class="input-wrapper">
+              <input type="number" name="N" id="N" class="validate-number percent" placeholder="0" min="0" step="1">
+              <span class="percent-sign">yrs</span>
+            </div>
+          </div>
+    
+          <div class="input-container">
+            <div class="input-label">
+              <label for="IY">Interest Period (I/Y)</label>
+            </div>
+            <div class="input-wrapper">
+              <input type="number" name="IY" id="IY" class="validate-percent float-field percent" placeholder="0.0" min="0.0" step="0.01">
+              <span class="percent-sign">%</span>
+            </div>
+          </div>
+    
+          <div class="input-container">
+            <div clas="input-label">
+              <label for="PMT">Periodic Payment (PMT)</label>
+            </div>
+            <div class="input-wrapper">
+              <span class="dollar-sign">$</span>
+              <input type="text" name="PMT" id="PMT" class="dollar validate-amount" placeholder="0" min="0" step="1">
+            </div>
+          </div>
+    
+          <div class="input-container hide">
+            <div class="input-label">
+              <label for="PV">Present Value (PV)</label>
+            </div>
+            <div class="input-wrapper">
+              <span class="dollar-sign">$</span>
+              <input type="text" name="PV" id="PV" class="dollar validate-amount" placeholder="0" min="0" step="1">
+            </div>
+          </div>
+    
+          <div class="input-container">
+            <div class="input-label">
+              <label for="FV">Future Value (FV)</label>
+            </div>
+            <div class="input-wrapper">
+              <span class="dollar-sign">$</span>
+              <input type="text" name="FV" id="FV" class="dollar validate-amount" placeholder="0" min="0" step="1">
+            </div>
+          </div>
+    
+          <div class="row">
+            <h4 id="intermediate-result-left">Present Value (PV)</h4>
+            <h4 id="intermediate-result-right">$0</h4>
+          </div>
+        </div>
+        <div class="card-result">
+          <h3 class="card-result-head">Schedule</h3>
+    
+          <div class="card-result-inner">
+            <div class="card-result-inner-head">
+              <h4>N</h4>
+              <h4>PV</h4>
+              <h4>PMT</h4>
+              <h4>I/Y</h4>
+              <h4>FV</h4>
+            </div>
+            <div class="card-result-inner-container"></div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="share-result-container">
+        <button id="share-result">Share Result</button>
+  
+        <div class="link-container">
+          <input type="text" id="share-link" />
+          
+          <span id="copy-text">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clipboard" class="svg-inline--fa fa-clipboard fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M384 112v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h80c0-35.29 28.71-64 64-64s64 28.71 64 64h80c26.51 0 48 21.49 48 48zM192 40c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24m96 114v-20a6 6 0 0 0-6-6H102a6 6 0 0 0-6 6v20a6 6 0 0 0 6 6h180a6 6 0 0 0 6-6z"></path></svg>
+            <div class="tooltip">Copy to clipboard</div>
+          </span>
+        </div>
+      </div>
+    </div>  
+  </div>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

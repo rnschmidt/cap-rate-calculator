@@ -6,7 +6,7 @@ const shareLink = document.getElementById('share-link');
 export const amountConfig = {
   decimalPlaces: 0,
   decimalPlacesRawValue: 0,
-  minimumValue: "0",
+  minimumValue: "-100000000000000",
   maximumValue: "1000000000000000",
   modifyValueOnWheel: false
 };
@@ -503,4 +503,34 @@ export const PMT = (rate, nper, pv, fv, type) => {
 
     return ((-fv - pv * tempVar3) / (tempVar * (tempVar3 - 1))) * rate;
   }
+};
+
+export const NPER = (rate, pmt, pv, fv, type) => {
+  type = typeof type === "undefined" ? 0 : type;
+  fv = typeof fv === "undefined" ? 0 : fv;
+
+  if (rate === 0) {
+    if (pmt === 0) {
+      return "Error - Payment cannot be 0";
+    } else {
+      return -(pv + fv) / pmt;
+    }
+  } else {
+    var tempVar = type !== 0 ? pmt * (1 + rate) / rate : pmt / rate;
+  }
+
+  var tempVarFV = -fv + tempVar;
+  var tempVarPV = pv + tempVar;
+
+  // Test to ensure values fit within log() function
+  if (tempVarFV < 0 && tempVarPV < 0) {
+    tempVarFV = tempVarFV * -1;
+    tempVarPV = tempVarPV * -1;
+  } else if (tempVarFV <=0 || tempVarPV <= 0) {
+    return "Error - Cannot Calculate NPER";
+  }
+
+  var tempVar2 = rate + 1;
+
+  return (Math.log(tempVarFV) - Math.log(tempVarPV)) / Math.log(tempVar2);
 };
