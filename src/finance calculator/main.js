@@ -6,6 +6,8 @@ import {
   amountConfig,
   numberWithCommas,
   RATE,
+  generateSharableLink,
+  parseFromUrl,
 } from '../utils/utils.js';
 
 const calculate = document.getElementById('calculate');
@@ -18,6 +20,11 @@ const intermediateResultName = document.getElementById('intermediate-result-left
 const intermediateResultValue = document.getElementById('intermediate-result-right');
 const resultContainer = document.querySelector('.card-result-inner-container');
 let hidden = 'PV';
+// share link
+const shareResultButton = document.getElementById('share-result');
+const shareLink = document.getElementById('share-link');
+const copyText = document.getElementById('copy-text');
+const url = new URL(window.location.href);
 
 const getLabel = {
   PV: 'Present Value (PV)',
@@ -28,9 +35,9 @@ const getLabel = {
 };
 
 const updateInputContainer = (e) => { 
-  let selected = e.target.value;
-
-  if (hidden === selected) return;
+  let selected = e ? e.target.value : calculate.value;
+  console.log(selected, hidden)
+  // if (hidden === selected) return;
 
   let hiddenInput = document.getElementById(hidden);
   let hiddenWrapper = hiddenInput.parentElement;
@@ -44,13 +51,22 @@ const updateInputContainer = (e) => {
   hidden = selectedInput.id;
   intermediateResultName.innerText = getLabel[hidden];
 
-  switch (hidden) { 
+  switch (selected) { 
     case 'PV': calculatePresentValue(); break;
     case 'FV': calculateFutureValue(); break;
     case 'PMT': calculatePeriodicPayment(); break;
-    case 'N': calculateNumberOfCompoundingYears(); intermediateResultValue.innerText = '0 year'; break;
-    case 'IY': calculateInterestPeriod(); intermediateResultValue.innerText = '0.0%';  break;
+    case 'N': calculateNumberOfCompoundingYears(); break;
+    case 'IY': calculateInterestPeriod(); break;
   }
+
+  shareLink.value = generateSharableLink(url, [
+    calculate,
+    numberOfCompoundingYears,
+    interestPeriod,
+    futureValue,
+    presentValue,
+    periodicPayment
+  ]);
 }
 
 const updateResultContainerBackwards = (n, fv, pmt, ir) => { 
@@ -103,6 +119,8 @@ const calculatePresentValue = () => {
   if (pv) {
     intermediateResultValue.innerText = '$' + numberWithCommas(pv);
     updateResultContainerBackwards(nper, fv, pmt, rate);
+  } else {
+    intermediateResultValue.innerText = '$0';
   }
 }
 
@@ -116,6 +134,8 @@ const calculateFutureValue = () => {
   if (fv) {
     intermediateResultValue.innerText = '$' + numberWithCommas(fv);
     updateResultContainerForwards(nper, pv, pmt, rate);
+  } else {
+    intermediateResultValue.innerText = '$0';
   }
 }
 
@@ -129,6 +149,8 @@ const calculatePeriodicPayment = () => {
   if (pmt) {
     intermediateResultValue.innerText = '$' + numberWithCommas(pmt);
     updateResultContainerForwards(nper, pv, pmt, rate);
+  } else {
+    intermediateResultValue.innerText = '$0';
   }
  }
 
@@ -142,6 +164,8 @@ const calculateNumberOfCompoundingYears = () => {
   if (nper) {
     intermediateResultValue.innerText = nper + 'years';
     updateResultContainerForwards(nper, pv, pmt, rate);
+  } else {
+    intermediateResultValue.innerText = '0 year';
   }
 }
 
@@ -155,11 +179,23 @@ const calculateInterestPeriod = () => {
   if (rate !== 'NaN') {
     intermediateResultValue.innerText = rate + '%';
     updateResultContainerForwards(nper, pv, pmt, rate);
+  } else {
+    intermediateResultValue.innerText = '0%';
   }
 }
 
 calculate.addEventListener('change', updateInputContainer);
+
 [interestPeriod, numberOfCompoundingYears, periodicPayment.domElement, futureValue.domElement, presentValue.domElement].forEach(input => input.addEventListener('input', () => { 
+  shareLink.value = generateSharableLink(url, [
+    calculate,
+    numberOfCompoundingYears,
+    interestPeriod,
+    futureValue,
+    presentValue,
+    periodicPayment
+  ]);
+
   switch (hidden) { 
     case 'PV': calculatePresentValue(); break;
     case 'FV': calculateFutureValue(); break;
@@ -168,3 +204,13 @@ calculate.addEventListener('change', updateInputContainer);
     case 'IY': calculateInterestPeriod(); break;
   }
 }));
+// add event listner for share result button to generate new sharable link
+shareResultButton.addEventListener('click', () => {
+  let link = generateSharableLink(url, [calculate, numberOfCompoundingYears, interestPeriod, futureValue, presentValue, periodicPayment]);
+  shareLink.value = link;
+  shareLink.style.width = 'calc(100% - 3.5rem)';
+  shareLink.style.padding = '0.5rem';
+  copyText.style.opacity = '1';
+});
+// parse values from url and call the updateDOM function and calculateRuleOf72 function
+parseFromUrl(url, [updateInputContainer]);
