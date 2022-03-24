@@ -21,21 +21,6 @@ h3, h4, h5, h6 {
   margin-bottom: 20px;
 }
 
-nav {
-  -webkit-box-shadow: 1px 1px 8px 2px rgba(0, 0, 0, 0.75);
-          box-shadow: 1px 1px 8px 2px rgba(0, 0, 0, 0.75);
-  height: 10vh;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
 .container {
   min-height: 90vh;
   padding: 75px 20px 180px;
@@ -93,10 +78,9 @@ nav {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  gap: 2rem;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 @media screen and (max-width: 1024px) {
@@ -108,7 +92,7 @@ nav {
   }
 }
 
-.finance-calculator .card-input, .finance-calculator .card-result {
+.finance-calculator .card-input {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -136,20 +120,20 @@ nav {
 }
 
 @media screen and (max-width: 1024px) {
-  .finance-calculator .card-input, .finance-calculator .card-result {
+  .finance-calculator .card-input {
     min-width: 100%;
   }
 }
 
 @media screen and (max-width: 768px) {
-  .finance-calculator .card-input, .finance-calculator .card-result {
+  .finance-calculator .card-input {
     border-top-left-radius: 0.75rem;
   }
 }
 
 .finance-calculator .card-input {
   padding: 1rem;
-  border-color: #bcbcbc;
+  border-color: #73b1e9;
 }
 
 .finance-calculator .card-input .input-container {
@@ -312,94 +296,6 @@ nav {
 
 .finance-calculator .card-input .hide {
   display: none !important;
-}
-
-.finance-calculator .card-result {
-  border-color: #73b1e9;
-}
-
-.finance-calculator .card-result-head {
-  padding: 1rem 1rem 0;
-}
-
-.finance-calculator .card-result-inner {
-  padding: 1rem;
-  min-height: 13rem;
-  height: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  gap: 0.4rem;
-}
-
-.finance-calculator .card-result-inner .row {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  min-height: 44px;
-}
-
-.finance-calculator .card-result-inner-head, .finance-calculator .card-result-inner-container {
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-}
-
-.finance-calculator .card-result-inner-head h4, .finance-calculator .card-result-inner-container h4 {
-  width: 33.33%;
-  border: 1px solid #cbe2f7;
-  padding: 0.5rem;
-  overflow: auto;
-}
-
-.finance-calculator .card-result-inner-head {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  background-color: #d8e9f9;
-}
-
-.finance-calculator .card-result-inner-container {
-  overflow-y: scroll;
-  max-height: 23rem;
-}
-
-.finance-calculator .card-result .cap-rate {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 0.5rem 1rem;
-  border-top-right-radius: 1.5rem;
-  background-color: #e1eefa;
-}
-
-.finance-calculator .card-result .cap-rate h3 {
-  font-size: 1.25rem;
-}
-
-@media screen and (max-width: 768px) {
-  .finance-calculator .card-result .cap-rate h3 {
-    font-size: 1.125rem;
-  }
 }
 
 .finance-calculator .share-result-container {

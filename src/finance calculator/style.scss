@@ -10,14 +10,13 @@
 
   .card {
     @include flex-row();
-    justify-content: space-between;
-    gap: 2rem;
+    align-items: center;
 
     @media screen and (max-width: 1024px) {
       flex-direction: column;
     }
 
-    &-input, &-result {
+    &-input {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -44,7 +43,7 @@
     
     &-input {
       padding: 1rem;
-      border-color: lighten($secondaryColor, 25%);
+      border-color: lighten($primaryColor, 25%);
       
       @include input-container();
 
@@ -77,54 +76,7 @@
         display: none!important;
       }
     }
-
-    &-result {
-      &-head {
-        padding: 1rem 1rem 0;
-      }
-      
-      &-inner {
-        padding: 1rem;
-        min-height: 13rem;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 0.4rem;
-
-        .row {
-          @include flex-row();
-          justify-content: space-between;
-          min-height: 44px;
-        }
-
-        
-        &-head, &-container {
-          justify-content: flex-start;
-
-          h4 {
-            width: 33.33%;
-            border: 1px solid lighten($primaryColor, 45%);
-            padding: 0.5rem;
-            overflow: auto;
-          }
-        }
-
-        &-head {
-          display: flex;
-          background-color: lighten($primaryColor, 48%);
-        }
-
-        &-container {
-          overflow-y: scroll;
-          max-height: 23rem;
-        }
-      }
-
-      border-color: lighten($primaryColor, 25%);
-      @include cap-rate();
-    }
   }
-  
 
   @include share-result();
 }

@@ -18,7 +18,6 @@ const futureValue = new AutoNumeric('#FV', amountConfig);
 const presentValue = new AutoNumeric('#PV', amountConfig);
 const intermediateResultName = document.getElementById('intermediate-result-left');
 const intermediateResultValue = document.getElementById('intermediate-result-right');
-const resultContainer = document.querySelector('.card-result-inner-container');
 let hidden = 'PV';
 // share link
 const shareResultButton = document.getElementById('share-result');
@@ -69,116 +68,71 @@ const updateInputContainer = (e) => {
   ]);
 }
 
-const updateResultContainerBackwards = (n, fv, pmt, ir) => { 
-  resultContainer.innerHTML = '';
-  
-  for (let i = n; i >= 1; i--) {
-    let pv = Math.round((-fv - pmt) / (1 + (ir / 100)));
-    let irv = Math.round(pv * ir / 100);
-    let row = document.createElement('div');
-    row.classList.add('row');
-    row.innerHTML = `
-      <h4>${i}</h4>
-      <h4>$${pv}</h4>
-      <h4>$${pmt}</h4>
-      <h4>$${irv}</h4>
-      <h4>$${fv}</h4>
-    `;
-    resultContainer.insertBefore(row, resultContainer.firstChild);
-    fv = -pv;
-  }
-} 
-
-const updateResultContainerForwards = (n, pv, pmt, ir) => { 
-  resultContainer.innerHTML = '';
-  
-  for (let i = 1; i <= n; i++) {
-    let irv = Math.round(pv * ir / 100);
-    let fv = -(pv + pmt + irv);
-    let row = document.createElement('div');
-    row.classList.add('row');
-    row.innerHTML = `
-      <h4>${i}</h4>
-      <h4>$${pv}</h4>
-      <h4>$${pmt}</h4>
-      <h4>$${irv}</h4>
-      <h4>$${fv}</h4>
-    `;
-    resultContainer.appendChild(row);
-    pv = -fv;
-  }
-} 
-
 const calculatePresentValue = () => {
-  const rate = parseFloat(interestPeriod.value);
-  const nper = parseInt(numberOfCompoundingYears.value);
-  const pmt = parseInt(periodicPayment.rawValue);
-  const fv = parseInt(futureValue.rawValue);
+  const rate = parseFloat(interestPeriod.value) || 0;
+  const nper = parseInt(numberOfCompoundingYears.value) || 0;
+  const pmt = parseInt(periodicPayment.rawValue) || 0;
+  const fv = parseInt(futureValue.rawValue) || 0;
   let pv = Math.round(PV(rate / 100, nper, pmt, fv));
   
   if (pv) {
     intermediateResultValue.innerText = '$' + numberWithCommas(pv);
-    updateResultContainerBackwards(nper, fv, pmt, rate);
   } else {
     intermediateResultValue.innerText = '$0';
   }
 }
 
 const calculateFutureValue = () => {
-  const rate = parseFloat(interestPeriod.value);
-  const nper = parseInt(numberOfCompoundingYears.value);
-  const pmt = parseInt(periodicPayment.rawValue);
-  const pv = parseInt(presentValue.rawValue);
+  const rate = parseFloat(interestPeriod.value) || 0;
+  const nper = parseInt(numberOfCompoundingYears.value) || 0;
+  const pmt = parseInt(periodicPayment.rawValue) || 0;
+  const pv = parseInt(presentValue.rawValue) || 0;
   const fv = Math.round(FV(rate / 100, nper, pmt, pv));
 
   if (fv) {
     intermediateResultValue.innerText = '$' + numberWithCommas(fv);
-    updateResultContainerForwards(nper, pv, pmt, rate);
   } else {
     intermediateResultValue.innerText = '$0';
   }
 }
 
 const calculatePeriodicPayment = () => {
-  const rate = parseFloat(interestPeriod.value);
-  const nper = parseInt(numberOfCompoundingYears.value);
-  const pv = parseInt(presentValue.rawValue);
-  const fv = parseInt(futureValue.rawValue);
+  const rate = parseFloat(interestPeriod.value) || 0;
+  const nper = parseInt(numberOfCompoundingYears.value) || 0;
+  const pv = parseInt(presentValue.rawValue) || 0;
+  const fv = parseInt(futureValue.rawValue) || 0;
   const pmt = Math.round(PMT(rate / 100, nper, pv, fv));
   
   if (pmt) {
     intermediateResultValue.innerText = '$' + numberWithCommas(pmt);
-    updateResultContainerForwards(nper, pv, pmt, rate);
   } else {
     intermediateResultValue.innerText = '$0';
   }
  }
 
 const calculateNumberOfCompoundingYears = () => {
-  const rate = parseFloat(interestPeriod.value);
-  const pv = parseInt(presentValue.rawValue);
-  const fv = parseInt(futureValue.rawValue);
-  const pmt = parseInt(periodicPayment.rawValue);
+  const rate = parseFloat(interestPeriod.value) || 0;
+  const pv = parseInt(presentValue.rawValue) || 0;
+  const fv = parseInt(futureValue.rawValue) || 0;
+  const pmt = parseInt(periodicPayment.rawValue) || 0;
   const nper = Math.round(NPER(rate / 100, pmt, pv, fv));
 
   if (nper) {
     intermediateResultValue.innerText = nper + 'years';
-    updateResultContainerForwards(nper, pv, pmt, rate);
   } else {
     intermediateResultValue.innerText = '0 year';
   }
 }
 
 const calculateInterestPeriod = () => { 
-  const nper = parseInt(numberOfCompoundingYears.value);
-  const pv = parseInt(presentValue.rawValue);
-  const fv = parseInt(futureValue.rawValue);
-  const pmt = parseInt(periodicPayment.rawValue);
+  const nper = parseInt(numberOfCompoundingYears.value) || 0;
+  const pv = parseInt(presentValue.rawValue) || 0;
+  const fv = parseInt(futureValue.rawValue) || 0;
+  const pmt = parseInt(periodicPayment.rawValue) || 0;
   const rate = (RATE(nper, pmt, pv, fv) * 100).toFixed(2);
   
   if (rate !== 'NaN') {
     intermediateResultValue.innerText = rate + '%';
-    updateResultContainerForwards(nper, pv, pmt, rate);
   } else {
     intermediateResultValue.innerText = '0%';
   }
