@@ -18,12 +18,20 @@ const futureValue = new AutoNumeric('#FV', amountConfig);
 const presentValue = new AutoNumeric('#PV', amountConfig);
 const intermediateResultName = document.getElementById('intermediate-result-left');
 const intermediateResultValue = document.getElementById('intermediate-result-right');
+const validateInterestPeriod = document.querySelector('.float-field-2');
 let hidden = 'PV';
 // share link
 const shareResultButton = document.getElementById('share-result');
 const shareLink = document.getElementById('share-link');
 const copyText = document.getElementById('copy-text');
 const url = new URL(window.location.href);
+
+export const validateFloating = (e) => {
+  const t = e.target.value;
+  if (t.indexOf(".") >= 0) {
+    e.target.value = t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 4);
+  }
+}
 
 const getLabel = {
   PV: 'Present Value (PV)',
@@ -35,8 +43,7 @@ const getLabel = {
 
 const updateInputContainer = (e) => { 
   let selected = e ? e.target.value : calculate.value;
-  console.log(selected, hidden)
-  // if (hidden === selected) return;
+  if (hidden === selected) return;
 
   let hiddenInput = document.getElementById(hidden);
   let hiddenWrapper = hiddenInput.parentElement;
@@ -158,6 +165,8 @@ calculate.addEventListener('change', updateInputContainer);
     case 'IY': calculateInterestPeriod(); break;
   }
 }));
+// add event listner to validate floating point
+validateInterestPeriod.addEventListener('input', validateFloating, false);
 // add event listner for share result button to generate new sharable link
 shareResultButton.addEventListener('click', () => {
   let link = generateSharableLink(url, [calculate, numberOfCompoundingYears, interestPeriod, futureValue, presentValue, periodicPayment]);
