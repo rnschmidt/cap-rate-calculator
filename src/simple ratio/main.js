@@ -1,3 +1,4 @@
+window.jsPDF = window.jspdf.jsPDF
 /* ------------------------SIMPLE RATIO ------------------------------------- */
 import { numberWithCommas, insertErrorMessage, removeErrorMessage, amountConfig, generateSharableLink, parseFromUrl } from "../utils/utils.js";
 
@@ -228,3 +229,50 @@ shareResultButton.addEventListener('click', () => {
 
 parseFromUrl(window.location.href, [calculateGrossPotentialIncome]);
 expenses.forEach(expense => updateResultantTotalExpenses(expense));
+
+const btn = document.getElementById('send-email');
+const page = document.querySelector('.result');
+
+btn.addEventListener('click', function(){
+  html2PDF(page, {
+    jsPDF: {
+      format: 'a4',
+    },
+    margin: {
+      top: 10,
+      right: 5,
+      bottom: 10,
+      left: 5
+    },
+    html2canvas: {
+      imageTimeout: 15000,
+      logging: true,
+      scale: 10,
+      scrollX: 0,
+      scrollY: -window.scrollY,
+    },
+    imageQuality: 0.9,
+    imageType: 'image/jpeg',
+    output: './pdf/generate.pdf'
+  });
+});
+
+const sendEmail = (doc) => { 
+  Email.send({
+    SecureToken : "c3847cb8-ef14-4ab1-94bb-976df079804e",
+    To : "ashcash@tutanota.com",
+    From : "akash02.ab@gmail.com",
+    Subject : "This is the subject",
+    Body: "And this is the body",
+    Attachments: [
+      {
+        name: "result.pdf",
+        data: doc
+      }
+    ]
+  }).then(
+    message => alert(message)
+  );
+}
+
+// sendEmail();

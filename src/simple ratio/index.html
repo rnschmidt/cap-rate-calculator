@@ -9,6 +9,14 @@
   <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.1.0">
     const AutoNumeric = require('autonumeric');
   </script>
+  <script src="https://smtpjs.com/v3/smtp.js">
+    const Email = require('smtpjs');
+  </script>
+  <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.7/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-html2canvas@latest/dist/jspdf-html2canvas.min.js">
+    import html2PDF from 'jspdf-html2canvas';
+  </script>
   <title>Simple Ratio</title>
 </head>
 
@@ -250,6 +258,10 @@
             <div class="tooltip">Copy to clipboard</div>
           </span>
         </div>
+      </div>
+
+      <div class="send-pdf-via-email">
+        <button id="send-email">Send Email</button>
       </div>
     </div>
   </div>
