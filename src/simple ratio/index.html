@@ -12,10 +12,8 @@
   <script src="https://smtpjs.com/v3/smtp.js">
     const Email = require('smtpjs');
   </script>
-  <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.7/dist/html2canvas.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jspdf-html2canvas@latest/dist/jspdf-html2canvas.min.js">
-    import html2PDF from 'jspdf-html2canvas';
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    import html2canvas from 'html2canvas';
   </script>
   <title>Simple Ratio</title>
 </head>
@@ -179,7 +177,7 @@
           </div>
         </div>
 
-        <div class="result">
+        <div class="result" id="element-to-print">
           <div class="result-inner">
             <h3>Calculated Results</h3>
 

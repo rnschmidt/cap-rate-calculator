@@ -1,4 +1,3 @@
-window.jsPDF = window.jspdf.jsPDF
 /* ------------------------SIMPLE RATIO ------------------------------------- */
 import { numberWithCommas, insertErrorMessage, removeErrorMessage, amountConfig, generateSharableLink, parseFromUrl } from "../utils/utils.js";
 
@@ -231,42 +230,30 @@ parseFromUrl(window.location.href, [calculateGrossPotentialIncome]);
 expenses.forEach(expense => updateResultantTotalExpenses(expense));
 
 const btn = document.getElementById('send-email');
-const page = document.querySelector('.result');
 
-btn.addEventListener('click', function(){
-  html2PDF(page, {
-    jsPDF: {
-      format: 'a4',
-    },
-    margin: {
-      top: 10,
-      right: 5,
-      bottom: 10,
-      left: 5
-    },
-    html2canvas: {
-      imageTimeout: 15000,
-      logging: true,
-      scale: 10,
-      scrollX: 0,
-      scrollY: -window.scrollY,
-    },
-    imageQuality: 0.9,
-    imageType: 'image/jpeg',
-    output: './pdf/generate.pdf'
-  });
+async function makeScreenshot(selector = "body") {
+    let node = document.querySelector(selector);
+    
+    const mycanvas = await html2canvas(node, { useCORS: true });
+    const image = mycanvas.toDataURL('image/png');
+    return (image);
+}
+
+btn.addEventListener('click', async () => {
+  let screenshot = await makeScreenshot();
+  sendEmail(screenshot);
 });
 
 const sendEmail = (doc) => { 
   Email.send({
     SecureToken : "c3847cb8-ef14-4ab1-94bb-976df079804e",
-    To : "ashcash@tutanota.com",
+    To : "ashcash@tutanota.com", 
     From : "akash02.ab@gmail.com",
     Subject : "This is the subject",
     Body: "And this is the body",
     Attachments: [
       {
-        name: "result.pdf",
+        name: "result.png",
         data: doc
       }
     ]
@@ -274,5 +261,3 @@ const sendEmail = (doc) => {
     message => alert(message)
   );
 }
-
-// sendEmail();
