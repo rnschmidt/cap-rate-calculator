@@ -17,7 +17,7 @@
       <div class="operating-statement-container">
         <div class="card-input">
           <div class="card-input-operating-statement">
-            <h3>Operating Statement</h3>
+            <h3>Annual Operating Income</h3>
             
             <div class="input-flex-wrap">
               <div class="input-container">
@@ -58,7 +58,7 @@
           </div>
 
           <div class="card-input-operating-expenses">
-            <h3>Operating Expenses</h3>
+            <h3>Annual Operating Expenses</h3>
 
             <div class="input-flex-wrap">
               <div class="input-container">
@@ -130,7 +130,7 @@
         </div>
 
         <div class="card-result">
-          <h3 class="head">Calculated Results</h3>
+          <h3 class="head">Proforma</h3>
 
           <div class="card-result-inner">
             <div class="row">
@@ -234,7 +234,7 @@
 
               <div class="input-container">
                 <div class="input-label">
-                  <label for="renovation-cost">Renovation Costs</label>
+                  <label for="renovation-cost">Renovation Cost</label>
                 </div>
                 <div class="input-wrapper">
                   <span class="dollar-sign">$</span>
@@ -242,12 +242,27 @@
                 </div>
               </div>
             </div>
+
+            <div class="row">
+              <h4>Total Cost</h4>
+              <h4 id="total-cost">$0</h4>
+            </div>
           </div>
 
           <div class="card-input-financing">
             <h3>Financing Data</h3>
 
             <div class="input-flex-wrap">
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="down-payment">Loan to Cost</label>
+                </div>
+                <div class="input-wrapper">
+                  <input type="text" name="loan-to-cost" id="loan-to-cost" class="float-field validate-percent percent" placeholder="0.00" min="0.00" step="0.01">
+                  <span class="percent-sign">%</span>
+                </div>
+              </div>
+
               <div class="input-container">
                 <div class="input-label">
                   <label for="loan-interest-rate">Loan Interest Rate</label>
@@ -267,22 +282,12 @@
                   <span class="percent-sign">yr</span>
                 </div>
               </div>
-
-              <div class="input-container">
-                <div class="input-label">
-                  <label for="down-payment">Down Payment</label>
-                </div>
-                <div class="input-wrapper">
-                  <span class="dollar-sign">$</span>
-                  <input type="text" name="down-payment" id="down-payment" class="validate-amount dollar" placeholder="0" step="1">
-                </div>
-              </div>
             </div>
           </div>
         </div>
 
         <div class="card-result">
-          <h3 class="head">Calculated Result</h3>
+          <h3 class="head">Investment Metrics</h3>
 
           <div class="card-result-inner">
             <div class="row">
@@ -301,8 +306,13 @@
             </div>
 
             <div class="row">
-              <h4>Down Payment</h4>
-              <h4 id="resultant-down-payment">$0</h4>
+              <h4 style="font-weight: 700; color: #1E73BE;">Total Cost</h4>
+              <h4 id="resultant-total-cost" style="font-weight: 700; color: #1E73BE;">$0</h4>
+            </div>
+
+            <div class="row">
+              <h4>Loan to Cost</h4>
+              <h4 id="resultant-loan-to-cost">$0</h4>
             </div>
 
             <div class="row">
