@@ -15,7 +15,12 @@ export const numberWithCommas = (x) => {
   x = x.toString();
   const pattern = /(-?\d+)(\d{3})/;
   while (pattern.test(x))
-      x = x.replace(pattern, "$1,$2");
+     x = x.replace(pattern, "$1,$2");
+  if (x.includes('-')) {
+    x = x.replace('-', '-$');
+  } else {
+    x = '$' + x;
+  }   
   return x;
 }
 // Limit input to accept only Integer value

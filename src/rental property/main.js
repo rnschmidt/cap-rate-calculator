@@ -68,7 +68,7 @@ const updateResultantTotalExpenses = (element) => {
   
   if (value) {
     if (isManagementFee) return;
-    resultant.innerText = "$" + value;
+    resultant.innerText = numberWithCommas(value);
   } else {
     resultant.innerText = '$0';
   }
@@ -85,7 +85,7 @@ const calculateManagementFee = () => {
   
   if (managementFeeValue && effectiveGrossIncomeValue) {
     netManagementFee = (effectiveGrossIncomeValue * managementFeeValue / 100).toFixed(2);
-    resultantManagementFee.innerText = "$" + numberWithCommas(Math.round(netManagementFee));
+    resultantManagementFee.innerText = numberWithCommas(Math.round(netManagementFee));
   } else {
     resultantManagementFee.innerText = '$0';
   }
@@ -108,8 +108,8 @@ const calculateTotalExpenses = () => {
     }
   });
 
-  totalExpenses.innerText = "$" + numberWithCommas(Math.round(totalExpensesValue));
-  resultantTotalExpenses.innerText = "$" + numberWithCommas(Math.round(totalExpensesValue));
+  totalExpenses.innerText = numberWithCommas(Math.round(totalExpensesValue));
+  resultantTotalExpenses.innerText = numberWithCommas(Math.round(totalExpensesValue));
 
   calculateNetOperatingIncome();
 }
@@ -127,28 +127,28 @@ const calculateEffectiveGrossIncome = () => {
 
   if (monthlyRentValue) {
     effectiveGrossIncomeValue += monthlyRentValue;
-    resultantMonthlyRent.innerText = "$" + numberWithCommas(monthlyRentValue);
+    resultantMonthlyRent.innerText = numberWithCommas(monthlyRentValue);
   } else { 
     resultantMonthlyRent.innerText = '$0';
   }
 
   if (otherIncomeValue) {
     effectiveGrossIncomeValue += otherIncomeValue;
-    resultantOtherIncome.innerText = "$" + numberWithCommas(otherIncomeValue);
+    resultantOtherIncome.innerText = numberWithCommas(otherIncomeValue);
   } else { 
     resultantOtherIncome.innerText = '$0';
   }
 
   if (vacancyRateValueInDollars) {
     effectiveGrossIncomeValue -= Math.round(vacancyRateValueInDollars);
-    resultantVacancyRate.innerText = "$" + numberWithCommas(Math.round(vacancyRateValueInDollars));
+    resultantVacancyRate.innerText = numberWithCommas(Math.round(vacancyRateValueInDollars));
   } else { 
     resultantVacancyRate.innerText = '$0';
   }
 
   if (effectiveGrossIncomeValue) {
-    effectiveGrossIncome.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
-    resultantEffectiveGrossIncome.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
+    effectiveGrossIncome.innerText = numberWithCommas(effectiveGrossIncomeValue);
+    resultantEffectiveGrossIncome.innerText = numberWithCommas(effectiveGrossIncomeValue);
   } else { 
     effectiveGrossIncome.innerText = '$0';
     resultantEffectiveGrossIncome.innerText = '$0';
@@ -167,7 +167,7 @@ const calculateNetOperatingIncome = () => {
   const netOperatingIncomeValue = effectiveGrossIncomeValue - totalExpensesValue;
   
   if (netOperatingIncomeValue) {
-    netOperatingIncome.innerText = "$" + numberWithCommas(netOperatingIncomeValue);
+    netOperatingIncome.innerText = numberWithCommas(netOperatingIncomeValue);
   } else {
     netOperatingIncome.innerText = '$0';
   }
@@ -187,8 +187,8 @@ const calcualteTotalCost = () => {
   const totalCostValue = purchasePriceValue + closingCostValue + renovationCostValue;
   
   if (totalCostValue) {
-    totalCost.innerText = "$" + numberWithCommas(totalCostValue);
-    resultantTotalCost.innerText = "$" + numberWithCommas(totalCostValue);
+    totalCost.innerText = numberWithCommas(totalCostValue);
+    resultantTotalCost.innerText = numberWithCommas(totalCostValue);
   } else {
     totalCost.innerText = "$0";
     resultantTotalCost.innerText = "$0";
@@ -204,13 +204,13 @@ const calculateInitialEquity = () => {
   const loanToCostValue = Math.round(loanToCost.value * totalCostValue);
 
   if (closingCostValue) { 
-    resultantClosingCost.innerText = "$" + numberWithCommas(closingCostValue);
+    resultantClosingCost.innerText = numberWithCommas(closingCostValue);
   } else {
     resultantClosingCost.innerText = '$0';
   }
 
   if (loanToCostValue) { 
-    resultantLoanToCost.innerText = "$" + numberWithCommas(loanToCostValue);
+    resultantLoanToCost.innerText = numberWithCommas(loanToCostValue);
   } else {
     resultantLoanToCost.innerText = '$0';
   }
@@ -218,7 +218,7 @@ const calculateInitialEquity = () => {
   const initialEquityValue = closingCostValue + loanToCostValue;
 
   if (initialEquityValue) {
-    initialEquity.innerText = "$" + numberWithCommas(initialEquityValue);
+    initialEquity.innerText = numberWithCommas(initialEquityValue);
   } else {
     initialEquity.innerText = '$0';
   }
@@ -235,25 +235,25 @@ const calculateLoanAmount = () => {
   const loanToCostValue = Math.round(loanToCost.value * totalCostValue);
 
   if (purchasePriceValue) { 
-    resultantPurchasePrice.innerText = "$" + numberWithCommas(purchasePriceValue);
+    resultantPurchasePrice.innerText = numberWithCommas(purchasePriceValue);
   } else {
     resultantPurchasePrice.innerText = '$0';
   }
 
   if (closingCostValue) { 
-    resultantClosingCost.innerText = "$" + numberWithCommas(closingCostValue);
+    resultantClosingCost.innerText = numberWithCommas(closingCostValue);
   } else {
     resultantClosingCost.innerText = '$0';
   }
 
   if (renovationCostValue) { 
-    resultantRenovationCost.innerText = "$" + numberWithCommas(renovationCostValue);
+    resultantRenovationCost.innerText = numberWithCommas(renovationCostValue);
   } else {
     resultantRenovationCost.innerText = '$0';
   }
 
   if (loanToCostValue) { 
-    resultantLoanToCost.innerText = "$" + numberWithCommas(loanToCostValue);
+    resultantLoanToCost.innerText = numberWithCommas(loanToCostValue);
   } else {
     resultantLoanToCost.innerText = '$0';
   }
@@ -261,7 +261,7 @@ const calculateLoanAmount = () => {
   const loanAmountValue = purchasePriceValue + closingCostValue + renovationCostValue - loanToCostValue;
 
   if (loanAmountValue) {
-    loanAmount.innerText = "$" + numberWithCommas(loanAmountValue);
+    loanAmount.innerText = numberWithCommas(loanAmountValue);
   } else {
     loanAmount.innerText = '$0';
   }
@@ -279,7 +279,7 @@ const calculateDebtService = () => {
   const debtServiceValue = Math.round(PMT(loanInterestRateValue / 1200, loanAmortizationValue * 12, -loanAmountValue));
   
   if (debtServiceValue && Number.isFinite(debtServiceValue)) {
-    debtService.innerText = "$" + numberWithCommas(debtServiceValue);
+    debtService.innerText = numberWithCommas(debtServiceValue);
   } else { 
     debtService.innerText = '$0';
   }
@@ -297,7 +297,7 @@ const calculateCashFlowBeforeTax = () => {
   const cashFlowBeforeTaxValue = netOperatingIncomeValue - debtServiceValue;
 
   if (cashFlowBeforeTaxValue) {
-    cashFlowBeforeTax.innerText = "$" + numberWithCommas(cashFlowBeforeTaxValue);
+    cashFlowBeforeTax.innerText = numberWithCommas(cashFlowBeforeTaxValue);
   } else {
     cashFlowBeforeTax.innerText = '$0';
   }
