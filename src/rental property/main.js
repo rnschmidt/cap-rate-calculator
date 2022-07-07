@@ -68,7 +68,11 @@ const updateResultantTotalExpenses = (element) => {
   
   if (value) {
     if (isManagementFee) return;
-    resultant.innerText = numberWithCommas(value);
+    if (value < 0) {
+      resultant.innerText = numberWithCommas(value);
+    } else if (value > 0) {
+      resultant.innerText = "-" + numberWithCommas(value);
+    }
   } else {
     resultant.innerText = '$0';
   }
@@ -85,7 +89,11 @@ const calculateManagementFee = () => {
   
   if (managementFeeValue && effectiveGrossIncomeValue) {
     netManagementFee = (effectiveGrossIncomeValue * managementFeeValue / 100).toFixed(2);
-    resultantManagementFee.innerText = numberWithCommas(Math.round(netManagementFee));
+    if (Math.round(netManagementFee) > 0) {
+      resultantManagementFee.innerText = "-" + numberWithCommas(Math.round(netManagementFee));
+    } else {
+      resultantManagementFee.innerText = numberWithCommas(Math.round(netManagementFee));
+    }
   } else {
     resultantManagementFee.innerText = '$0';
   }
@@ -109,7 +117,8 @@ const calculateTotalExpenses = () => {
   });
 
   totalExpenses.innerText = numberWithCommas(Math.round(totalExpensesValue));
-  resultantTotalExpenses.innerText = numberWithCommas(Math.round(totalExpensesValue));
+  resultantTotalExpenses.innerText = totalExpensesValue === 0 ? "$0" :
+    "-" + numberWithCommas(Math.round(totalExpensesValue));
 
   calculateNetOperatingIncome();
 }
