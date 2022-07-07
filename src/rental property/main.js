@@ -364,9 +364,9 @@ expenses.forEach(expense => expense.addEventListener('input', (e) => { calculate
 // add eventlistners to calculate Total Cost
 [purchasePrice.domElement, closingCost.domElement, renovationCost.domElement].forEach((element) => element.addEventListener('input', calcualteTotalCost));
 // add eventlistners to calculate Initial Equity
-[closingCost.domElement, loanToCost.domElement].forEach(element => element.addEventListener('input', calculateInitialEquity));
+[closingCost.domElement, loanToCost].forEach(element => element.addEventListener('input', calculateInitialEquity));
 // add eventlistners to calculate Loan Amount
-[purchasePrice.domElement, closingCost.domElement, renovationCost.domElement, loanToCost.domElement].forEach(element => element.addEventListener('input', calculateLoanAmount));
+[purchasePrice.domElement, closingCost.domElement, renovationCost.domElement, loanToCost].forEach(element => element.addEventListener('input', calculateLoanAmount));
 // add eventlistners to calculate Unlevered Yield on Cost
 [purchasePrice.domElement, closingCost.domElement, renovationCost.domElement].forEach(element => element.addEventListener('input', calculateUnleveredYieldOnCost));
 // add eventlistners to calculate Debt Service
