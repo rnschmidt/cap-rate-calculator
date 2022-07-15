@@ -210,7 +210,7 @@ const calcualteTotalCost = () => {
 const calculateInitialEquity = () => { 
   const closingCostValue = parseInt(closingCost.rawValue) || 0;
   const totalCostValue = parseInt(totalCost.innerText.replace(/\$|,/g, ''));
-  const loanToCostValue = Math.round(loanToCost.value * totalCostValue);
+  const loanToCostValue = Math.round((loanToCost.value / 100) * totalCostValue);
 
   if (closingCostValue) { 
     resultantClosingCost.innerText = numberWithCommas(closingCostValue);
@@ -218,10 +218,10 @@ const calculateInitialEquity = () => {
     resultantClosingCost.innerText = '$0';
   }
 
-  if (loanToCostValue) { 
-    resultantLoanToCost.innerText = numberWithCommas(loanToCostValue);
+  if (loanToCost.value) { 
+    resultantLoanToCost.innerText = loanToCost.value + "%";
   } else {
-    resultantLoanToCost.innerText = '$0';
+    resultantLoanToCost.innerText = '0.0%';
   }
 
   const initialEquityValue = closingCostValue + loanToCostValue;
@@ -241,7 +241,7 @@ const calculateLoanAmount = () => {
   const closingCostValue = parseInt(closingCost.rawValue) || 0;
   const renovationCostValue = parseInt(renovationCost.rawValue) || 0;
   const totalCostValue = parseInt(totalCost.innerText.replace(/\$|,/g, ''));
-  const loanToCostValue = Math.round(loanToCost.value * totalCostValue);
+  const loanToCostValue = Math.round((loanToCost.value / 100) * totalCostValue);
 
   if (purchasePriceValue) { 
     resultantPurchasePrice.innerText = numberWithCommas(purchasePriceValue);
@@ -261,10 +261,10 @@ const calculateLoanAmount = () => {
     resultantRenovationCost.innerText = '$0';
   }
 
-  if (loanToCostValue) { 
-    resultantLoanToCost.innerText = numberWithCommas(loanToCostValue);
+  if (loanToCost.value) { 
+    resultantLoanToCost.innerText = loanToCost.value + '%';
   } else {
-    resultantLoanToCost.innerText = '$0';
+    resultantLoanToCost.innerText = '0.0%';
   }
 
   const loanAmountValue = purchasePriceValue + closingCostValue + renovationCostValue - loanToCostValue;
