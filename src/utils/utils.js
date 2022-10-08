@@ -117,7 +117,7 @@ export const generateSharableLink = (url, elementArray) => {
   elementArray.forEach(element => {
     const id = element?.domElement ? element.domElement.id : element.id;
     const value = element?.domElement ? '$' + element.domElement.value : element.value;
-
+    
     if(value) {
       if (params.has(id)) {
         params.set(id, value);
@@ -136,7 +136,6 @@ export const parseFromUrl = (link, callBackArray) => {
 
   params.forEach((value, key) => {
     let element = document.getElementById(key);
-
     if (value.includes('$')) {
       AutoNumeric.set(element, value.replace(/\$|,/g, ''));
     } else {

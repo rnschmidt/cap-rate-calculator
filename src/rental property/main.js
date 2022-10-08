@@ -1,31 +1,39 @@
 import { amountConfig, numberWithCommas, PMT, generateSharableLink, parseFromUrl, insertErrorMessage, removeErrorMessage } from "../utils/utils.js";
 
-// Operating Statement Inputs
+// Annual Operating Income Inputs
 const monthlyRent = new AutoNumeric('#monthly-rent', amountConfig);
 const otherIncome = new AutoNumeric('#other-income', amountConfig);
 const vacanyRate = document.getElementById('vacancy-rate');
-const managementFee = document.getElementById('management-fee'); 
-const expenses = document.querySelectorAll('.expenses');
-// internal calculations
+// Internal Calculations
 const effectiveGrossIncome = document.getElementById('effective-gross-income');
 const totalExpenses = document.getElementById('total-expenses');
-// calculated results
+// Annual Operating Expenses
+const propertyTaxes = new AutoNumeric('#property-taxes', amountConfig);
+const insurance = new AutoNumeric('#insurance', amountConfig);
+const maintenance = new AutoNumeric('#maintenance', amountConfig);
+const managementFee = document.getElementById('management-fee');
+const hoaFee = new AutoNumeric('#hoa-fee', amountConfig);
+const otherExpenses = new AutoNumeric('#other-expenses', amountConfig);
+// Proforma
 const resultantMonthlyRent = document.getElementById('resultant-monthly-rent');
 const resultantOtherIncome = document.getElementById('resultant-other-income');
 const resultantVacancyRate = document.getElementById('resultant-vacancy-rate');
 const resultantEffectiveGrossIncome = document.getElementById('resultant-effective-gross-income');
+const resultantManagementFee = document.getElementById('resultant-management-fee');
 const resultantTotalExpenses = document.getElementById('resultant-total-expenses');
 const netOperatingIncome = document.getElementById('net-operating-income');
+const debtService = document.getElementById('debt-service');
 // Investment Data Inputs
-const purchasePrice = new AutoNumeric("#purchase-price", amountConfig);
-const closingCost = new AutoNumeric("#closing-cost", amountConfig);
+const purchasePrice = new AutoNumeric('#purchase-price', amountConfig);
+const closingCost = new AutoNumeric('#closing-cost', amountConfig);
 const renovationCost = new AutoNumeric('#renovation-cost', amountConfig);
+// Internal Calculation
 const totalCost = document.getElementById('total-cost');
 // Financing Data Inputs
 const loanToCost = document.getElementById('loan-to-cost');
 const loanInterestRate = document.getElementById('loan-interest-rate');
 const loanAmortization = document.getElementById('loan-amortization');
-// Calculated Results
+// Investment Metrics
 const resultantPurchasePrice = document.getElementById('resultant-purchase-price');
 const resultantClosingCost = document.getElementById('resultant-closing-cost');
 const resultantRenovationCost = document.getElementById('resultant-renovation-cost');
@@ -33,12 +41,11 @@ const resultantTotalCost = document.getElementById('resultant-total-cost');
 const resultantLoanToCost = document.getElementById('resultant-loan-to-cost');
 const initialEquity = document.getElementById('initial-equity');
 const loanAmount = document.getElementById('loan-amount');
-const debtService = document.getElementById('debt-service');
 const cashFlowBeforeTax = document.getElementById('cash-flow-before-tax');
-const cashOnCashReturn = document.getElementById('cash-on-cash-return');
 const goingInCapRate = document.getElementById('going-in-cap-rate');
 const unleveredYieldOnCost = document.getElementById('unlevered-yield-on-cost');
-// share link
+const cashOnCashReturn = document.getElementById('cash-on-cash-return');
+// Share Link
 const shareResultButton = document.getElementById('share-result');
 const shareLink = document.getElementById('share-link');
 const copyText = document.getElementById('copy-text');
@@ -63,11 +70,9 @@ const validateLoanAmortization = (e) => {
 const updateResultantTotalExpenses = (element) => {
   let resultantId = 'resultant-' + (element.target ? element.target.id : element.id);
   let resultant = document.getElementById(resultantId);
-  let value = element.target ? element.target.value : element.value;
-  let isManagementFee = resultantId === 'resultant-management-fee';
+  let value = element.target ? element.target.value : Number(element.value.replaceAll(/\,/g, ''));
   
   if (value) {
-    if (isManagementFee) return;
     if (value < 0) {
       resultant.innerText = numberWithCommas(value);
     } else if (value > 0) {
@@ -84,7 +89,6 @@ const updateResultantTotalExpenses = (element) => {
 const calculateManagementFee = () => {
   const managementFeeValue = parseFloat(managementFee.value) || 0;
   const effectiveGrossIncomeValue = parseFloat(effectiveGrossIncome.innerText.replace(/\$|,/g, ''));
-  const resultantManagementFee = document.getElementById('resultant-management-fee');
   let netManagementFee = 0;
   
   if (managementFeeValue && effectiveGrossIncomeValue) {
@@ -242,6 +246,7 @@ const calculateLoanAmount = () => {
   const renovationCostValue = parseInt(renovationCost.rawValue) || 0;
   const totalCostValue = parseInt(totalCost.innerText.replace(/\$|,/g, ''));
   const loanToCostValue = Math.round((loanToCost.value / 100) * totalCostValue);
+  let loanAmountValue = 0;
 
   if (purchasePriceValue) { 
     resultantPurchasePrice.innerText = numberWithCommas(purchasePriceValue);
@@ -261,13 +266,12 @@ const calculateLoanAmount = () => {
     resultantRenovationCost.innerText = '$0';
   }
 
-  if (loanToCost.value) { 
+  if (loanToCostValue) { 
     resultantLoanToCost.innerText = loanToCost.value + '%';
+    loanAmountValue = purchasePriceValue + closingCostValue + renovationCostValue - loanToCostValue;
   } else {
     resultantLoanToCost.innerText = '0.0%';
   }
-
-  const loanAmountValue = purchasePriceValue + closingCostValue + renovationCostValue - loanToCostValue;
 
   if (loanAmountValue) {
     loanAmount.innerText = numberWithCommas(loanAmountValue);
@@ -329,7 +333,7 @@ const calculateCashOnCashReturn = () => {
     cashOnCashReturn.innerText = '0%';
   }
 
-  shareLink.value = generateSharableLink(url, [monthlyRent, otherIncome, vacanyRate, managementFee, ...expenses, purchasePrice, closingCost, loanToCost, loanInterestRate, loanAmortization]);
+  shareLink.value = generateSharableLink(url, [monthlyRent, otherIncome, vacanyRate, propertyTaxes, insurance, maintenance, managementFee, hoaFee, otherExpenses, purchasePrice, closingCost, loanToCost, loanInterestRate, loanAmortization]);
 }
 /*
   Calculate Going-in Cap Rate
@@ -365,8 +369,9 @@ const calculateUnleveredYieldOnCost = () => {
     unleveredYieldOnCost.innerText = '0%';
   }
 }
+// all expenses selector
+const expenses = [propertyTaxes.domElement, insurance.domElement, maintenance.domElement, managementFee, hoaFee.domElement, otherExpenses.domElement];
 // For all the input fileds required for expenses add event listener to trigger calculation of Total Expenses
-expenses.forEach(expense => new AutoNumeric(expense, amountConfig));
 expenses.forEach(expense => expense.addEventListener('input', (e) => { calculateTotalExpenses(); updateResultantTotalExpenses(e); }));
 // add eventlistners to calculate Effective Gross Income
 [monthlyRent.domElement, otherIncome.domElement, vacanyRate, managementFee].forEach(element => element.addEventListener('input', calculateEffectiveGrossIncome));
@@ -386,12 +391,12 @@ loanAmortization.addEventListener('input', validateLoanAmortization);
 purchasePrice.domElement.addEventListener('input', calculateGoingInCapRate);
 // Event Listners for generating sharable link and copy link to clipboard
 shareResultButton.addEventListener('click', () => {
-  let link = generateSharableLink(url, [monthlyRent, otherIncome, vacanyRate, managementFee, ...expenses, purchasePrice, closingCost, loanToCost, loanInterestRate, loanAmortization]);
+  let link = generateSharableLink(url, [monthlyRent, otherIncome, vacanyRate, purchasePrice, propertyTaxes, insurance, maintenance, managementFee, hoaFee, otherExpenses, closingCost, renovationCost, loanToCost, loanInterestRate, loanAmortization]);
   shareLink.value = link;
   shareLink.style.width = 'calc(100% - 3.5rem)';
   shareLink.style.padding = '0.5rem';
   copyText.style.opacity = '1';
 });
 
-parseFromUrl(window.location.href, [calculateEffectiveGrossIncome, calculateInitialEquity, calculateLoanAmount]);
-expenses.forEach(expense => updateResultantTotalExpenses(expense));
+parseFromUrl(window.location.href, [calculateEffectiveGrossIncome, calcualteTotalCost, calculateInitialEquity, calculateLoanAmount]);
+expenses.forEach(e => updateResultantTotalExpenses(e))
