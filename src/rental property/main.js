@@ -333,7 +333,7 @@ const calculateCashOnCashReturn = () => {
     cashOnCashReturn.innerText = '0%';
   }
 
-  shareLink.value = generateSharableLink(url, [monthlyRent, otherIncome, vacanyRate, propertyTaxes, insurance, maintenance, managementFee, hoaFee, otherExpenses, purchasePrice, closingCost, loanToCost, loanInterestRate, loanAmortization]);
+  shareLink.value = generateSharableLink(url, [monthlyRent, otherIncome, vacanyRate, propertyTaxes, insurance, maintenance, managementFee, hoaFee, otherExpenses, purchasePrice, closingCost, renovationCost,  loanToCost, loanInterestRate, loanAmortization]);
 }
 /*
   Calculate Going-in Cap Rate
@@ -391,7 +391,7 @@ loanAmortization.addEventListener('input', validateLoanAmortization);
 purchasePrice.domElement.addEventListener('input', calculateGoingInCapRate);
 // Event Listners for generating sharable link and copy link to clipboard
 shareResultButton.addEventListener('click', () => {
-  let link = generateSharableLink(url, [monthlyRent, otherIncome, vacanyRate, purchasePrice, propertyTaxes, insurance, maintenance, managementFee, hoaFee, otherExpenses, closingCost, renovationCost, loanToCost, loanInterestRate, loanAmortization]);
+  let link = generateSharableLink(url, [monthlyRent, otherIncome, vacanyRate, propertyTaxes, insurance, maintenance, managementFee, hoaFee, otherExpenses, purchasePrice, closingCost, renovationCost, loanToCost, loanInterestRate, loanAmortization]);
   shareLink.value = link;
   shareLink.style.width = 'calc(100% - 3.5rem)';
   shareLink.style.padding = '0.5rem';
