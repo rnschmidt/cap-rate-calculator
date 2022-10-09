@@ -130,7 +130,7 @@ const getCashFlowOutput = (number, value) => {
   const yearText = document.createElement('h4');
   yearText.innerText = number;
   const amountText = document.createElement('h4');
-  amountText.innerText = value >= 0 ? '$' + numberWithCommas(value) : '-$' + numberWithCommas(Math.abs(value));
+  amountText.innerText = numberWithCommas(value);
   amountText.id = `resultant-${number}${getSuperScript(number)}-year`;
   row.appendChild(yearText);
   row.appendChild(amountText);
