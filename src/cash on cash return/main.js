@@ -767,7 +767,7 @@ const parseUrlParameters = (link) => {
           const element = new AutoNumeric(`#${input.id}`, amountConfig);
           AutoNumeric.set(element.domElement, value.replace(/\$/g, ''));
         } else {
-          input.value = parmasMap[selector][index];
+          input.value = value;
         }
         let className = input.classList[0];
         let id = input.id.replace(className + '-', '');
