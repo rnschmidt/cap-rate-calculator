@@ -134,7 +134,7 @@ const getCashFlowOutput = (number, value) => {
   const yearText = document.createElement('h4');
   yearText.innerText = number;
   const amountText = document.createElement('h4');
-  amountText.innerText = value >= 0 ? '$' + numberWithCommas(value) : '-$' + numberWithCommas(Math.abs(value));
+  amountText.innerText = numberWithCommas(value);
   amountText.id = `resultant-${number}${getSuperScript(number)}-year`;
   row.appendChild(yearText);
   row.appendChild(amountText);
@@ -201,8 +201,8 @@ const calculateNPV = () => {
   
   if (pv) {
     let npv = cashFlows[0] + pv;
-    resultantPV.innerText = pv >= 0 ? '$' + numberWithCommas(pv) : '-$' + numberWithCommas(Math.abs(pv));
-    resultantNPV.innerText = npv >= 0 ? '$' + numberWithCommas(npv) : '-$' + numberWithCommas(Math.abs(npv));
+    resultantPV.innerText = numberWithCommas(pv);
+    resultantNPV.innerText = numberWithCommas(npv);
   } else {
     resultantPV.innerText = '$0';
     resultantNPV.innerText = '$0';
