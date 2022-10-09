@@ -122,16 +122,16 @@ const addNewRowToResultantContainer = (id) => {
 const updateTotalValues = () => { 
   const numberOfUnits = document.querySelectorAll('.number-of-units');
   const totalNumberOfUnits = Array.from(numberOfUnits).reduce((acc, curr) => acc + (parseInt(curr.value) || 0), 0);
-  totalUnits.innerText = numberWithCommas(totalNumberOfUnits);
+  totalUnits.innerText = totalNumberOfUnits;
 
   const averageRentPerMonth = document.querySelectorAll('.average-rent-per-month');
   const totalAvRentPerMonth = Math.round((Array.from(averageRentPerMonth).reduce((acc, curr, index) => acc + (parseInt(curr.value.replace(/\,/g, '')) || 0) * numberOfUnits[index].value, 0)) / totalNumberOfUnits);
-  totalRent.innerText = (totalAvRentPerMonth === 'NaN') ? '$0' : '$' + numberWithCommas(totalAvRentPerMonth);
+  totalRent.innerText = (totalAvRentPerMonth === 'NaN') ? '$0' : numberWithCommas(totalAvRentPerMonth);
 
   const resultantTotalAnnualRent = document.querySelectorAll('.total-annual-rent');
   const totalAnnualRentValue = Array.from(resultantTotalAnnualRent).reduce((acc, curr) => acc + (parseInt(curr.innerText.replace(/\,|\$/g, '')) || 0), 0);
-  totalAnnualRent.innerText = '$' + numberWithCommas(totalAnnualRentValue);
-  resultantPotentialIncome.innerText = '$' + numberWithCommas(totalAnnualRentValue);
+  totalAnnualRent.innerText = numberWithCommas(totalAnnualRentValue);
+  resultantPotentialIncome.innerText = numberWithCommas(totalAnnualRentValue);
 
   calculateOtherIncome();
   calculateVacancyCreditLoss();
@@ -147,7 +147,7 @@ const calculateTotalAnnualRent = (id, numberOfUnits, averageRentPerMonth) => {
   const totalAnnualRent = document.getElementById(`total-annual-rent-${id}`);
   averageRentPerMonth = parseInt(averageRentPerMonth.replace(/\,/g, '')) || 0;
   const totalAnnualRentValue = numberOfUnits * averageRentPerMonth * 12; 
-  totalAnnualRent.innerText = `$${numberWithCommas(totalAnnualRentValue)}`;
+  totalAnnualRent.innerText = numberWithCommas(totalAnnualRentValue);
   updateTotalValues();
   shareLink.value = generateSharableLink();
 }
@@ -226,7 +226,7 @@ const calculateVacancyCreditLoss = () => {
   const potentialGrossIncomeValue = parseInt(resultantPotentialGrossIncome.innerText.replace(/\,|\$/g, '')) || 0;
   const vacancyCreditLossAmount = Math.round(vacanyCreditLossValue / 100 * potentialGrossIncomeValue);
   
-  resultantVacancyCreditLoss.innerText = `$${numberWithCommas(vacancyCreditLossAmount)}`;
+  resultantVacancyCreditLoss.innerText = numberWithCommas(vacancyCreditLossAmount);
 
   calculateEffectiveGrossIncome(potentialGrossIncomeValue, vacancyCreditLossAmount);
 }
@@ -238,8 +238,8 @@ const calculateEffectiveGrossIncome = (potentialGrossIncomeValue, vacancyCreditL
   const effectiveGrossIncomeValue = potentialGrossIncomeValue - vacancyCreditLoss;
 
   if (effectiveGrossIncomeValue) {
-    effectiveGrossIncome.innerText = `$${numberWithCommas(effectiveGrossIncomeValue)}`;
-    resultantEffectiveGrossIncome.innerText = `$${numberWithCommas(effectiveGrossIncomeValue)}`;
+    effectiveGrossIncome.innerText = numberWithCommas(effectiveGrossIncomeValue);
+    resultantEffectiveGrossIncome.innerText = numberWithCommas(effectiveGrossIncomeValue);
   } else {
     effectiveGrossIncome.innerText = `$0`;
     resultantEffectiveGrossIncome.innerText = '$0';
@@ -256,7 +256,7 @@ const calculatePotentialGrossIncome = () => {
   const otherIncomeValue = parseInt(resultantOtherIncome.innerText.replace(/\,|\$/g, '')) || 0;
   const potentialGrossIncomeValue = potentialRentalIncomeValue + otherIncomeValue;
 
-  resultantPotentialGrossIncome.innerText = `$${numberWithCommas(potentialGrossIncomeValue)}`;
+  resultantPotentialGrossIncome.innerText = numberWithCommas(potentialGrossIncomeValue);
 
   calculateVacancyCreditLoss();
 }
@@ -279,7 +279,7 @@ const calculateOtherIncome = () => {
   }
 
   if (otherIncomeAmount) {
-    resultantOtherIncome.innerText = `$${numberWithCommas(otherIncomeAmount)}`;  
+    resultantOtherIncome.innerText = numberWithCommas(otherIncomeAmount);  
   } else {
     resultantOtherIncome.innerText = '$0';
   }
@@ -304,7 +304,7 @@ const calculateTaxesAndInsurance = () => {
     taxesAndInsuranceAmount = reTaxesAndInsuranceValue;
   }
 
-  resultantTaxesAndInsurance.innerText = `$${numberWithCommas(taxesAndInsuranceAmount)}`;
+  resultantTaxesAndInsurance.innerText = numberWithCommas(taxesAndInsuranceAmount);
 
   calculateTotalExpenses();
 }
@@ -326,7 +326,7 @@ const calculateOperatingExpenses = () => {
     operatingExpensesAmount = operatingExpensesValue;
   }
 
-  resultantOperatingExpenses.innerText = `$${numberWithCommas(operatingExpensesAmount)}`;
+  resultantOperatingExpenses.innerText = numberWithCommas(operatingExpensesAmount);
 
   calculateTotalExpenses();
 }
@@ -339,8 +339,8 @@ const calculateTotalExpenses = () => {
   const operatingExpensesValue = parseInt(resultantOperatingExpenses.innerText.replace(/\,|\$/g, '')) || 0;
   const totalExpensesValue = taxesAndInsuranceValue + operatingExpensesValue;
 
-  totalExpenses.innerText = `$${numberWithCommas(totalExpensesValue)}`;
-  resultantTotalExpenses.innerText = `$${numberWithCommas(totalExpensesValue)}`;
+  totalExpenses.innerText = numberWithCommas(totalExpensesValue);
+  resultantTotalExpenses.innerText = numberWithCommas(totalExpensesValue);
 
   calculateNetOperatingIncome();
 }
@@ -353,8 +353,8 @@ const calculateNetOperatingIncome = () => {
   const totalExpensesValue = parseInt(resultantTotalExpenses.innerText.replace(/\,|\$/g, '')) || 0;
   const netOperatingIncomeValue = effectiveGrossIncomeValue - totalExpensesValue;
 
-  netOperatingIncome.innerText = `$${numberWithCommas(netOperatingIncomeValue)}`;
-  resultantUntrendedNOI.innerText = `$${numberWithCommas(netOperatingIncomeValue)}`;
+  netOperatingIncome.innerText = numberWithCommas(netOperatingIncomeValue);
+  resultantUntrendedNOI.innerText = numberWithCommas(netOperatingIncomeValue);
 
   calculateProjectedReturns();
   shareLink.value = generateSharableLink();
@@ -469,25 +469,25 @@ const calculateTotalProjectCost = () => {
   let totalProjectCostValue = 0;
   // land cost amount
   const landCostValue = parseInt(landCost.rawValue) || 0;
-  landCostAmount.innerText = `$${numberWithCommas(landCostValue)}`;
+  landCostAmount.innerText = numberWithCommas(landCostValue);
   // hard costs amount
   const hardCostsAmountValue = parseInt(hardCosts.rawValue) || 0;
-  hardCostAmount.innerText = `$${numberWithCommas(hardCostsAmountValue)}`;
-  resultantHardCost.innerText = `$${numberWithCommas(hardCostsAmountValue)}/unit`;
+  hardCostAmount.innerText = numberWithCommas(hardCostsAmountValue);
+  resultantHardCost.innerText = numberWithCommas(hardCostsAmountValue) + '/unit';
   // hard costs contingency amount
   const hardCostsContingencyValue = parseFloat(hardCostsContingency.value) || 0;
   const hardCostsContingencyAmountValue = Math.round(hardCostsContingencyValue / 100 * hardCostsAmountValue);
-  hardCostsContingencyAmount.innerText = `$${numberWithCommas(hardCostsContingencyAmountValue)}`;
+  hardCostsContingencyAmount.innerText = numberWithCommas(hardCostsContingencyAmountValue);
   resultantHardCostsContingency.innerText = `${hardCostsContingencyValue}%`;
   // soft costs amount
   const softCostsValue = parseFloat(softCosts.value) || 0;
   const softCostsAmountValue = Math.round(softCostsValue / 100 * hardCostsAmountValue);
-  softCostsAmount.innerText = `$${numberWithCommas(softCostsAmountValue)}`;
+  softCostsAmount.innerText = numberWithCommas(softCostsAmountValue);
   resultantSoftCosts.innerText = `${softCostsValue}%`;
   // soft costs contingency amount
   const softCostsContingencyValue = parseFloat(softCostsContingency.value) || 0;
   const softCostsContingencyAmountValue = Math.round(softCostsContingencyValue / 100 * softCostsAmountValue);
-  softCostsContingencyAmount.innerText = `$${numberWithCommas(softCostsContingencyAmountValue)}`;
+  softCostsContingencyAmount.innerText = numberWithCommas(softCostsContingencyAmountValue);
   resultantSoftCostsContingency.innerText = `${softCostsContingencyValue}%`;
   // construction loan interest amount
   const constructionLoanInterestValue = parseFloat(constructionLoanInterest.value) || 0;
@@ -495,17 +495,17 @@ const calculateTotalProjectCost = () => {
   const totalTimelineValue = parseInt(totalTimeline.innerText.replace(/\,|months/g, '')) || 0;
   totalProjectCostValue = landCostValue + hardCostsAmountValue + hardCostsContingencyAmountValue + softCostsAmountValue + softCostsContingencyAmountValue;  
   const constructionLoanInterestAmountValue = Math.round((constructionLoanInterestValue / 100) * (totalTimelineValue / 12 / 2) * (seniorConstructionLoanLTCValue / 100) * totalProjectCostValue);
-  constructionLoanInterestAmount.innerText = `$${numberWithCommas(constructionLoanInterestAmountValue)}`;
+  constructionLoanInterestAmount.innerText = numberWithCommas(constructionLoanInterestAmountValue);
   resultantConstructionLoanInterest.innerText = `${constructionLoanInterestValue}%`;
   // operating deficit amount
   const totalExpensesValue = parseInt(totalExpenses.innerText.replace(/\,|\$/g, '')) || 0;
   const leaseUpToStabilaizationDurationValue = parseFloat(leaseUpToStabilaizationDuration.innerText.replace(/months/g, '')) || 0;
   const operatingDeficitValue = Math.round(totalExpensesValue / 12 * leaseUpToStabilaizationDurationValue);
-  operatingDeficitAmount.innerText = `$${numberWithCommas(operatingDeficitValue)}`;
+  operatingDeficitAmount.innerText = numberWithCommas(operatingDeficitValue);
   totalProjectCostValue += operatingDeficitValue;
   // total project cost
-  totalProjectCost.innerText = `$${numberWithCommas(totalProjectCostValue)}`;
-  totalAmount.innerText = `$${numberWithCommas(totalProjectCostValue)}`;
+  totalProjectCost.innerText = numberWithCommas(totalProjectCostValue);
+  totalAmount.innerText = numberWithCommas(totalProjectCostValue);
   // land cost percent
   const landCostPercentValue = Math.round(landCostValue / totalProjectCostValue * 100) || 0;
   landCostPercent.innerText = `${landCostPercentValue}%`
@@ -550,13 +550,13 @@ const calculateTotalSourcesOfFunds = () => {
   const totalProjectCost = parseInt(totalAmount.innerText.replace(/\,|\$/g, '')) || 0;
 
   const seniorConstructionLoanAmountValue = Math.round((seniorConstructionLoanLTCValue / 100) * totalProjectCost);
-  seniorConstructionLoanAmount.innerText = `$${numberWithCommas(seniorConstructionLoanAmountValue)}`;
+  seniorConstructionLoanAmount.innerText = numberWithCommas(seniorConstructionLoanAmountValue);
 
   const requiredEquityAmountValue = totalProjectCost - seniorConstructionLoanAmountValue;
-  requiredEquityAmount.innerText = `$${numberWithCommas(requiredEquityAmountValue)}`;
+  requiredEquityAmount.innerText = numberWithCommas(requiredEquityAmountValue);
 
   const totalSourcesAmountValue = seniorConstructionLoanAmountValue + requiredEquityAmountValue;
-  totalSourcesAmount.innerText = `$${numberWithCommas(totalSourcesAmountValue)}`;
+  totalSourcesAmount.innerText = numberWithCommas(totalSourcesAmountValue);
 
   const seniorConstructionLoanPercentValue = ((seniorConstructionLoanAmountValue / totalSourcesAmountValue * 100) || 0).toFixed(1);
   seniorConstructionLoanPercent.innerText = `${seniorConstructionLoanPercentValue}%`;
@@ -619,7 +619,7 @@ const calculateNetSalesProceeds = () => {
   const noiUponExitValue = Math.round(untrendedNOIValue * Math.pow(1 + (annualNoiGrowthRateValue / 100), exitMonthValue / 12));
 
   if (noiUponExitValue) {
-    resultantNoiUponExit.innerText = `$${numberWithCommas(noiUponExitValue)}`;
+    resultantNoiUponExit.innerText = numberWithCommas(noiUponExitValue);
   } else {
     resultantNoiUponExit.innerText = `$0`;
   }
@@ -635,7 +635,7 @@ const calculateNetSalesProceeds = () => {
   const grossSalesPriceValue = Math.round(noiUponExitValue / (capRateOnSaleValue / 100));
 
   if (grossSalesPriceValue) { 
-    resultantGrossSalesPrice.innerText = `$${numberWithCommas(grossSalesPriceValue)}`;
+    resultantGrossSalesPrice.innerText = numberWithCommas(grossSalesPriceValue);
   } else {
     resultantGrossSalesPrice.innerText = `$0`;
   }
@@ -644,15 +644,15 @@ const calculateNetSalesProceeds = () => {
   const sellingCostAmountValue = Math.round((sellingCostValue / 100) * (-grossSalesPriceValue));
 
   if(sellingCostAmountValue) {
-    resultantSellingCost.innerText = `$${numberWithCommas(sellingCostAmountValue)}`;
+    resultantSellingCost.innerText = numberWithCommas(sellingCostAmountValue);
   } else {
     resultantSellingCost.innerText = `$0`;
   }
 
   const netSalesProceedsValue = (grossSalesPriceValue + sellingCostAmountValue) || 0;
 
-  netSalesProceeds.innerText = `$${numberWithCommas(netSalesProceedsValue)}`;
-  resultantNetSalesProceeds.innerText = `$${numberWithCommas(netSalesProceedsValue)}`;
+  netSalesProceeds.innerText = numberWithCommas(netSalesProceedsValue);
+  resultantNetSalesProceeds.innerText = numberWithCommas(netSalesProceedsValue);
 
   calculateProjectedReturns();
 }
@@ -663,7 +663,7 @@ const calculateProjectedReturns = () => {
   const totalProjectCostValue = parseInt(totalProjectCost.innerText.replace(/\,|\$/g, '')) || 0;
   const netProfitValue = netSalesProceedsValue - totalProjectCostValue;
 
-  resultantNetProfit.innerText = `$${numberWithCommas(netProfitValue)}`;
+  resultantNetProfit.innerText = numberWithCommas(netProfitValue);
 
   // calculate Equity Multiple
   const seniorConstructionLoanAmountValue = parseInt(seniorConstructionLoanAmount.innerText.replace(/\,|\$/g, '')) || 0;
@@ -703,7 +703,11 @@ const generateSharableLink = () => {
   // generate sharable link for stabilized unit inputs
   stabilizedUnitInputSelectors.forEach(selector => {
     const inputs = Array.from(document.querySelectorAll(selector));
-    parameters[selector] = inputs.map(input => input.value.replace(/\$|,/g, ''));
+    if (selector === '.average-rent-per-month') {
+      parameters[selector] = inputs.map(input => '$' + input.value.replace(/,/g, ''));
+    } else {
+      parameters[selector] = inputs.map(input => input.value);
+    }
   });
   // generate sharable link for operating statement and operating expenses inputs
   operatingStatementInputElements.forEach(element => {
@@ -759,7 +763,13 @@ const parseUrlParameters = (link) => {
     const inputs = Array.from(document.querySelectorAll(selector));
     inputs.forEach((input, index) => {
       if (parmasMap[selector]) {
-        input.value = parmasMap[selector][index];
+        let value = parmasMap[selector][index];
+        if (value.includes('$')) {
+          const element = new AutoNumeric(`#${input.id}`, amountConfig);
+          AutoNumeric.set(element.domElement, value.replace(/\$/g, ''));
+        } else {
+          input.value = value;
+        }
         let className = input.classList[0];
         let id = input.id.replace(className + '-', '');
         if (!ids.includes(id)) ids.push(id);
