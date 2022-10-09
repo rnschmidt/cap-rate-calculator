@@ -15,8 +15,13 @@ const averageRentPerSquareFoot = new AutoNumeric('#av-rent-per-sq-foot', { ...am
 const vacanyCreditLoss = document.getElementById('vacany-credit-loss');
 const otherIncome = new AutoNumeric('#other-income', amountConfig);
 // Operating Expenses
+const propertyTaxes = new AutoNumeric('#property-taxes', amountConfig);
+const insurance = new AutoNumeric('#insurance', amountConfig);
+const maintenance = new AutoNumeric('#maintenance', amountConfig);
 const managementFee = document.getElementById('management-fee'); 
-const expenses = document.querySelectorAll('.expenses');
+const reserveForReplacement = new AutoNumeric('#reserve-for-replacement', amountConfig);
+const otherExpenses = new AutoNumeric('#other-expenses', amountConfig);
+const expenses = [propertyTaxes, insurance, maintenance, reserveForReplacement, otherExpenses];
 // Internal Calulations
 const grossPotentialIncome = document.getElementById('gross-potential-income');
 const effectiveGrossIncome = document.getElementById('effective-gross-income');
@@ -57,8 +62,8 @@ const calculateGrossPotentialIncome = () => {
   const rentPerSqFt = averageRentPerSquareFoot.rawValue;
   if (totalRentValue && rentPerSqFt) {
     const grossPotentialIncomeValue = Math.round(totalRentValue * rentPerSqFt);
-    grossPotentialIncome.innerText = "$" + numberWithCommas(grossPotentialIncomeValue);
-    resultantGPI.innerText = "$" + numberWithCommas(grossPotentialIncomeValue);
+    grossPotentialIncome.innerText = numberWithCommas(grossPotentialIncomeValue);
+    resultantGPI.innerText = numberWithCommas(grossPotentialIncomeValue);
   } else {
     grossPotentialIncome.innerText = '$0';
     resultantGPI.innerText = '$0';
@@ -80,28 +85,28 @@ const calculateEffectiveGrossIncome = () => {
   let effectiveGrossIncomeValue = Math.round(grossPotentialIncomeValue);
 
   if (otherIncomeValue) {
-    resultantOtherIncome.innerText = "$" + otherIncome.domElement.value;
+    resultantOtherIncome.innerText = otherIncome.domElement.value;
   } else {
     resultantOtherIncome.innerText = '$0';
   }
 
   if (effectiveGrossIncomeValue) {
-    effectiveGrossIncome.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
-    resultantEGI.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
+    effectiveGrossIncome.innerText = numberWithCommas(effectiveGrossIncomeValue);
+    resultantEGI.innerText = numberWithCommas(effectiveGrossIncomeValue);
   }
   
   if (vacancyCreditLossValue && grossPotentialIncomeValue) {
     let resultantVacanyValue = Math.round(grossPotentialIncomeValue * vacancyCreditLossValue / 100);
     effectiveGrossIncomeValue -= resultantVacanyValue;
-    resultantVacany.innerText = "$" + numberWithCommas(resultantVacanyValue);
-    effectiveGrossIncome.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
-    resultantEGI.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
+    resultantVacany.innerText = numberWithCommas(resultantVacanyValue);
+    effectiveGrossIncome.innerText = numberWithCommas(effectiveGrossIncomeValue);
+    resultantEGI.innerText = numberWithCommas(effectiveGrossIncomeValue);
   }
 
   if (otherIncomeValue && grossPotentialIncomeValue) {
     effectiveGrossIncomeValue = Math.round(parseFloat(effectiveGrossIncomeValue) + parseFloat(otherIncomeValue));
-    effectiveGrossIncome.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
-    resultantEGI.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
+    effectiveGrossIncome.innerText = numberWithCommas(effectiveGrossIncomeValue);
+    resultantEGI.innerText = numberWithCommas(effectiveGrossIncomeValue);
   }
 
   calculateTotalExpenses();
@@ -112,12 +117,10 @@ const calculateEffectiveGrossIncome = () => {
 const updateResultantTotalExpenses = (element) => {
   let resultantId = 'resultant-' + (element.target ? element.target.id : element.id);
   let resultant = document.getElementById(resultantId);
-  let value = element.target ? element.target.value : element.value;
-  let isManagementFee = resultantId === 'resultant-management-fee';
+  let value = element.target ? element.target.value : Number(element.value.replaceAll(/\,/g, ''));
   
   if (value) {
-    if (isManagementFee) return;
-    resultant.innerText = "$" + value;
+    resultant.innerText = numberWithCommas(value);
   } else {
     resultant.innerText = '$0';
   }
@@ -131,10 +134,9 @@ const calculateManagementFee = () => {
   const effectiveGrossIncomeValue = parseFloat(effectiveGrossIncome.innerText.replace(/\$|,/g, ''));
   const resultantManagementFee = document.getElementById('resultant-management-fee');
   let netManagementFee = 0;
-
   if (managementFeeValue && effectiveGrossIncomeValue) {
     netManagementFee = (effectiveGrossIncomeValue * managementFeeValue / 100).toFixed(2);
-    resultantManagementFee.innerText = "$" + numberWithCommas(Math.round(netManagementFee));
+    resultantManagementFee.innerText = numberWithCommas(Math.round(netManagementFee));
   }
 
   return parseFloat(netManagementFee);
@@ -148,13 +150,13 @@ const calculateManagementFee = () => {
 const calculateTotalExpenses = () => {
   let totalExpensesValue = calculateManagementFee();
   expenses.forEach(expense => {
-    let expenseValue = parseFloat(expense.value.replaceAll(',', ''));
+    let expenseValue = parseFloat(expense.domElement.value.replaceAll(',', ''));
     if (expenseValue) {
       totalExpensesValue += expenseValue;
     }
   });
-  totalExpenses.innerText = "$" + numberWithCommas(Math.round(totalExpensesValue));
-  resultantTotalExpenses.innerText = "$" + numberWithCommas(Math.round(totalExpensesValue));
+  totalExpenses.innerText = numberWithCommas(Math.round(totalExpensesValue));
+  resultantTotalExpenses.innerText = numberWithCommas(Math.round(totalExpensesValue));
   calculateNetOperatingIncome();
 }
 /*
@@ -169,9 +171,9 @@ const calculateNetOperatingIncome = () => {
   const totalExpensesValue = parseInt(totalExpenses.innerText.replace(/\$|,/g, ''));
   if (effectiveGrossIncomeValue && totalExpensesValue) {
     const netOperatingIncomeValue = parseInt(effectiveGrossIncomeValue - totalExpensesValue);
-    netOperatingIncome.innerText = "$" + numberWithCommas(netOperatingIncomeValue);
+    netOperatingIncome.innerText = numberWithCommas(netOperatingIncomeValue);
   } else if (effectiveGrossIncomeValue) {
-    netOperatingIncome.innerText = "$" + numberWithCommas(effectiveGrossIncomeValue);
+    netOperatingIncome.innerText = numberWithCommas(effectiveGrossIncomeValue);
   } else {
     netOperatingIncome.innerText = '$0';
   }
@@ -186,7 +188,7 @@ const calculateNetOperatingIncome = () => {
 const calculateCapRate = (propertyVal) => {
   const netOperatingIncomeValue = parseFloat(netOperatingIncome.innerText.replace(/\$|,/g, ''));
   if (propertyVal) {
-    resultantPropertyValue.innerText = "$" + propertyVal;
+    resultantPropertyValue.innerText = '$' + propertyVal;
   } else {
     resultantPropertyValue.innerText = '$0';
   }
@@ -213,10 +215,9 @@ averageRentPerSquareFoot.domElement.addEventListener('input', (e) => { calculate
 vacanyCreditLoss.addEventListener('input', (e) => { calculateEffectiveGrossIncome(); });
 otherIncome.domElement.addEventListener('input', (e) => { calculateEffectiveGrossIncome(); });
 // Add event listener to Management Fee to trigger calculation of Total Expenses
-managementFee.addEventListener('input', (e) => { calculateTotalExpenses(); updateResultantTotalExpenses(e); });
+managementFee.addEventListener('input', (e) => { calculateTotalExpenses(); });
 // For all the input fileds required for expenses add event listener to trigger calculation of Total Expenses
-expenses.forEach(expense => new AutoNumeric(expense, amountConfig));
-expenses.forEach(expense => expense.addEventListener('input', (e) => { calculateTotalExpenses(); updateResultantTotalExpenses(e); }));
+expenses.forEach(expense => expense.domElement.addEventListener('input', (e) => { calculateTotalExpenses(); updateResultantTotalExpenses(e); }));
 
 shareResultButton.addEventListener('click', () => {
   let link = generateSharableLink(url, [propertyValue,totalRentSquareFeet, averageRentPerSquareFoot, vacanyCreditLoss, otherIncome, managementFee, ...expenses]);
@@ -227,37 +228,37 @@ shareResultButton.addEventListener('click', () => {
 });
 
 parseFromUrl(window.location.href, [calculateGrossPotentialIncome]);
-expenses.forEach(expense => updateResultantTotalExpenses(expense));
+expenses.forEach(expense => updateResultantTotalExpenses(expense.domElement));
 
-const btn = document.getElementById('send-email');
+// const btn = document.getElementById('send-email');
 
-async function makeScreenshot(selector = "body") {
-    let node = document.querySelector(selector);
+// async function makeScreenshot(selector = "body") {
+//     let node = document.querySelector(selector);
     
-    const mycanvas = await html2canvas(node, { useCORS: true });
-    const image = mycanvas.toDataURL('image/png');
-    return (image);
-}
+//     const mycanvas = await html2canvas(node, { useCORS: true });
+//     const image = mycanvas.toDataURL('image/png');
+//     return (image);
+// }
 
-btn.addEventListener('click', async () => {
-  let screenshot = await makeScreenshot();
-  sendEmail(screenshot);
-});
+// btn.addEventListener('click', async () => {
+//   let screenshot = await makeScreenshot();
+//   sendEmail(screenshot);
+// });
 
-const sendEmail = (doc) => { 
-  Email.send({
-    SecureToken : "c3847cb8-ef14-4ab1-94bb-976df079804e",
-    To : "ashcash@tutanota.com", 
-    From : "akash02.ab@gmail.com",
-    Subject : "This is the subject",
-    Body: "And this is the body",
-    Attachments: [
-      {
-        name: "result.png",
-        data: doc
-      }
-    ]
-  }).then(
-    message => alert(message)
-  );
-}
+// const sendEmail = (doc) => { 
+//   Email.send({
+//     SecureToken : "c3847cb8-ef14-4ab1-94bb-976df079804e",
+//     To : "ashcash@tutanota.com", 
+//     From : "akash02.ab@gmail.com",
+//     Subject : "This is the subject",
+//     Body: "And this is the body",
+//     Attachments: [
+//       {
+//         name: "result.png",
+//         data: doc
+//       }
+//     ]
+//   }).then(
+//     message => alert(message)
+//   );
+// }
