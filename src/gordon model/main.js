@@ -29,7 +29,7 @@ const calculateGordonModelCapRate = () => {
 
   if (noiValue && capRate) {
     let value = (noiValue * (100 / capRate)).toFixed(2);
-    gordonModelValue.innerText = '$' + numberWithCommas(value);
+    gordonModelValue.innerText = numberWithCommas(value);
   }
 
   shareLink.value = generateSharableLink(url, [noi, discountRate, noiGrowthRate]);
