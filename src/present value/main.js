@@ -34,7 +34,7 @@ const calculateTotalPeriodicDeposits = () => {
   }
 
   if (periodicDepositValue) {
-    resultantPeriodicDeposit.innerText = '$' + numberWithCommas(periodicDepositValue) + '/period';
+    resultantPeriodicDeposit.innerText = numberWithCommas(periodicDepositValue) + '/period';
   } else {
     resultantPeriodicDeposit.innerText = '$0/period';
   }
@@ -42,7 +42,7 @@ const calculateTotalPeriodicDeposits = () => {
   const totalPeriodicDepositsValue = numberOfPeriodsValue * periodicDepositValue;
   
   if (totalPeriodicDepositsValue) { 
-    totalPeriodicDeposits.innerText = '$' + numberWithCommas(totalPeriodicDepositsValue);
+    totalPeriodicDeposits.innerText = numberWithCommas(totalPeriodicDepositsValue);
   } else {
     totalPeriodicDeposits.innerText = '$0';
   }
@@ -63,7 +63,7 @@ const calculatePresentValue = () => {
   }
 
   if (startingAmountValue) {
-    resultantStartingAmount.innerText = '$' + numberWithCommas(startingAmountValue);
+    resultantStartingAmount.innerText = numberWithCommas(startingAmountValue);
   } else {
     resultantStartingAmount.innerText = '$0';
   }
@@ -76,7 +76,7 @@ const calculatePresentValue = () => {
 
   if (pv) { 
     pv = -(pv - startingAmountValue).toFixed(2);
-    presentValue.innerText = '$' + numberWithCommas(pv);
+    presentValue.innerText = numberWithCommas(pv);
     calculateFutureValue(interestRateValue, numberOfPeriodsValue, periodicDepositValue, pv);
   } else {
     presentValue.innerText = '$0';
@@ -99,7 +99,7 @@ const calculateTotalInterest = (nper, pmt, pv, fv) => {
   const totalInterestValue = RATE(nper, pmt, pv, fv);
 
   if (totalInterestValue) { 
-    totalInterest.innerText = '$' + numberWithCommas(totalInterestValue.toFixed(2));
+    totalInterest.innerText = '$' + totalInterestValue.toFixed(2);
   } else {
     totalInterest.innerText = '$0';
   }
