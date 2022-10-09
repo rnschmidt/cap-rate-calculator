@@ -46,7 +46,7 @@ const calculateValueAtCapRate = () => {
   const underwrittenCapRateValue = parseFloat(underwrittenCapRate.value);
 
   if (underwrittenNetOperatingIncomeValue) {
-    resultantUnderwrittenNetOperatingIncome.innerText = '$' + numberWithCommas(underwrittenNetOperatingIncomeValue);
+    resultantUnderwrittenNetOperatingIncome.innerText = numberWithCommas(underwrittenNetOperatingIncomeValue);
   } else {
     resultantUnderwrittenNetOperatingIncome.innerText = '$0';
   }
@@ -59,7 +59,7 @@ const calculateValueAtCapRate = () => {
 
   if (underwrittenNetOperatingIncomeValue && underwrittenCapRateValue) { 
     const valueAtCapRate = Math.round(underwrittenNetOperatingIncomeValue / (underwrittenCapRateValue / 100));
-    valueCapRate.innerText = '$' + numberWithCommas(valueAtCapRate);
+    valueCapRate.innerText = numberWithCommas(valueAtCapRate);
   } else {
     valueCapRate.innerText = '$0';
   }
@@ -83,7 +83,7 @@ const calculateMaximumSupportableLoanAmountPerLTV = () => {
 
   if (valueAtCapRateValue && maximumLTVValue) {
     let maxSupportableLoanAmountPerLTVValue = Math.round(valueAtCapRateValue * (maximumLTVValue / 100));
-    maxSupportableLoanAmountPerLTV.innerText = '$' + numberWithCommas(maxSupportableLoanAmountPerLTVValue);
+    maxSupportableLoanAmountPerLTV.innerText = numberWithCommas(maxSupportableLoanAmountPerLTVValue);
   } else {
     maxSupportableLoanAmountPerLTV.innerText = '$0';
   }
@@ -107,7 +107,7 @@ const calculateAllowableDebtService = () => {
 
   if (underwrittenNetOperatingIncomeValue && dscrRequirementValue) { 
     const allowableDebtServiceValue = Math.round(underwrittenNetOperatingIncomeValue / dscrRequirementValue);
-    allowableDebtService.innerText = '$' + numberWithCommas(allowableDebtServiceValue);
+    allowableDebtService.innerText = numberWithCommas(allowableDebtServiceValue);
   } else {
     allowableDebtService.innerText = '$0';
   }
@@ -159,7 +159,7 @@ const calculateMaximumSupportableLoanAmountPerDSCR = () => {
 
   if (interestRateValue && loanAmortizationValue && allowableDebtServiceValue) { 
     let maxSupportableLoanAmountPerDSCRValue = Math.round(PV(interestRateValue / 1200, loanAmortizationValue, allowableDebtServiceValue / 12));
-    maxSupportableLoanAmountPerDSCR.innerText = '$' + numberWithCommas(maxSupportableLoanAmountPerDSCRValue);
+    maxSupportableLoanAmountPerDSCR.innerText = numberWithCommas(maxSupportableLoanAmountPerDSCRValue);
   } else {
     maxSupportableLoanAmountPerDSCR.innerText = '$0';
   }
@@ -183,7 +183,7 @@ const calculateMaxSupportableLoanAmountPerDebtYield = () => {
 
   if (underwrittenNetOperatingIncomeValue && underwrittenDebtYieldValue) { 
     const maxSupportableLoanAmountPerDebtYieldValue = Math.round(underwrittenNetOperatingIncomeValue / (underwrittenDebtYieldValue / 100));
-    maxSupportableLoanAmountPerDebtYield.innerText = '$' + numberWithCommas(maxSupportableLoanAmountPerDebtYieldValue);
+    maxSupportableLoanAmountPerDebtYield.innerText = numberWithCommas(maxSupportableLoanAmountPerDebtYieldValue);
   } else {
     maxSupportableLoanAmount.innerText = '$0';
   }
@@ -212,7 +212,7 @@ const calculateMaxSupportableLoanAmount = () => {
   if(maxSupportableLoanAmountValue === Number.MAX_SAFE_INTEGER) {
     maxSupportableLoanAmountValue = 0;
   }
-  maxSupportableLoanAmount.innerText = '$' + numberWithCommas(maxSupportableLoanAmountValue);
+  maxSupportableLoanAmount.innerText = numberWithCommas(maxSupportableLoanAmountValue);
 
   shareLink.value = generateSharableLink(url, [underwrittenNetOperatingIncome, underwrittenCapRate, underwrittenDebtYield, interestRate, dscrRequirement, maximumLTV, loanTermPeriod, loanAmortization]);
 }
