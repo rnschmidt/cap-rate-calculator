@@ -83,7 +83,7 @@ const calculatePresentValue = () => {
   let pv = Math.round(PV(rate / 100, nper, pmt, fv));
   
   if (pv) {
-    intermediateResultValue.innerText = '$' + numberWithCommas(pv);
+    intermediateResultValue.innerText = numberWithCommas(pv);
   } else {
     intermediateResultValue.innerText = '$0';
   }
@@ -97,7 +97,7 @@ const calculateFutureValue = () => {
   const fv = Math.round(FV(rate / 100, nper, pmt, pv));
 
   if (fv) {
-    intermediateResultValue.innerText = '$' + numberWithCommas(fv);
+    intermediateResultValue.innerText = numberWithCommas(fv);
   } else {
     intermediateResultValue.innerText = '$0';
   }
@@ -111,7 +111,7 @@ const calculatePeriodicPayment = () => {
   const pmt = Math.round(PMT(rate / 100, nper, pv, fv));
   
   if (pmt) {
-    intermediateResultValue.innerText = '$' + numberWithCommas(pmt);
+    intermediateResultValue.innerText = numberWithCommas(pmt);
   } else {
     intermediateResultValue.innerText = '$0';
   }
