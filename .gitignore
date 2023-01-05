@@ -2,3 +2,5 @@ node_modules/
 
 **.css.map
 **.scss
+.DS_Store
+src/.DS_Store
